@@ -1,2 +1,2 @@
 # terminal-roguelike
-A simple C++ roguelike project that you can play in your terminal
+A simple C++ roguelike project that can be played in your terminal.
