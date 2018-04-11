@@ -9,6 +9,7 @@ public:
 	int getDexterity();
 	int getSmarts();
 	int getAttributeByEnum(AttributeName attributeName);
+	int* getAttributePointerByStringName(std::string name);
 	std::string getAttributesOnCharacterSheet();
 
 	void setAttributes(int might, int dexterity, int smarts);

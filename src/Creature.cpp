@@ -40,13 +40,6 @@ string Creature::getCharacterSheet()
 	characterSheet += "\nOTHER SKILLS\n";
 	for (int i = 0; i < this->otherSkills.size(); i++)
 		characterSheet += (this->otherSkills[i]).getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->athletics.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->hacking.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->hide.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->knowledge.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->perception.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->persuasion.getSkillOnCharacterSheet(&(this->attr));
-	//characterSheet += this->thievery.getSkillOnCharacterSheet(&(this->attr));
 
 	return characterSheet;
 }
@@ -71,6 +64,11 @@ void Creature::setAttributes(int might, int dexterity, int smarts)
 	this->attr.setAttributes(might, dexterity, smarts);
 }
 
+void Creature::setName(std::string name)
+{
+	this->name = name;
+}
+
 void Creature::setCombatSkillByName(std::string skillName, int value)
 {
 	this->setSkillByNameFromVector(skillName, value, &(this->combatSkills));
@@ -81,6 +79,14 @@ void Creature::setOtherSkillByName(std::string skillName, int value)
 	this->setSkillByNameFromVector(skillName, value, &(this->otherSkills));
 }
 
+int Creature::getSkillByName(std::string skillName)
+{
+	int skillValue = getSkillByNameFromVector(skillName, &(this->combatSkills));
+	if(skillValue < 0)
+		skillValue = getSkillByNameFromVector(skillName, &(this->otherSkills));
+	return skillValue;
+}
+
 void Creature::setSkillByNameFromVector(std::string skillName, int value, std::vector<Skill>* skillVector)
 {
 	for (int i = 0; i < skillVector->size(); i++)
@@ -88,4 +94,14 @@ void Creature::setSkillByNameFromVector(std::string skillName, int value, std::v
 		if ((*skillVector)[i].isMyName(skillName))
 			(*skillVector)[i].setValue(value);
 	}
+}
+
+int Creature::getSkillByNameFromVector(std::string skillName, std::vector<Skill>* skillVector)
+{
+	for (int i = 0; i < skillVector->size(); i++)
+	{
+		if ((*skillVector)[i].isMyName(skillName))
+			return (*skillVector)[i].getValue();
+	}
+	return -1;
 }

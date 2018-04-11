@@ -44,6 +44,17 @@ int Attributes::getAttributeByEnum(AttributeName attributeName)
 	}
 }
 
+int* Attributes::getAttributePointerByStringName(std::string name)
+{
+	if (name == "Might")
+		return &(this->might);
+	else if (name == "Dexterity")
+		return &(this->dexterity);
+	else if (name == "Smarts")
+		return &(this->smarts);
+	return nullptr;
+}
+
 std::string Attributes::getAttributesOnCharacterSheet()
 {
 	std::string attributeSheet = "\nATTRIBUTES\n";
