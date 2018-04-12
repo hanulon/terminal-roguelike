@@ -28,6 +28,11 @@ Creature::~Creature()
 {
 }
 
+char Creature::getNameFirstLetter()
+{
+	return this->name[0];
+}
+
 string Creature::getCharacterSheet()
 {
 	string characterSheet = this->name + "\n";
@@ -42,6 +47,14 @@ string Creature::getCharacterSheet()
 		characterSheet += (this->otherSkills[i]).getSkillOnCharacterSheet(&(this->attr));
 
 	return characterSheet;
+}
+
+std::string Creature::getGeneralInfo()
+{
+	std::string generalInfo = this->name + "\t";
+	generalInfo += this->characterHealth.getHealthOnCharacterSheet();
+	generalInfo += "\tAC: " + to_string(this->armorClass);
+	return generalInfo;
 }
 
 void Creature::setMaximumHealthPoints(int healthPoints)
@@ -69,6 +82,22 @@ void Creature::setName(std::string name)
 	this->name = name;
 }
 
+void Creature::setMapPosition(int posX, int posY)
+{
+	this->mapPositionX = posX;
+	this->mapPositionY = posY;
+}
+
+int Creature::getMapPositionX()
+{
+	return this->mapPositionX;
+}
+
+int Creature::getMapPositionY()
+{
+	return this->mapPositionY;
+}
+
 void Creature::setCombatSkillByName(std::string skillName, int value)
 {
 	this->setSkillByNameFromVector(skillName, value, &(this->combatSkills));
@@ -85,6 +114,26 @@ int Creature::getSkillByName(std::string skillName)
 	if(skillValue < 0)
 		skillValue = getSkillByNameFromVector(skillName, &(this->otherSkills));
 	return skillValue;
+}
+
+void Creature::testInitialization()
+{
+	this->setMaximumHealthPoints(10);
+	this->setCurrentHealthPoints(9);
+	this->setArmorClass(1);
+	this->setAttributes(6, 8, 10);
+	this->setCombatSkillByName("Close Combat", 1);
+	this->setCombatSkillByName("Evade", 0);
+	this->setCombatSkillByName("Firearms", 2);
+	this->setCombatSkillByName("Parry", 2);
+
+	this->setOtherSkillByName("Athletics", 0);
+	this->setOtherSkillByName("Hacking", 1);
+	this->setOtherSkillByName("Hide", 1);
+	this->setOtherSkillByName("Knowledge", 0);
+	this->setOtherSkillByName("Perception", 4);
+	this->setOtherSkillByName("Persuasion", 0);
+	this->setOtherSkillByName("Thievery", 3);
 }
 
 void Creature::setSkillByNameFromVector(std::string skillName, int value, std::vector<Skill>* skillVector)
