@@ -171,24 +171,27 @@ int TerminalScreen::processNewGameMenuCommands()
 			return finishActionInNewGameMenu();
 		else if (command == "abort")
 			return abortActionInNewGameMenu();
-		else
-		{
-			tokenizedCommand = splitString(command);
-			try
-			{
-				int value = stoi(tokenizedCommand[1]);
-				if (tokenizedCommand.size() == 2)
-					return assignAttributeSkillActionInNewGameMenu(tokenizedCommand[0], value);
-			}
-			catch (const std::exception&)
-			{
-				if (tokenizedCommand[0] == "name")
-					playerCharacter->setName(command.substr(5));
-				return 2;
-			}
-		}
+		tokenizedCommand = splitString(command);
+		if (tokenizedCommand[0] == "name")
+			playerCharacter->setName(command.substr(5));
+		else if (tokenizedCommand.size() == 2)
+			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
+		return 2;
 	}
 	return -1;
+}
+
+void TerminalScreen::processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken)
+{
+	try
+	{
+		int value = stoi(secondCommandToken);
+		assignAttributeSkillActionInNewGameMenu(firstCommandToken, value);
+	}
+	catch (const std::exception&)
+	{
+
+	}
 }
 
 int TerminalScreen::finishActionInNewGameMenu()
@@ -203,10 +206,8 @@ int TerminalScreen::abortActionInNewGameMenu()
 	return -1;
 }
 
-int TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
+void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
 {
 	if (value >= 0)
 		playerCharacter->setAttributeOrSkillHeroCreator(attributeSkillName, value);
-
-	return 2;
 }

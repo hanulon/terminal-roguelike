@@ -8,7 +8,7 @@ Hero::~Hero()
 void Hero::setAttributeOrSkillHeroCreator(std::string attributeSkillName, int value)
 {
 	int difference;
-	int* attribute = this->attr.getAttributePointerByStringName(attributeSkillName);
+	int* attribute = this->attributes.getAttributePointerByStringName(attributeSkillName);
 	if (attribute != nullptr && value > 0)
 	{
 		difference = value - *attribute;

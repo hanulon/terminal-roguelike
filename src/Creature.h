@@ -19,24 +19,22 @@ public:
 	void setAttributes(int might, int dexterity, int smarts);
 	void setName(std::string name);
 	void setMapPosition(int posX, int posY);
-	int getMapPositionX();
-	int getMapPositionY();
+	Point getMapPosition();
 
 	void setCombatSkillByName(std::string skillName, int value);
 	void setOtherSkillByName(std::string skillName, int value);
 	int getSkillByName(std::string skillName);
-	Attributes attr;
 
 	void testInitialization();
 
-private:
+protected:
 	Health characterHealth;
 	std::string name;
 	int armorClass;
+	Attributes attributes;
 	std::vector <Skill> combatSkills;
 	std::vector <Skill> otherSkills;
-	int mapPositionX;
-	int mapPositionY;
+	Point mapPosition;
 
 	void setSkillByNameFromVector(std::string skillName, int value, std::vector <Skill> *skillVector);
 	int getSkillByNameFromVector(std::string skillName, std::vector <Skill> *skillVector);

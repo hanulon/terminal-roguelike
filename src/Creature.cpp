@@ -38,13 +38,13 @@ string Creature::getCharacterSheet()
 	string characterSheet = this->name + "\n";
 	characterSheet += this->characterHealth.getHealthOnCharacterSheet();
 	characterSheet += "\tAC: " + to_string(this->armorClass);
-	characterSheet += this->attr.getAttributesOnCharacterSheet();
+	characterSheet += this->attributes.getAttributesOnCharacterSheet();
 	characterSheet += "\n\nCOMBAT SKILLS\n";
 	for (int i = 0; i < this->combatSkills.size(); i++)
-		characterSheet += (this->combatSkills[i]).getSkillOnCharacterSheet(&(this->attr));
+		characterSheet += (this->combatSkills[i]).getSkillOnCharacterSheet(&(this->attributes));
 	characterSheet += "\nOTHER SKILLS\n";
 	for (int i = 0; i < this->otherSkills.size(); i++)
-		characterSheet += (this->otherSkills[i]).getSkillOnCharacterSheet(&(this->attr));
+		characterSheet += (this->otherSkills[i]).getSkillOnCharacterSheet(&(this->attributes));
 
 	return characterSheet;
 }
@@ -74,7 +74,7 @@ void Creature::setArmorClass(int armorClass)
 
 void Creature::setAttributes(int might, int dexterity, int smarts)
 {
-	this->attr.setAttributes(might, dexterity, smarts);
+	this->attributes.setAttributes(might, dexterity, smarts);
 }
 
 void Creature::setName(std::string name)
@@ -84,18 +84,13 @@ void Creature::setName(std::string name)
 
 void Creature::setMapPosition(int posX, int posY)
 {
-	this->mapPositionX = posX;
-	this->mapPositionY = posY;
+	this->mapPosition.posX = posX;
+	this->mapPosition.posY = posY;
 }
 
-int Creature::getMapPositionX()
+Point Creature::getMapPosition()
 {
-	return this->mapPositionX;
-}
-
-int Creature::getMapPositionY()
-{
-	return this->mapPositionY;
+	return this->mapPosition;
 }
 
 void Creature::setCombatSkillByName(std::string skillName, int value)

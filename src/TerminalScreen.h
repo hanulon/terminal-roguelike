@@ -26,8 +26,9 @@ private:
 	void gameContinue();
 	int processGameCommands();
 	int processNewGameMenuCommands();
+	void processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken);
 	int finishActionInNewGameMenu();
 	int abortActionInNewGameMenu();
-	int assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
+	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
 };
 
