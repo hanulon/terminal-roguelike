@@ -8,6 +8,8 @@ using namespace std;
 
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
+	this->activeScreen = -1; //main menu
+
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
 }
@@ -18,32 +20,30 @@ TerminalScreen::~TerminalScreen()
 
 void TerminalScreen::menusLoop()
 {
-	static int menuChoice = -1; //main menu
-
-	while (menuChoice)
+	while (this->activeScreen)
 	{
 		clearScreen();
-		switch (menuChoice)
+		switch (this->activeScreen)
 		{
 		case 1:
 			gameContinue();
-			menuChoice = -1;
+			this->activeScreen = -1;
 			break;
 		case 2:
 			printNewGameMenu();
-			menuChoice = processNewGameMenuCommands();
+			processNewGameMenuCommands();
 			break;
 		case 3:
 			printMainMenu("Graveyard - function not implemented yet!\n");
-			menuChoice = choiceMainMenu();
+			choiceMainMenu();
 			break;
 		case 4:
 			printAboutMenu();
-			menuChoice = -1;
+			this->activeScreen = -1;
 			break;
 		default:
 			printMainMenu();
-			menuChoice = choiceMainMenu();
+			choiceMainMenu();
 			break;
 		}
 	}
@@ -115,22 +115,22 @@ void TerminalScreen::printNewGameMenu()
 		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
 }
 
-int TerminalScreen::choiceMainMenu()
+void TerminalScreen::choiceMainMenu()
 {
 	char menuChoice = 0;
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	this->activeScreen = -1;
 	if (menuChoice == '1')
-		return 1;
+		this->activeScreen = 1;
 	else if (menuChoice == '2')
-		return 2;
+		this->activeScreen = 2;
 	else if (menuChoice == '3')
-		return 3;
+		this->activeScreen = 3;
 	else if (menuChoice == '4')
-		return 4;
+		this->activeScreen = 4;
 	else if (menuChoice == '5')
-		return 0;
-	return -1;
+		this->activeScreen = 0;
 }
 
 void TerminalScreen::gameContinue()
@@ -147,38 +147,49 @@ void TerminalScreen::gameContinue()
 
 int TerminalScreen::processGameCommands()
 {
+	this->activeScreen = 1;
 	int key = _getch();
 	if (key == 27)
+	{
+		this->activeScreen = 0;
 		return 0;
-	if (key == -32) // arrows
-		key = _getch();
-	if (key == 0) // F1-12
-		key = _getch();
+	}
+	else
+	{
+		if (key == -32) // arrows
+			key = _getch();
+		if (key == 0) // F1-12
+			key = _getch();
+	}
+
 	cout << key << endl;
 
 	system("pause");
 	return 1;
 }
 
-int TerminalScreen::processNewGameMenuCommands()
+void TerminalScreen::processNewGameMenuCommands()
 {
 	string command;
 	vector <string> tokenizedCommand;
-	while (true)
+	this->activeScreen = -1;
+
+	getline(cin, command);
+	if (command == "finished")
+		finishActionInNewGameMenu();
+	else if (command == "abort")
+		abortActionInNewGameMenu();
+	else
 	{
-		getline(cin, command);
-		if (command == "finished")
-			return finishActionInNewGameMenu();
-		else if (command == "abort")
-			return abortActionInNewGameMenu();
 		tokenizedCommand = splitString(command);
 		if (tokenizedCommand[0] == "name")
 			playerCharacter->setName(command.substr(5));
 		else if (tokenizedCommand.size() == 2)
+		{
 			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
-		return 2;
+		}
+		this->activeScreen = 2;
 	}
-	return -1;
 }
 
 void TerminalScreen::processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken)
@@ -194,16 +205,16 @@ void TerminalScreen::processTwoArgsNewGameCommand(std::string firstCommandToken,
 	}
 }
 
-int TerminalScreen::finishActionInNewGameMenu()
+void TerminalScreen::finishActionInNewGameMenu()
 {
 	cout << "Procedure of saving and starting the game" << endl;
 	system("pause");
-	return 1; //continue
+	this->activeScreen = 1; //continue
 }
 
-int TerminalScreen::abortActionInNewGameMenu()
+void TerminalScreen::abortActionInNewGameMenu()
 {
-	return -1;
+	this->activeScreen = -1;
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)

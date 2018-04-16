@@ -9,9 +9,17 @@ public:
 	TerminalScreen(Hero* playerCharacter, Map* gameMap);
 	~TerminalScreen();
 
+	enum ScreenType
+	{
+		ClosingScreen,
+		MainMenuScreen
+	};
+
 	void menusLoop();
 
 private:
+	int activeScreen;
+
 	Hero* playerCharacter;
 	Map* gameMap;
 
@@ -22,13 +30,13 @@ private:
 	void printAboutMenu();
 	void printNewGameMenu();
 
-	int choiceMainMenu();
+	void choiceMainMenu();
 	void gameContinue();
 	int processGameCommands();
-	int processNewGameMenuCommands();
+	void processNewGameMenuCommands();
 	void processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken);
-	int finishActionInNewGameMenu();
-	int abortActionInNewGameMenu();
+	void finishActionInNewGameMenu();
+	void abortActionInNewGameMenu();
 	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
 };
 
