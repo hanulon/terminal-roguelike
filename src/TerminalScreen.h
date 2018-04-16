@@ -12,13 +12,17 @@ public:
 	enum ScreenType
 	{
 		ClosingScreen,
-		MainMenuScreen
+		MainMenuScreen,
+		ContinueScreen,
+		NewGameScreen,
+		GraveyardScreen,
+		AboutScreen
 	};
 
 	void menusLoop();
 
 private:
-	int activeScreen;
+	ScreenType activeScreen;
 
 	Hero* playerCharacter;
 	Map* gameMap;

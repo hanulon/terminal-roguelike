@@ -8,7 +8,7 @@ using namespace std;
 
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
-	this->activeScreen = -1; //main menu
+	this->activeScreen = MainMenuScreen;
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
@@ -20,26 +20,25 @@ TerminalScreen::~TerminalScreen()
 
 void TerminalScreen::menusLoop()
 {
-	while (this->activeScreen)
+	while (this->activeScreen != ClosingScreen)
 	{
 		clearScreen();
 		switch (this->activeScreen)
 		{
-		case 1:
+		case ContinueScreen:
 			gameContinue();
-			this->activeScreen = -1;
 			break;
-		case 2:
+		case NewGameScreen:
 			printNewGameMenu();
 			processNewGameMenuCommands();
 			break;
-		case 3:
+		case GraveyardScreen:
 			printMainMenu("Graveyard - function not implemented yet!\n");
 			choiceMainMenu();
 			break;
-		case 4:
+		case AboutScreen:
 			printAboutMenu();
-			this->activeScreen = -1;
+			this->activeScreen = MainMenuScreen;
 			break;
 		default:
 			printMainMenu();
@@ -120,17 +119,17 @@ void TerminalScreen::choiceMainMenu()
 	char menuChoice = 0;
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	this->activeScreen = -1;
+	this->activeScreen = MainMenuScreen;
 	if (menuChoice == '1')
-		this->activeScreen = 1;
+		this->activeScreen = ContinueScreen;
 	else if (menuChoice == '2')
-		this->activeScreen = 2;
+		this->activeScreen = NewGameScreen;
 	else if (menuChoice == '3')
-		this->activeScreen = 3;
+		this->activeScreen = GraveyardScreen;
 	else if (menuChoice == '4')
-		this->activeScreen = 4;
+		this->activeScreen = AboutScreen;
 	else if (menuChoice == '5')
-		this->activeScreen = 0;
+		this->activeScreen = ClosingScreen;
 }
 
 void TerminalScreen::gameContinue()
@@ -143,15 +142,16 @@ void TerminalScreen::gameContinue()
 		cout << gameMap->printMap();
 		cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
 	} while (processGameCommands() > 0);
+	this->activeScreen = MainMenuScreen;
 }
 
 int TerminalScreen::processGameCommands()
 {
-	this->activeScreen = 1;
+	this->activeScreen = ContinueScreen;
 	int key = _getch();
 	if (key == 27)
 	{
-		this->activeScreen = 0;
+		this->activeScreen = MainMenuScreen;
 		return 0;
 	}
 	else
@@ -172,7 +172,7 @@ void TerminalScreen::processNewGameMenuCommands()
 {
 	string command;
 	vector <string> tokenizedCommand;
-	this->activeScreen = -1;
+	this->activeScreen = MainMenuScreen;
 
 	getline(cin, command);
 	if (command == "finished")
@@ -188,7 +188,7 @@ void TerminalScreen::processNewGameMenuCommands()
 		{
 			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
 		}
-		this->activeScreen = 2;
+		this->activeScreen = NewGameScreen;
 	}
 }
 
@@ -209,12 +209,12 @@ void TerminalScreen::finishActionInNewGameMenu()
 {
 	cout << "Procedure of saving and starting the game" << endl;
 	system("pause");
-	this->activeScreen = 1; //continue
+	this->activeScreen = ContinueScreen;
 }
 
 void TerminalScreen::abortActionInNewGameMenu()
 {
-	this->activeScreen = -1;
+	this->activeScreen = MainMenuScreen;
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
