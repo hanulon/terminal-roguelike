@@ -26,23 +26,19 @@ void TerminalScreen::menusLoop()
 		switch (this->activeScreen)
 		{
 		case ContinueScreen:
-			gameContinue();
+			displayContinue();
 			break;
 		case NewGameScreen:
-			printNewGameMenu();
-			processNewGameMenuCommands();
+			displayNewGameMenu();
 			break;
 		case GraveyardScreen:
-			printMainMenu("Graveyard - function not implemented yet!\n");
-			choiceMainMenu();
+			displayGraveyard();
 			break;
 		case AboutScreen:
-			printAboutMenu();
-			this->activeScreen = MainMenuScreen;
+			displayAbout();
 			break;
 		default:
-			printMainMenu();
-			choiceMainMenu();
+			displayMainMenu();
 			break;
 		}
 	}
@@ -78,6 +74,35 @@ vector<string> TerminalScreen::splitString(string splitted)
 	}
 
 	return theStringVector;
+}
+
+void TerminalScreen::displayMainMenu()
+{
+	printMainMenu();
+	choiceMainMenu();
+}
+
+void TerminalScreen::displayContinue()
+{
+	gameContinue();
+}
+
+void TerminalScreen::displayNewGameMenu()
+{
+	printNewGameMenu();
+	processNewGameMenuCommands();
+}
+
+void TerminalScreen::displayGraveyard()
+{
+	printMainMenu("Graveyard - function not implemented yet!\n");
+	choiceMainMenu();
+}
+
+void TerminalScreen::displayAbout()
+{
+	printAboutMenu();
+	this->activeScreen = MainMenuScreen;
 }
 
 void TerminalScreen::printMainMenu(string additionalInfo)

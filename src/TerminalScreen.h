@@ -30,6 +30,12 @@ private:
 	void clearScreen();
 	std::vector <std::string> splitString(std::string splitted);
 
+	void displayMainMenu();
+	void displayContinue();
+	void displayNewGameMenu();
+	void displayGraveyard();
+	void displayAbout();
+
 	void printMainMenu(std::string additionalInfo = "");
 	void printAboutMenu();
 	void printNewGameMenu();
