@@ -3,44 +3,24 @@
 #include <iostream>
 #include <conio.h>
 
-
 using namespace std;
 
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
-	this->activeScreen = MainMenuScreen;
+	this->currentDisplay = &TerminalScreen::displayMainMenu;
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
 }
 
-TerminalScreen::~TerminalScreen()
-{
-}
+TerminalScreen::~TerminalScreen(){}
 
 void TerminalScreen::menusLoop()
 {
-	while (this->activeScreen != ClosingScreen)
+	while (this->currentDisplay != NULL)
 	{
 		clearScreen();
-		switch (this->activeScreen)
-		{
-		case ContinueScreen:
-			displayContinue();
-			break;
-		case NewGameScreen:
-			displayNewGameMenu();
-			break;
-		case GraveyardScreen:
-			displayGraveyard();
-			break;
-		case AboutScreen:
-			displayAbout();
-			break;
-		default:
-			displayMainMenu();
-			break;
-		}
+		(this->*currentDisplay)();
 	}
 }
 
@@ -52,28 +32,6 @@ void TerminalScreen::clearScreen()
 	#ifdef LINUX
 			system("clear");
 	#endif
-}
-
-vector<string> TerminalScreen::splitString(string splitted)
-{
-	size_t  start = 0, end = 0;
-	string theDelimiter = " ";
-	vector <string> theStringVector;
-
-	while (end != string::npos)
-	{
-		end = splitted.find(theDelimiter, start);
-
-		// If at end, use length=maxLength.  Else use length=end-start.
-		theStringVector.push_back(splitted.substr(start,
-			(end == string::npos) ? string::npos : end - start));
-
-		// If at end, use start=maxSize.  Else use start=end+delimiter.
-		start = ((end > (string::npos - theDelimiter.size()))
-			? string::npos : end + theDelimiter.size());
-	}
-
-	return theStringVector;
 }
 
 void TerminalScreen::displayMainMenu()
@@ -102,7 +60,7 @@ void TerminalScreen::displayGraveyard()
 void TerminalScreen::displayAbout()
 {
 	printAboutMenu();
-	this->activeScreen = MainMenuScreen;
+	this->currentDisplay = &TerminalScreen::displayMainMenu;
 }
 
 void TerminalScreen::printMainMenu(string additionalInfo)
@@ -144,17 +102,16 @@ void TerminalScreen::choiceMainMenu()
 	char menuChoice = 0;
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	this->activeScreen = MainMenuScreen;
 	if (menuChoice == '1')
-		this->activeScreen = ContinueScreen;
+		this->currentDisplay = &TerminalScreen::displayContinue;
 	else if (menuChoice == '2')
-		this->activeScreen = NewGameScreen;
+		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
 	else if (menuChoice == '3')
-		this->activeScreen = GraveyardScreen;
+		this->currentDisplay = &TerminalScreen::displayGraveyard;
 	else if (menuChoice == '4')
-		this->activeScreen = AboutScreen;
+		this->currentDisplay = &TerminalScreen::displayAbout;
 	else if (menuChoice == '5')
-		this->activeScreen = ClosingScreen;
+		this->currentDisplay = NULL;
 }
 
 void TerminalScreen::gameContinue()
@@ -167,16 +124,16 @@ void TerminalScreen::gameContinue()
 		cout << gameMap->printMap();
 		cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
 	} while (processGameCommands() > 0);
-	this->activeScreen = MainMenuScreen;
+	this->currentDisplay = &TerminalScreen::displayMainMenu;
 }
 
 int TerminalScreen::processGameCommands()
 {
-	this->activeScreen = ContinueScreen;
+	this->currentDisplay = &TerminalScreen::displayContinue;
 	int key = _getch();
 	if (key == 27)
 	{
-		this->activeScreen = MainMenuScreen;
+		this->currentDisplay = &TerminalScreen::displayMainMenu;
 		return 0;
 	}
 	else
@@ -186,9 +143,7 @@ int TerminalScreen::processGameCommands()
 		if (key == 0) // F1-12
 			key = _getch();
 	}
-
 	cout << key << endl;
-
 	system("pause");
 	return 1;
 }
@@ -196,24 +151,27 @@ int TerminalScreen::processGameCommands()
 void TerminalScreen::processNewGameMenuCommands()
 {
 	string command;
-	vector <string> tokenizedCommand;
-	this->activeScreen = MainMenuScreen;
-
 	getline(cin, command);
+	command = trim(command);
 	if (command == "finished")
 		finishActionInNewGameMenu();
 	else if (command == "abort")
 		abortActionInNewGameMenu();
 	else
 	{
-		tokenizedCommand = splitString(command);
-		if (tokenizedCommand[0] == "name")
-			playerCharacter->setName(command.substr(5));
-		else if (tokenizedCommand.size() == 2)
-		{
-			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
-		}
-		this->activeScreen = NewGameScreen;
+		processNewGameMenuCommandsWithArguments(command);
+		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
+	}
+}
+
+void TerminalScreen::processNewGameMenuCommandsWithArguments(std::string command)
+{
+	vector <string> tokenizedCommand = splitString(command);
+	if (tokenizedCommand[0] == "name")
+		playerCharacter->setName(command.substr(5));
+	else if (tokenizedCommand.size() == 2)
+	{
+		processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
 	}
 }
 
@@ -224,26 +182,55 @@ void TerminalScreen::processTwoArgsNewGameCommand(std::string firstCommandToken,
 		int value = stoi(secondCommandToken);
 		assignAttributeSkillActionInNewGameMenu(firstCommandToken, value);
 	}
-	catch (const std::exception&)
-	{
-
-	}
+	catch (const std::exception&){}
 }
 
 void TerminalScreen::finishActionInNewGameMenu()
 {
 	cout << "Procedure of saving and starting the game" << endl;
 	system("pause");
-	this->activeScreen = ContinueScreen;
+	this->currentDisplay = &TerminalScreen::displayContinue;
 }
 
 void TerminalScreen::abortActionInNewGameMenu()
 {
-	this->activeScreen = MainMenuScreen;
+	this->currentDisplay = &TerminalScreen::displayMainMenu;
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
 {
 	if (value >= 0)
 		playerCharacter->setAttributeOrSkillHeroCreator(attributeSkillName, value);
+}
+
+vector<string> TerminalScreen::splitString(string splitted)
+{
+	size_t  start = 0, end = 0;
+	string theDelimiter = " ";
+	vector <string> theStringVector;
+
+	while (end != string::npos)
+	{
+		end = splitted.find(theDelimiter, start);
+
+		// If at end, use length=maxLength.  Else use length=end-start.
+		theStringVector.push_back(splitted.substr(start,
+			(end == string::npos) ? string::npos : end - start));
+
+		// If at end, use start=maxSize.  Else use start=end+delimiter.
+		start = ((end > (string::npos - theDelimiter.size()))
+			? string::npos : end + theDelimiter.size());
+	}
+	return theStringVector;
+}
+
+std::string TerminalScreen::trim(std::string str)
+{
+	int startPosition = 0;
+	int endPosition = str.length() - 1;
+	while (str[startPosition] == ' ')
+		startPosition++;
+	while (str[endPosition] == ' ')
+		endPosition--;
+	return str.substr(startPosition, endPosition - startPosition + 1);
 }

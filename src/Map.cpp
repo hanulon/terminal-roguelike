@@ -7,9 +7,7 @@ Map::Map()
 }
 
 
-Map::~Map()
-{
-}
+Map::~Map(){}
 
 std::string Map::printMap()
 {
@@ -20,7 +18,6 @@ std::string Map::printMap()
 			mapAsString += map[y][x].getGraphic();
 		mapAsString += "\n";
 	}
-
 	return mapAsString;
 }
 

@@ -2,6 +2,13 @@
 #include "Tile.h"
 
 
+Tile::Tile()
+{
+	this->graphic = '#';
+}
+
+Tile::~Tile(){}
+
 char Tile::getGraphic()
 {
 	return this->graphic;
@@ -16,14 +23,4 @@ void Tile::addCreature(Creature* creatureOnMe)
 {
 	this->creatureOnTile = creatureOnMe;
 	this->graphic = creatureOnMe->getNameFirstLetter();
-}
-
-Tile::Tile()
-{
-	this->graphic = '#';
-}
-
-
-Tile::~Tile()
-{
 }

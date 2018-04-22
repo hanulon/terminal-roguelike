@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "Hero.h"
 
-Hero::~Hero()
-{
-}
+Hero::~Hero(){}
 
 void Hero::setAttributeOrSkillHeroCreator(std::string attributeSkillName, int value)
 {
@@ -27,7 +25,6 @@ void Hero::setAttributeOrSkillHeroCreator(std::string attributeSkillName, int va
 			this->setCombatSkillByName(attributeSkillName, value);
 			this->setOtherSkillByName(attributeSkillName, value);
 		}
-
 	}
 }
 

@@ -10,9 +10,7 @@ Skill::Skill(std::string name, AttributeName connectedAttribute, unsigned int va
 }
 
 
-Skill::~Skill()
-{
-}
+Skill::~Skill(){}
 
 int Skill::getValue()
 {
@@ -42,7 +40,6 @@ std::string Skill::getSkillOnCharacterSheet(Attributes* characterAttributes)
 	skillSheet += Attributes::shortNamesOfAttributes[this->connectedAttribute];
 	skillSheet += ":\t" + std::to_string(this->value) + "\t(";
 	skillSheet += std::to_string(this->value + characterAttributes->getAttributeByEnum(this->connectedAttribute)) + ")\n";
-	
 	return skillSheet;
 }
 

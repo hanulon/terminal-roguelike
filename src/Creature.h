@@ -26,12 +26,12 @@ public:
 	int getSkillByName(std::string skillName);
 
 	void testInitialization();
-
 protected:
+	Attributes attributes;
+private:
 	Health characterHealth;
 	std::string name;
 	int armorClass;
-	Attributes attributes;
 	std::vector <Skill> combatSkills;
 	std::vector <Skill> otherSkills;
 	Point mapPosition;

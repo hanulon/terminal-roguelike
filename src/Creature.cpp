@@ -8,12 +8,10 @@ Creature::Creature(string name)
 	this->name = name;
 	this->characterHealth.currentHealthPoints = this->characterHealth.maximumHealthPoints = 1;
 	this->armorClass = 0;
-
 	this->combatSkills.push_back(Skill("Close Combat", Might));
 	this->combatSkills.push_back(Skill("Evade", Dexterity));
 	this->combatSkills.push_back(Skill("Firearms", Dexterity));
 	this->combatSkills.push_back(Skill("Parry", Might));
-
 	this->otherSkills.push_back(Skill("Athletics", Might));
 	this->otherSkills.push_back(Skill("Hacking", Smarts));
 	this->otherSkills.push_back(Skill("Hide", Dexterity));
@@ -23,10 +21,7 @@ Creature::Creature(string name)
 	this->otherSkills.push_back(Skill("Thievery", Dexterity));
 }
 
-
-Creature::~Creature()
-{
-}
+Creature::~Creature(){}
 
 char Creature::getNameFirstLetter()
 {
@@ -45,7 +40,6 @@ string Creature::getCharacterSheet()
 	characterSheet += "\nOTHER SKILLS\n";
 	for (int i = 0; i < this->otherSkills.size(); i++)
 		characterSheet += (this->otherSkills[i]).getSkillOnCharacterSheet(&(this->attributes));
-
 	return characterSheet;
 }
 
@@ -121,7 +115,6 @@ void Creature::testInitialization()
 	this->setCombatSkillByName("Evade", 0);
 	this->setCombatSkillByName("Firearms", 2);
 	this->setCombatSkillByName("Parry", 2);
-
 	this->setOtherSkillByName("Athletics", 0);
 	this->setOtherSkillByName("Hacking", 1);
 	this->setOtherSkillByName("Hide", 1);

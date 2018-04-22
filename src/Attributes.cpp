@@ -11,10 +11,7 @@ Attributes::Attributes()
 	this->smarts = 1;
 }
 
-
-Attributes::~Attributes()
-{
-}
+Attributes::~Attributes(){}
 
 int Attributes::getMight()
 {
@@ -61,7 +58,6 @@ std::string Attributes::getAttributesOnCharacterSheet()
 	attributeSheet += "MIGHT: " + std::to_string(this->might);
 	attributeSheet += "\tDEXTERITY: " + std::to_string(this->dexterity);
 	attributeSheet += "\tSMARTS: " + std::to_string(this->smarts);
-
 	return attributeSheet;
 }
 
