@@ -78,8 +78,8 @@ void Creature::setName(std::string name)
 
 void Creature::setMapPosition(int posX, int posY)
 {
-	this->mapPosition.posX = posX;
-	this->mapPosition.posY = posY;
+	this->mapPosition.x = posX;
+	this->mapPosition.y = posY;
 }
 
 Point Creature::getMapPosition()

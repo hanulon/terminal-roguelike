@@ -30,7 +30,12 @@ void Map::testingMapInitialization()
 	}
 }
 
-void Map::addCreatureToMap(Creature * creature, int posX, int posY)
+void Map::addCreatureToMap(Creature * creature, Point position)
 {
-	map[posY][posX].addCreature(creature);
+	map[position.y][position.x].addCreature(creature);
+}
+
+void Map::removeCreatureFromMapTile(Point position)
+{
+	this->map[position.y][position.x].removeCreature();
 }

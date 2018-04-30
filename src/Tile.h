@@ -7,6 +7,7 @@ public:
 	char getGraphic();
 	void clearTile();
 	void addCreature(Creature* creatureOnMe);
+	void removeCreature();
 
 	Tile();
 	~Tile();

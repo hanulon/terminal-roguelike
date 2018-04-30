@@ -24,3 +24,9 @@ void Tile::addCreature(Creature* creatureOnMe)
 	this->creatureOnTile = creatureOnMe;
 	this->graphic = creatureOnMe->getNameFirstLetter();
 }
+
+void Tile::removeCreature()
+{
+	this->creatureOnTile = NULL;
+	clearTile();
+}

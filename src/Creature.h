@@ -28,13 +28,13 @@ public:
 	void testInitialization();
 protected:
 	Attributes attributes;
+	Point mapPosition;
 private:
 	Health characterHealth;
 	std::string name;
 	int armorClass;
 	std::vector <Skill> combatSkills;
 	std::vector <Skill> otherSkills;
-	Point mapPosition;
 
 	void setSkillByNameFromVector(std::string skillName, int value, std::vector <Skill> *skillVector);
 	int getSkillByNameFromVector(std::string skillName, std::vector <Skill> *skillVector);

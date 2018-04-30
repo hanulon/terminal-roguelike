@@ -9,7 +9,8 @@ public:
 
 	std::string printMap();
 	void testingMapInitialization();
-	void addCreatureToMap(Creature* creature, int posX, int posY);
+	void addCreatureToMap(Creature* creature, Point position);
+	void removeCreatureFromMapTile(Point position);
 
 private:
 	static const unsigned int mapHeight = 20;

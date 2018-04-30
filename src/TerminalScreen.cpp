@@ -10,6 +10,8 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->currentDisplay = &TerminalScreen::displayMainMenu;
 
 	this->playerCharacter = playerCharacter;
+	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
+	this->friendlyCharacter = new NonPlayerCharacter("Friend", false);
 	this->gameMap = gameMap;
 }
 
@@ -117,12 +119,21 @@ void TerminalScreen::choiceMainMenu()
 void TerminalScreen::gameContinue()
 {
 	gameMap->testingMapInitialization();
-	gameMap->addCreatureToMap(playerCharacter, 10, 4);
+	playerCharacter->setMapPosition(10, 4);
+	enemyCharacter->setMapPosition(15, 7);
+	friendlyCharacter->setMapPosition(4, 15);
 	do
 	{
 		clearScreen();
+		gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
+		gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
+		gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
 		cout << gameMap->printMap();
 		cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
+
+		gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
+		gameMap->removeCreatureFromMapTile(enemyCharacter->getMapPosition());
+		gameMap->removeCreatureFromMapTile(friendlyCharacter->getMapPosition());
 	} while (processGameCommands() > 0);
 	this->currentDisplay = &TerminalScreen::displayMainMenu;
 }
@@ -136,16 +147,80 @@ int TerminalScreen::processGameCommands()
 		this->currentDisplay = &TerminalScreen::displayMainMenu;
 		return 0;
 	}
+	else if (key == 0 || key == 224) // arrows
+	{
+		key = _getch();
+		Point step = playerMakesStep(key);
+		Point playerPosition = playerCharacter->getMapPosition();
+		playerPosition.x += step.x;
+		playerPosition.y += step.y;
+		if(!playerCrashesNPC(playerCharacter, step, enemyCharacter))
+			if(!playerCrashesNPC(playerCharacter, step, friendlyCharacter))
+				playerCharacter->setMapPosition(playerPosition.x, playerPosition.y);
+	}
 	else
 	{
-		if (key == -32) // arrows
-			key = _getch();
 		if (key == 0) // F1-12
 			key = _getch();
+		cout << key << endl;
+		system("pause");
 	}
-	cout << key << endl;
-	system("pause");
+	//enemy action:
+	npcCrashesPlayer(playerCharacter, enemyCharacter);
+	npcCrashesPlayer(playerCharacter, friendlyCharacter);
+
 	return 1;
+}
+
+Point TerminalScreen::playerMakesStep(int keyChar)
+{
+	Point step = { 0,0 };
+	if (keyChar == 80)
+		step.y++;
+	else if (keyChar == 77)
+		step.x++;
+	else if (keyChar == 75)
+		step.x--;
+	else if (keyChar == 72)
+		step.y--;
+	return step;
+}
+
+bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, NonPlayerCharacter * npc)
+{
+	Point enemyPosition = npc->getMapPosition();
+	Point playerPosition = playerCharacter->getMapPosition();
+	playerPosition.x += playerStep.x;
+	playerPosition.y += playerStep.y;
+	if (arePointsEqual(playerPosition, enemyPosition))
+	{
+		if(npc->isEnemy)
+			cout << "Player attacked enemy!" << endl;
+		else
+			cout << "Player contacted friendly NPC!" << endl;
+		system("pause");
+		return true;
+	}
+	else
+		return false;
+}
+
+void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter * npc)
+{
+	npc->moveInCircle();
+	Point playerPosition = playerCharacter->getMapPosition();
+	Point enemyPosition = npc->getMapPosition();
+	if (arePointsEqual(playerPosition, enemyPosition))
+	{
+		if (npc->isEnemy)
+			cout << "Enemy attacked player!" << endl;
+		else
+			cout << "Friendly NPC contacted player!" << endl;
+		npc->moveInCircle();
+		npc->moveInCircle();
+		npc->moveInCircle();
+		system("pause");
+	}
 }
 
 void TerminalScreen::processNewGameMenuCommands()

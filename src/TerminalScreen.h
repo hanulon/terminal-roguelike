@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hero.h"
+#include "NonPlayerCharacter.h"
 #include "Map.h"
 
 class TerminalScreen
@@ -11,6 +12,8 @@ public:
 	void menusLoop();
 private:
 	Hero* playerCharacter;
+	NonPlayerCharacter* enemyCharacter;
+	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
 	void (TerminalScreen::*currentDisplay)() = NULL;
 
@@ -28,6 +31,9 @@ private:
 	void choiceMainMenu();
 	void gameContinue();
 	int processGameCommands();
+	Point playerMakesStep(int keyChar);
+	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);
+	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void processNewGameMenuCommands();
 	void processNewGameMenuCommandsWithArguments(std::string command);
 	void processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken);
