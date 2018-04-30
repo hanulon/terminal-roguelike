@@ -151,9 +151,7 @@ int TerminalScreen::processGameCommands()
 	{
 		key = _getch();
 		Point step = playerMakesStep(key);
-		Point playerPosition = playerCharacter->getMapPosition();
-		playerPosition.x += step.x;
-		playerPosition.y += step.y;
+		Point playerPosition = playerCharacter->getMapPosition() + step;
 		if(!playerCrashesNPC(playerCharacter, step, enemyCharacter))
 			if(!playerCrashesNPC(playerCharacter, step, friendlyCharacter))
 				playerCharacter->setMapPosition(playerPosition.x, playerPosition.y);
@@ -174,7 +172,7 @@ int TerminalScreen::processGameCommands()
 
 Point TerminalScreen::playerMakesStep(int keyChar)
 {
-	Point step = { 0,0 };
+	Point step;
 	if (keyChar == 80)
 		step.y++;
 	else if (keyChar == 77)
@@ -189,10 +187,8 @@ Point TerminalScreen::playerMakesStep(int keyChar)
 bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, NonPlayerCharacter * npc)
 {
 	Point enemyPosition = npc->getMapPosition();
-	Point playerPosition = playerCharacter->getMapPosition();
-	playerPosition.x += playerStep.x;
-	playerPosition.y += playerStep.y;
-	if (arePointsEqual(playerPosition, enemyPosition))
+	Point playerPosition = playerCharacter->getMapPosition() + playerStep;
+	if (playerPosition == enemyPosition)
 	{
 		if(npc->isEnemy)
 			cout << "Player attacked enemy!" << endl;
@@ -210,7 +206,7 @@ void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter
 	npc->moveInCircle();
 	Point playerPosition = playerCharacter->getMapPosition();
 	Point enemyPosition = npc->getMapPosition();
-	if (arePointsEqual(playerPosition, enemyPosition))
+	if (playerPosition == enemyPosition)
 	{
 		if (npc->isEnemy)
 			cout << "Enemy attacked player!" << endl;
