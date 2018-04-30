@@ -16,6 +16,7 @@ private:
 	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
 	void (TerminalScreen::*currentDisplay)() = NULL;
+	void testMapInitialization();
 
 	void displayMainMenu();
 	void displayContinue();

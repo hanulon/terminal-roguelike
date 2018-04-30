@@ -14,6 +14,8 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->enemyCharacter->testInitialization();
 	this->friendlyCharacter = new NonPlayerCharacter("Friend", false);
 	this->gameMap = gameMap;
+
+	testMapInitialization();
 }
 
 TerminalScreen::~TerminalScreen(){}
@@ -35,6 +37,18 @@ void TerminalScreen::clearScreen()
 	#ifdef LINUX
 			system("clear");
 	#endif
+}
+
+void TerminalScreen::testMapInitialization()
+{
+	gameMap->testingMapInitialization();
+	playerCharacter->setMapPosition(Point(10, 4));
+	enemyCharacter->setMapPosition(Point(15, 7));
+	friendlyCharacter->setMapPosition(Point(4, 15));
+
+	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
+	gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
+	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
 }
 
 void TerminalScreen::displayMainMenu()
@@ -119,14 +133,6 @@ void TerminalScreen::choiceMainMenu()
 
 void TerminalScreen::gameContinue()
 {
-	gameMap->testingMapInitialization();
-	playerCharacter->setMapPosition(Point(10, 4));
-	enemyCharacter->setMapPosition(Point(15, 7));
-	friendlyCharacter->setMapPosition(Point(4, 15));
-
-	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
-	gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
-	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
 	do
 	{
 		clearScreen();
