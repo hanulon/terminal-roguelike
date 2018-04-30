@@ -114,6 +114,13 @@ void TerminalScreen::printNewGameMenu()
 		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
 }
 
+void TerminalScreen::refreshGame()
+{
+	clearScreen();
+	cout << gameMap->printMap();
+	cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
+}
+
 void TerminalScreen::choiceMainMenu()
 {
 	char menuChoice = 0;
@@ -133,23 +140,22 @@ void TerminalScreen::choiceMainMenu()
 
 void TerminalScreen::gameContinue()
 {
-	do
+	refreshGame();
+	TerminalScreen::TurnStatus turnStatus = processGameCommands();
+	if (turnStatus == EndTurn)
 	{
-		clearScreen();
-		cout << gameMap->printMap();
-		cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
-	} while (processGameCommands() > 0);
-	this->currentDisplay = &TerminalScreen::displayMainMenu;
+		npcsTakeActions();
+	}
 }
 
-int TerminalScreen::processGameCommands()
+TerminalScreen::TurnStatus TerminalScreen::processGameCommands()
 {
 	this->currentDisplay = &TerminalScreen::displayContinue;
 	int key = _getch();
 	if (key == 27)
 	{
 		this->currentDisplay = &TerminalScreen::displayMainMenu;
-		return 0;
+		return ContinueTurn;
 	}
 	else if (key == 0 || key == 224) // arrows
 	{
@@ -167,7 +173,6 @@ int TerminalScreen::processGameCommands()
 			playerCharacter->setMapPosition(newPlayerPosition);
 			gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 		}
-			
 	}
 	else
 	{
@@ -176,11 +181,7 @@ int TerminalScreen::processGameCommands()
 		cout << key << endl;
 		system("pause");
 	}
-	//enemy action:
-	npcCrashesPlayer(playerCharacter, enemyCharacter);
-	npcCrashesPlayer(playerCharacter, friendlyCharacter);
-
-	return 1;
+	return EndTurn;
 }
 
 Point TerminalScreen::playerMakesStep(int keyChar)
@@ -197,12 +198,19 @@ Point TerminalScreen::playerMakesStep(int keyChar)
 	return step;
 }
 
+void TerminalScreen::npcsTakeActions()
+{
+	refreshGame();
+	npcMakesMove(enemyCharacter);
+	refreshGame();
+	npcMakesMove(friendlyCharacter);
+}
+
 bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, NonPlayerCharacter * npc)
 {
 
 	Point enemyPosition = npc->getMapPosition();
 	Point newPlayerPosition = playerCharacter->getMapPosition() + playerStep;
-	//NonPlayerCharacter* npc = (NonPlayerCharacter)(gameMap->getCreatureFrom(newPlayerPosition));
 	if (newPlayerPosition == enemyPosition)
 	{
 		if(npc->isEnemy)
@@ -216,27 +224,33 @@ bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, 
 		return false;
 }
 
+void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)
+{
+	Point npcStartingPosition = npc->getMapPosition();
+	npc->moveInCircle();
+	Point npcNewPosition = npc->getMapPosition();
+	if (this->gameMap->isTheTileOccupied(npcNewPosition))
+	{
+		npcCrashesPlayer(playerCharacter, npc);
+		npc->setMapPosition(npcStartingPosition);
+	}
+	else
+	{
+		gameMap->removeCreatureFromMapTile(npcStartingPosition);
+		gameMap->addCreatureToMap(npc, npcNewPosition);
+	}
+}
+
 void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter * npc)
 {
-	gameMap->removeCreatureFromMapTile(npc->getMapPosition());
-	npc->moveInCircle();
-	Point playerPosition = playerCharacter->getMapPosition();
-	Point npcPosition = npc->getMapPosition();
-	if (this->gameMap->isTheTileOccupied(npcPosition))
+	if (playerCharacter->getMapPosition() == npc->getMapPosition())
 	{
-		npc->moveInCircle();
-		npc->moveInCircle();
-		npc->moveInCircle();
-		if (playerPosition == npcPosition)
-		{
-			if (npc->isEnemy)
-				cout << "Enemy attacked player!" << endl;
-			else
-				cout << "Friendly NPC contacted player!" << endl;
-			system("pause");
-		}
+		if (npc->isEnemy)
+			cout << "Enemy attacked player!" << endl;
+		else
+			cout << "Friendly NPC contacted player!" << endl;
+		system("pause");
 	}
-	gameMap->addCreatureToMap(npc, npc->getMapPosition());
 }
 
 void TerminalScreen::processNewGameMenuCommands()

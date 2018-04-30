@@ -10,6 +10,13 @@ public:
 	TerminalScreen(Hero* playerCharacter, Map* gameMap);
 	~TerminalScreen();
 	void menusLoop();
+
+	enum TurnStatus
+	{
+		EndTurn,
+		ContinueTurn
+	};
+
 private:
 	Hero* playerCharacter;
 	NonPlayerCharacter* enemyCharacter;
@@ -28,12 +35,15 @@ private:
 	void printMainMenu(std::string additionalInfo = "");
 	void printAboutMenu();
 	void printNewGameMenu();
+	void refreshGame();
 
 	void choiceMainMenu();
 	void gameContinue();
-	int processGameCommands();
+	TurnStatus processGameCommands();
 	Point playerMakesStep(int keyChar);
+	void npcsTakeActions();
 	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);
+	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void processNewGameMenuCommands();
 	void processNewGameMenuCommandsWithArguments(std::string command);
