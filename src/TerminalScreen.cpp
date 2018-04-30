@@ -11,6 +11,7 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 
 	this->playerCharacter = playerCharacter;
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
+	this->enemyCharacter->testInitialization();
 	this->friendlyCharacter = new NonPlayerCharacter("Friend", false);
 	this->gameMap = gameMap;
 }
@@ -119,9 +120,9 @@ void TerminalScreen::choiceMainMenu()
 void TerminalScreen::gameContinue()
 {
 	gameMap->testingMapInitialization();
-	playerCharacter->setMapPosition(10, 4);
-	enemyCharacter->setMapPosition(15, 7);
-	friendlyCharacter->setMapPosition(4, 15);
+	playerCharacter->setMapPosition(Point(10, 4));
+	enemyCharacter->setMapPosition(Point(15, 7));
+	friendlyCharacter->setMapPosition(Point(4, 15));
 
 	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 	gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
@@ -148,8 +149,8 @@ int TerminalScreen::processGameCommands()
 	{
 		key = _getch();
 		Point step = playerMakesStep(key);
-		Point playerPosition = playerCharacter->getMapPosition() + step;
-		if (this->gameMap->isTheTileOccupied(playerPosition))
+		Point newPlayerPosition = playerCharacter->getMapPosition() + step;
+		if (this->gameMap->isTheTileOccupied(newPlayerPosition))
 		{
 			playerCrashesNPC(playerCharacter, step, enemyCharacter);
 			playerCrashesNPC(playerCharacter, step, friendlyCharacter);
@@ -157,7 +158,7 @@ int TerminalScreen::processGameCommands()
 		else
 		{
 			gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
-			playerCharacter->setMapPosition(playerPosition.x, playerPosition.y);
+			playerCharacter->setMapPosition(newPlayerPosition);
 			gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 		}
 			

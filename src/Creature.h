@@ -18,7 +18,7 @@ public:
 	void setArmorClass(int armorClass);
 	void setAttributes(int might, int dexterity, int smarts);
 	void setName(std::string name);
-	void setMapPosition(int posX, int posY);
+	void setMapPosition(Point position);
 	Point getMapPosition();
 
 	void setCombatSkillByName(std::string skillName, int value);
