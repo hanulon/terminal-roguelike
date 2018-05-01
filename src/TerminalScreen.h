@@ -3,6 +3,7 @@
 #include "Hero.h"
 #include "NonPlayerCharacter.h"
 #include "Map.h"
+#include "ViewManager.h"
 
 class TerminalScreen
 {
@@ -40,19 +41,13 @@ private:
 	Map* gameMap;
 	void (TerminalScreen::*currentDisplay)() = NULL;
 	void testMapInitialization();
+	ViewManager* gameView;
 
 	void displayMainMenu();
 	void displayContinue();
 	void displayNewGameMenu();
 	void displayGraveyard();
 	void displayAbout();
-
-	void clearScreen();
-	void printMainMenu(std::string additionalInfo = "");
-	void printAboutMenu();
-	void printNewGameMenu();
-	void printContinue();
-	void printGraveyard();
 
 	void inputMainMenu();
 	void inputContinue();

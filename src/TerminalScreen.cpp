@@ -8,6 +8,8 @@ using namespace std;
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->currentDisplay = &TerminalScreen::displayMainMenu;
+	this->gameView = new ViewManager();
+	gameView->activeScreen = 0;
 
 	this->playerCharacter = playerCharacter;
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
@@ -24,19 +26,9 @@ void TerminalScreen::menusLoop()
 {
 	while (this->currentDisplay != NULL)
 	{
-		clearScreen();
+		//clearScreen();
 		(this->*currentDisplay)();
 	}
-}
-
-void TerminalScreen::clearScreen()
-{
-	#ifdef WINDOWS
-			system("cls");
-	#endif
-	#ifdef LINUX
-			system("clear");
-	#endif
 }
 
 void TerminalScreen::testMapInitialization()
@@ -53,77 +45,36 @@ void TerminalScreen::testMapInitialization()
 
 void TerminalScreen::displayMainMenu()
 {
-	printMainMenu();
+	gameView->refresh();
 	inputMainMenu();
 }
 
 void TerminalScreen::displayContinue()
 {
-	printContinue();
+	gameView->gameMapState = gameMap->printMap();
+	gameView->playerShortInfo = playerCharacter->getGeneralInfo();
+	gameView->refresh();
 	inputContinue();
 }
 
 void TerminalScreen::displayNewGameMenu()
 {
-	printNewGameMenu();
+	gameView->playerSheet = playerCharacter->getCharacterSheet();
+	gameView->setNewGamePointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
+	gameView->refresh();
 	inputNewGame();
 }
 
 void TerminalScreen::displayGraveyard()
 {
-	printGraveyard();
+	gameView->refresh();
 	inputGraveyard();
 }
 
 void TerminalScreen::displayAbout()
 {
-	printAboutMenu();
+	gameView->refresh();
 	inputAbout();
-}
-
-void TerminalScreen::printMainMenu(string additionalInfo)
-{
-	cout << "\tTerminal Roguelike\n\n";
-	cout << "Click the number to chose an option\n";
-	cout << "1. Continue\n"
-		"2. New game\n"
-		"3. Graveyard\n"
-		"4. About\n"
-		"5. Exit\n";
-	additionalInfo = "\n" + additionalInfo;
-	cout << additionalInfo + ">";
-}
-
-void TerminalScreen::printAboutMenu()
-{
-	cout << "\tTerminal Roguelike\n\tAbout\n\n";
-	cout << "Author: Hanulon\n"
-		"License: MIT\n"
-		"Version: " + GAME_VERSION + "\n\n";
-}
-
-void TerminalScreen::printNewGameMenu()
-{
-	cout << playerCharacter->getCharacterSheet() << endl;
-	cout << "Attribute points left: " << playerCharacter->getAttributePointsLeft() << endl <<
-		"Skill points left: " << playerCharacter->getSkillPointsLeft() << endl <<
-		"Instruction: assign skill and attribute points to your statistics, by typing: 'skill_name desired_value' and hitting 'enter'. Example: Might 3" << endl <<
-		"Type 'name character_name' to give your character a new name, example: 'name Zdzislaw'" << endl <<
-		"Type 'finished' and hit enter, when you are ready to start the game." << endl <<
-		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
-}
-
-void TerminalScreen::printContinue()
-{
-	clearScreen();
-	cout << gameMap->printMap();
-	cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
-}
-
-void TerminalScreen::printGraveyard()
-{
-	cout << "\tTerminal Roguelike\n\tGraveyard\n\n";
-	cout << "Graveyard is closed! A powerful lich has cursed the land, your fallen heroes cannot be buried...\n\n";
 }
 
 void TerminalScreen::inputMainMenu()
@@ -132,15 +83,30 @@ void TerminalScreen::inputMainMenu()
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	if (menuChoice == '1')
+	{
 		this->currentDisplay = &TerminalScreen::displayContinue;
+		gameView->activeScreen = 1;
+	}
 	else if (menuChoice == '2')
+	{
 		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
+		gameView->activeScreen = 2;
+	}
 	else if (menuChoice == '3')
+	{
 		this->currentDisplay = &TerminalScreen::displayGraveyard;
+		gameView->activeScreen = 3;
+	}
 	else if (menuChoice == '4')
+	{
 		this->currentDisplay = &TerminalScreen::displayAbout;
+		gameView->activeScreen = 4;
+	}
 	else if (menuChoice == '5')
+	{
 		this->currentDisplay = NULL;
+		gameView->activeScreen = 0;
+	}
 }
 
 void TerminalScreen::inputContinue()
@@ -155,11 +121,13 @@ void TerminalScreen::inputContinue()
 TerminalScreen::TurnStatus TerminalScreen::processGameCommands()
 {
 	this->currentDisplay = &TerminalScreen::displayContinue;
+	gameView->activeScreen = 1;
 	int key = _getch();
 	switch (key)
 	{
 	case Key_Escape:
 		this->currentDisplay = &TerminalScreen::displayMainMenu;
+		gameView->activeScreen = 0;
 		return ContinueTurn;
 	case Key_Space:
 		return EndTurn;
@@ -217,9 +185,9 @@ Point TerminalScreen::playerMakesStep(TerminalScreen::ArrowKey arrowKey)
 
 void TerminalScreen::npcsTakeActions()
 {
-	printContinue();
+	gameView->refresh();
 	npcMakesMove(enemyCharacter);
-	printContinue();
+	gameView->refresh();
 	npcMakesMove(friendlyCharacter);
 }
 
@@ -283,6 +251,7 @@ void TerminalScreen::inputNewGame()
 	{
 		processNewGameMenuCommandsWithArguments(command);
 		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
+		gameView->activeScreen = 2;
 	}
 }
 
@@ -312,11 +281,13 @@ void TerminalScreen::finishActionInNewGameMenu()
 	cout << "Procedure of saving and starting the game" << endl;
 	system("pause");
 	this->currentDisplay = &TerminalScreen::displayContinue;
+	gameView->activeScreen = 1;
 }
 
 void TerminalScreen::abortActionInNewGameMenu()
 {
 	this->currentDisplay = &TerminalScreen::displayMainMenu;
+	gameView->activeScreen = 0;
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
@@ -340,6 +311,7 @@ void TerminalScreen::pressAnyKeyGoBackToMenu()
 	cout << "Press any key to return to the menu...";
 	_getch(); //WINSPEC
 	this->currentDisplay = &TerminalScreen::displayMainMenu;
+	gameView->activeScreen = 0;
 }
 
 vector<string> TerminalScreen::splitString(string splitted)
