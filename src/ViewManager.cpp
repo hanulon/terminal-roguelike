@@ -7,6 +7,7 @@ using namespace std;
 
 ViewManager::ViewManager()
 {
+	this->activeScreen = &ViewManager::mainMenu;
 	this->activeScreen = 0;
 }
 
@@ -18,32 +19,53 @@ ViewManager::~ViewManager()
 void ViewManager::refresh()
 {
 	clearScreen();
-	switch (activeScreen)
-	{
-	case 0:
-		mainMenu();
-		break;
-	case 1:
-		gameplay();
-		break;
-	case 2:
-		newGame();
-		break;
-	case 3:
-		graveyard();
-		break;
-	case 4:
-		about();
-		break;
-	default:
-		break;
-	}
+	(this->*activeScreen)();
 }
 
-void ViewManager::setNewGamePointsLeft(int attributes, int skills)
+void ViewManager::updateNewGamePointsLeft(int attributes, int skills)
 {
 	attributePointsLeft = attributes;
 	skillPointsLeft = skills;
+}
+
+void ViewManager::updatePlayerSheet(std::string sheet)
+{
+	this->playerSheet = sheet;
+}
+
+void ViewManager::updatePlayerShortInfo(std::string shortInfo)
+{
+	this->playerShortInfo = shortInfo;
+}
+
+void ViewManager::updateMap(std::string map)
+{
+	this->gameMapState = map;
+}
+
+void ViewManager::openMainMenu()
+{
+	this->activeScreen = &ViewManager::mainMenu;
+}
+
+void ViewManager::openGameplay()
+{
+	this->activeScreen = &ViewManager::gameplay;
+}
+
+void ViewManager::openNewGame()
+{
+	this->activeScreen = &ViewManager::newGame;
+}
+
+void ViewManager::openGraveyard()
+{
+	this->activeScreen = &ViewManager::graveyard;
+}
+
+void ViewManager::openAbout()
+{
+	this->activeScreen = &ViewManager::about;
 }
 
 void ViewManager::clearScreen()

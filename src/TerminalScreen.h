@@ -8,6 +8,7 @@
 class TerminalScreen
 {
 public:
+	TerminalScreen();
 	TerminalScreen(Hero* playerCharacter, Map* gameMap);
 	~TerminalScreen();
 	void menusLoop();
@@ -39,16 +40,11 @@ private:
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
-	void (TerminalScreen::*currentDisplay)() = NULL;
+	void (TerminalScreen::*currentInput)() = NULL;
 	void testMapInitialization();
 	ViewManager* gameView;
 
-	void displayMainMenu();
-	void displayContinue();
-	void displayNewGameMenu();
-	void displayGraveyard();
-	void displayAbout();
-
+	void updateView();
 	void inputMainMenu();
 	void inputContinue();
 	TurnStatus processGameCommands();

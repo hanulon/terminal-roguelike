@@ -5,11 +5,13 @@
 
 using namespace std;
 
+TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
+
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
-	this->currentDisplay = &TerminalScreen::displayMainMenu;
+	this->currentInput = &TerminalScreen::inputMainMenu;
 	this->gameView = new ViewManager();
-	gameView->activeScreen = 0;
+	gameView->openMainMenu();
 
 	this->playerCharacter = playerCharacter;
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
@@ -24,10 +26,11 @@ TerminalScreen::~TerminalScreen(){}
 
 void TerminalScreen::menusLoop()
 {
-	while (this->currentDisplay != NULL)
+	while (this->currentInput != NULL)
 	{
-		//clearScreen();
-		(this->*currentDisplay)();
+		updateView();
+		gameView->refresh();
+		(this->*currentInput)();
 	}
 }
 
@@ -43,38 +46,12 @@ void TerminalScreen::testMapInitialization()
 	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
 }
 
-void TerminalScreen::displayMainMenu()
+void TerminalScreen::updateView()
 {
-	gameView->refresh();
-	inputMainMenu();
-}
-
-void TerminalScreen::displayContinue()
-{
-	gameView->gameMapState = gameMap->printMap();
-	gameView->playerShortInfo = playerCharacter->getGeneralInfo();
-	gameView->refresh();
-	inputContinue();
-}
-
-void TerminalScreen::displayNewGameMenu()
-{
-	gameView->playerSheet = playerCharacter->getCharacterSheet();
-	gameView->setNewGamePointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
-	gameView->refresh();
-	inputNewGame();
-}
-
-void TerminalScreen::displayGraveyard()
-{
-	gameView->refresh();
-	inputGraveyard();
-}
-
-void TerminalScreen::displayAbout()
-{
-	gameView->refresh();
-	inputAbout();
+	gameView->updateMap(gameMap->printMap());
+	gameView->updatePlayerShortInfo(playerCharacter->getGeneralInfo());
+	gameView->updateNewGamePointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
+	gameView->updatePlayerSheet(playerCharacter->getCharacterSheet());
 }
 
 void TerminalScreen::inputMainMenu()
@@ -84,28 +61,27 @@ void TerminalScreen::inputMainMenu()
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	if (menuChoice == '1')
 	{
-		this->currentDisplay = &TerminalScreen::displayContinue;
-		gameView->activeScreen = 1;
+		this->currentInput = &TerminalScreen::inputContinue;
+		gameView->openGameplay();
 	}
 	else if (menuChoice == '2')
 	{
-		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
-		gameView->activeScreen = 2;
+		this->currentInput = &TerminalScreen::inputNewGame;
+		gameView->openNewGame();
 	}
 	else if (menuChoice == '3')
 	{
-		this->currentDisplay = &TerminalScreen::displayGraveyard;
-		gameView->activeScreen = 3;
+		this->currentInput = &TerminalScreen::inputGraveyard;
+		gameView->openGraveyard();
 	}
 	else if (menuChoice == '4')
 	{
-		this->currentDisplay = &TerminalScreen::displayAbout;
-		gameView->activeScreen = 4;
+		this->currentInput = &TerminalScreen::inputAbout;
+		gameView->openAbout();
 	}
 	else if (menuChoice == '5')
 	{
-		this->currentDisplay = NULL;
-		gameView->activeScreen = 0;
+		this->currentInput = NULL;
 	}
 }
 
@@ -120,14 +96,14 @@ void TerminalScreen::inputContinue()
 
 TerminalScreen::TurnStatus TerminalScreen::processGameCommands()
 {
-	this->currentDisplay = &TerminalScreen::displayContinue;
-	gameView->activeScreen = 1;
+	this->currentInput = &TerminalScreen::inputContinue;
+	gameView->openGameplay();
 	int key = _getch();
 	switch (key)
 	{
 	case Key_Escape:
-		this->currentDisplay = &TerminalScreen::displayMainMenu;
-		gameView->activeScreen = 0;
+		this->currentInput = &TerminalScreen::inputMainMenu;
+		gameView->openMainMenu();
 		return ContinueTurn;
 	case Key_Space:
 		return EndTurn;
@@ -185,8 +161,10 @@ Point TerminalScreen::playerMakesStep(TerminalScreen::ArrowKey arrowKey)
 
 void TerminalScreen::npcsTakeActions()
 {
+	updateView();
 	gameView->refresh();
 	npcMakesMove(enemyCharacter);
+	updateView();
 	gameView->refresh();
 	npcMakesMove(friendlyCharacter);
 }
@@ -250,8 +228,8 @@ void TerminalScreen::inputNewGame()
 	else
 	{
 		processNewGameMenuCommandsWithArguments(command);
-		this->currentDisplay = &TerminalScreen::displayNewGameMenu;
-		gameView->activeScreen = 2;
+		this->currentInput = &TerminalScreen::inputNewGame;
+		gameView->openNewGame();
 	}
 }
 
@@ -280,14 +258,14 @@ void TerminalScreen::finishActionInNewGameMenu()
 {
 	cout << "Procedure of saving and starting the game" << endl;
 	system("pause");
-	this->currentDisplay = &TerminalScreen::displayContinue;
-	gameView->activeScreen = 1;
+	this->currentInput = &TerminalScreen::inputContinue;
+	gameView->openGameplay();
 }
 
 void TerminalScreen::abortActionInNewGameMenu()
 {
-	this->currentDisplay = &TerminalScreen::displayMainMenu;
-	gameView->activeScreen = 0;
+	this->currentInput = &TerminalScreen::inputMainMenu;
+	gameView->openMainMenu();
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
@@ -310,8 +288,8 @@ void TerminalScreen::pressAnyKeyGoBackToMenu()
 {
 	cout << "Press any key to return to the menu...";
 	_getch(); //WINSPEC
-	this->currentDisplay = &TerminalScreen::displayMainMenu;
-	gameView->activeScreen = 0;
+	this->currentInput = &TerminalScreen::inputMainMenu;
+	gameView->openMainMenu();
 }
 
 vector<string> TerminalScreen::splitString(string splitted)
