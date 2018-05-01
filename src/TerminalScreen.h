@@ -4,6 +4,7 @@
 #include "NonPlayerCharacter.h"
 #include "Map.h"
 #include "ViewManager.h"
+#include "Controller.h"
 
 class TerminalScreen
 {
@@ -40,10 +41,12 @@ private:
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
+	Controller* userInput;
 	void (TerminalScreen::*currentInput)() = NULL;
 	void testMapInitialization();
 	ViewManager* gameView;
 
+	void changeViewAndController(int choice);
 	void updateView();
 	void inputMainMenu();
 	void inputContinue();

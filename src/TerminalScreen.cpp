@@ -2,6 +2,8 @@
 #include "TerminalScreen.h"
 #include <iostream>
 #include <conio.h>
+#include "MainMenuController.h"
+#include "AboutController.h"
 
 using namespace std;
 
@@ -10,6 +12,7 @@ TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->currentInput = &TerminalScreen::inputMainMenu;
+	this->userInput = new MainMenuController();
 	this->gameView = new ViewManager();
 	gameView->openMainMenu();
 
@@ -30,7 +33,8 @@ void TerminalScreen::menusLoop()
 	{
 		updateView();
 		gameView->refresh();
-		(this->*currentInput)();
+		changeViewAndController(userInput->main());
+		//(this->*currentInput)();
 	}
 }
 
@@ -44,6 +48,39 @@ void TerminalScreen::testMapInitialization()
 	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 	gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
 	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
+}
+
+void TerminalScreen::changeViewAndController(int choice)
+{
+	delete this->userInput;
+	switch (choice)
+	{
+	case 0:
+		this->userInput = new MainMenuController;
+		gameView->openMainMenu();
+		break;
+	case 1:
+		this->currentInput = &TerminalScreen::inputContinue;
+		gameView->openGameplay();
+		break;
+	case 2:
+		this->currentInput = &TerminalScreen::inputNewGame;
+		gameView->openNewGame();
+		break;
+	case 3:
+		this->userInput = new AboutController;
+		gameView->openGraveyard();
+		break;
+	case 4:
+		this->userInput = new AboutController;
+		gameView->openAbout();
+		break;
+	case -1:
+		this->currentInput = NULL;
+		break;
+	default:
+		break;
+	}
 }
 
 void TerminalScreen::updateView()
