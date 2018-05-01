@@ -17,6 +17,22 @@ public:
 		ContinueTurn
 	};
 
+	enum KeyCodes
+	{
+		Key_Escape = 27,
+		Key_Space = 32,
+		Key_F_and_NumpadArrows = 0,
+		Key_Arrows_and_Other = 224
+	};
+
+	enum ArrowKey
+	{
+		Arrow_Down = 80,
+		Arrow_Right = 77,
+		Arrow_Left = 75,
+		Arrow_Up = 72
+	};
+
 private:
 	Hero* playerCharacter;
 	NonPlayerCharacter* enemyCharacter;
@@ -35,22 +51,27 @@ private:
 	void printMainMenu(std::string additionalInfo = "");
 	void printAboutMenu();
 	void printNewGameMenu();
-	void refreshGame();
+	void printContinue();
+	void printGraveyard();
 
-	void choiceMainMenu();
-	void gameContinue();
+	void inputMainMenu();
+	void inputContinue();
 	TurnStatus processGameCommands();
-	Point playerMakesStep(int keyChar);
+	void playerMoves(ArrowKey arrowKey);
+	Point playerMakesStep(ArrowKey arrowKey);
 	void npcsTakeActions();
 	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
-	void processNewGameMenuCommands();
+	void inputNewGame();
 	void processNewGameMenuCommandsWithArguments(std::string command);
 	void processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken);
 	void finishActionInNewGameMenu();
 	void abortActionInNewGameMenu();
 	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
+	void inputAbout();
+	void inputGraveyard();
+	void pressAnyKeyGoBackToMenu();
 
 	std::vector <std::string> splitString(std::string splitted);
 	std::string trim(std::string str);

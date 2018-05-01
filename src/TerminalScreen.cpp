@@ -54,30 +54,31 @@ void TerminalScreen::testMapInitialization()
 void TerminalScreen::displayMainMenu()
 {
 	printMainMenu();
-	choiceMainMenu();
+	inputMainMenu();
 }
 
 void TerminalScreen::displayContinue()
 {
-	gameContinue();
+	printContinue();
+	inputContinue();
 }
 
 void TerminalScreen::displayNewGameMenu()
 {
 	printNewGameMenu();
-	processNewGameMenuCommands();
+	inputNewGame();
 }
 
 void TerminalScreen::displayGraveyard()
 {
-	printMainMenu("Graveyard - function not implemented yet!\n");
-	choiceMainMenu();
+	printGraveyard();
+	inputGraveyard();
 }
 
 void TerminalScreen::displayAbout()
 {
 	printAboutMenu();
-	this->currentDisplay = &TerminalScreen::displayMainMenu;
+	inputAbout();
 }
 
 void TerminalScreen::printMainMenu(string additionalInfo)
@@ -98,9 +99,7 @@ void TerminalScreen::printAboutMenu()
 	cout << "\tTerminal Roguelike\n\tAbout\n\n";
 	cout << "Author: Hanulon\n"
 		"License: MIT\n"
-		"Version: 0.0.1\n\n";
-	cout << "Press any key to return to the menu...";
-	_getch(); //WINSPEC
+		"Version: " + GAME_VERSION + "\n\n";
 }
 
 void TerminalScreen::printNewGameMenu()
@@ -114,14 +113,20 @@ void TerminalScreen::printNewGameMenu()
 		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
 }
 
-void TerminalScreen::refreshGame()
+void TerminalScreen::printContinue()
 {
 	clearScreen();
 	cout << gameMap->printMap();
 	cout << "HERO STATISTICS\n" << playerCharacter->getGeneralInfo() << endl;
 }
 
-void TerminalScreen::choiceMainMenu()
+void TerminalScreen::printGraveyard()
+{
+	cout << "\tTerminal Roguelike\n\tGraveyard\n\n";
+	cout << "Graveyard is closed! A powerful lich has cursed the land, your fallen heroes cannot be buried...\n\n";
+}
+
+void TerminalScreen::inputMainMenu()
 {
 	char menuChoice = 0;
 	cin >> menuChoice;
@@ -138,9 +143,8 @@ void TerminalScreen::choiceMainMenu()
 		this->currentDisplay = NULL;
 }
 
-void TerminalScreen::gameContinue()
+void TerminalScreen::inputContinue()
 {
-	refreshGame();
 	TerminalScreen::TurnStatus turnStatus = processGameCommands();
 	if (turnStatus == EndTurn)
 	{
@@ -152,57 +156,70 @@ TerminalScreen::TurnStatus TerminalScreen::processGameCommands()
 {
 	this->currentDisplay = &TerminalScreen::displayContinue;
 	int key = _getch();
-	if (key == 27)
+	switch (key)
 	{
+	case Key_Escape:
 		this->currentDisplay = &TerminalScreen::displayMainMenu;
 		return ContinueTurn;
+	case Key_Space:
+		return EndTurn;
+	case Key_F_and_NumpadArrows:
+	case Key_Arrows_and_Other:
+		playerMoves(TerminalScreen::ArrowKey(_getch()));
+		return EndTurn;
+	default:
+		cout << key << endl;
+		system("pause");
+		break;
 	}
-	else if (key == 0 || key == 224) // arrows
+	return ContinueTurn;
+}
+
+void TerminalScreen::playerMoves(TerminalScreen::ArrowKey arrowKey)
+{
+	Point step = playerMakesStep(arrowKey);
+	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
+	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
 	{
-		key = _getch();
-		Point step = playerMakesStep(key);
-		Point newPlayerPosition = playerCharacter->getMapPosition() + step;
-		if (this->gameMap->isTheTileOccupied(newPlayerPosition))
-		{
-			playerCrashesNPC(playerCharacter, step, enemyCharacter);
-			playerCrashesNPC(playerCharacter, step, friendlyCharacter);
-		}
-		else
-		{
-			gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
-			playerCharacter->setMapPosition(newPlayerPosition);
-			gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
-		}
+		playerCrashesNPC(playerCharacter, step, enemyCharacter);
+		playerCrashesNPC(playerCharacter, step, friendlyCharacter);
 	}
 	else
 	{
-		if (key == 0) // F1-12
-			key = _getch();
-		cout << key << endl;
-		system("pause");
+		gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
+		playerCharacter->setMapPosition(newPlayerPosition);
+		gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 	}
-	return EndTurn;
 }
 
-Point TerminalScreen::playerMakesStep(int keyChar)
+Point TerminalScreen::playerMakesStep(TerminalScreen::ArrowKey arrowKey)
 {
 	Point step;
-	if (keyChar == 80)
+	switch (arrowKey)
+	{
+	case Arrow_Down:
 		step.y++;
-	else if (keyChar == 77)
+		break;
+	case Arrow_Right:
 		step.x++;
-	else if (keyChar == 75)
+		break;
+	case Arrow_Left:
 		step.x--;
-	else if (keyChar == 72)
+		break;
+	case Arrow_Up:
 		step.y--;
+		break;
+	default:
+		break;
+	}
 	return step;
 }
 
 void TerminalScreen::npcsTakeActions()
 {
-	refreshGame();
+	printContinue();
 	npcMakesMove(enemyCharacter);
-	refreshGame();
+	printContinue();
 	npcMakesMove(friendlyCharacter);
 }
 
@@ -253,7 +270,7 @@ void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter
 	}
 }
 
-void TerminalScreen::processNewGameMenuCommands()
+void TerminalScreen::inputNewGame()
 {
 	string command;
 	getline(cin, command);
@@ -306,6 +323,23 @@ void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSki
 {
 	if (value >= 0)
 		playerCharacter->setAttributeOrSkillHeroCreator(attributeSkillName, value);
+}
+
+void TerminalScreen::inputAbout()
+{
+	pressAnyKeyGoBackToMenu();
+}
+
+void TerminalScreen::inputGraveyard()
+{
+	pressAnyKeyGoBackToMenu();
+}
+
+void TerminalScreen::pressAnyKeyGoBackToMenu()
+{
+	cout << "Press any key to return to the menu...";
+	_getch(); //WINSPEC
+	this->currentDisplay = &TerminalScreen::displayMainMenu;
 }
 
 vector<string> TerminalScreen::splitString(string splitted)
