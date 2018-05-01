@@ -4,6 +4,8 @@
 #include <conio.h>
 #include "MainMenuController.h"
 #include "AboutController.h"
+#include "GameplayController.h"
+#include "NewGameController.h"
 
 using namespace std;
 
@@ -34,7 +36,35 @@ void TerminalScreen::menusLoop()
 		updateView();
 		gameView->refresh();
 		changeViewAndController(userInput->main());
-		//(this->*currentInput)();
+		if (_STEP_MADE == true)
+		{
+			_STEP_MADE = false;
+			Point step = _STEP;
+			Point newPlayerPosition = playerCharacter->getMapPosition() + step;
+			if (this->gameMap->isTheTileOccupied(newPlayerPosition))
+			{
+				playerCrashesNPC(playerCharacter, step, enemyCharacter);
+				playerCrashesNPC(playerCharacter, step, friendlyCharacter);
+			}
+			else
+			{
+				gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
+				playerCharacter->setMapPosition(newPlayerPosition);
+				gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
+			}
+
+			npcsTakeActions();
+		}
+		else if (_ADDED_NAME == true)
+		{
+			_ADDED_NAME = false;
+			playerCharacter->setName(_NAME);
+		}
+		else if (_ATTR_SKILL_CHANGED == true)
+		{
+			_ATTR_SKILL_CHANGED = false;
+			assignAttributeSkillActionInNewGameMenu(_ATTR_SKILL, _VALUE);
+		}
 	}
 }
 
@@ -60,11 +90,12 @@ void TerminalScreen::changeViewAndController(int choice)
 		gameView->openMainMenu();
 		break;
 	case 1:
-		this->currentInput = &TerminalScreen::inputContinue;
+		this->userInput = new GameplayController;
 		gameView->openGameplay();
 		break;
 	case 2:
-		this->currentInput = &TerminalScreen::inputNewGame;
+		//this->currentInput = &TerminalScreen::inputNewGame;
+		this->userInput = new NewGameController;
 		gameView->openNewGame();
 		break;
 	case 3:

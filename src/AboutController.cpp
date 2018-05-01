@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "AboutController.h"
-#include <conio.h>
 
 
 AboutController::AboutController()

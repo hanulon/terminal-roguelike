@@ -66,6 +66,9 @@
     <ClInclude Include="GameplayController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NewGameController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameplayController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NewGameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
