@@ -14,60 +14,22 @@ public:
 	~TerminalScreen();
 	void menusLoop();
 
-	enum TurnStatus
-	{
-		EndTurn,
-		ContinueTurn
-	};
-
-	enum KeyCodes
-	{
-		Key_Escape = 27,
-		Key_Space = 32,
-		Key_F_and_NumpadArrows = 0,
-		Key_Arrows_and_Other = 224
-	};
-
-	enum ArrowKey
-	{
-		Arrow_Down = 80,
-		Arrow_Right = 77,
-		Arrow_Left = 75,
-		Arrow_Up = 72
-	};
-
 private:
 	Hero* playerCharacter;
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
 	Controller* userInput;
-	void (TerminalScreen::*currentInput)() = NULL;
 	void testMapInitialization();
 	ViewManager* gameView;
 
 	void changeViewAndController(int choice);
 	void updateView();
-	void inputMainMenu();
-	void inputContinue();
-	TurnStatus processGameCommands();
-	void playerMoves(ArrowKey arrowKey);
-	Point playerMakesStep(ArrowKey arrowKey);
 	void npcsTakeActions();
+	void playerMakesMove(Point step);
 	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
-	void inputNewGame();
-	void processNewGameMenuCommandsWithArguments(std::string command);
-	void processTwoArgsNewGameCommand(std::string firstCommandToken, std::string secondCommandToken);
-	void finishActionInNewGameMenu();
-	void abortActionInNewGameMenu();
 	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
-	void inputAbout();
-	void inputGraveyard();
-	void pressAnyKeyGoBackToMenu();
-
-	std::vector <std::string> splitString(std::string splitted);
-	std::string trim(std::string str);
 };
 

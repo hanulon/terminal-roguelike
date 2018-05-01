@@ -24,11 +24,12 @@ int GameplayController::processGameCommands()
 	case Key_Escape:
 		return 0;
 	case Key_Space:
+		_STEP_MADE = EndTurn;
 		return 1;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
 		_STEP = playerMakesStep(GameplayController::ArrowKey(_getch()));
-		_STEP_MADE = true;
+		_STEP_MADE = EndTurn;
 		return 1;
 	default:
 		cout << key << endl;
