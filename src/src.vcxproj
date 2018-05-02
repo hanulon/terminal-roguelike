@@ -90,6 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>UserInterface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +119,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>UserInterface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +151,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="GameplayController.h" />
+    <ClInclude Include="GraveyardController.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="MainMenuController.h" />
@@ -168,6 +171,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="GameplayController.cpp" />
+    <ClCompile Include="GraveyardController.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="main.cpp" />

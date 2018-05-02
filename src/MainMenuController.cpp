@@ -26,7 +26,7 @@ Controller* MainMenuController::main()
 	}
 	else if (menuChoice == '3')
 	{
-		return new AboutController;
+		return new GraveyardController;
 	}
 	else if (menuChoice == '4')
 	{

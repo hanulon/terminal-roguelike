@@ -15,6 +15,7 @@ public:
 
 protected:
 	virtual void printScreen() = 0;
+	void pressAnyKey();
 	string trim(string str);
 	void clearScreen();
 };

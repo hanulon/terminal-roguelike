@@ -13,8 +13,7 @@ AboutController::~AboutController()
 
 Controller* AboutController::main()
 {
-	cout << "Press any key to return to the menu...";
-	_getch(); //WINSPEC
+	pressAnyKey();
 	return new MainMenuController;
 }
 
