@@ -3,7 +3,6 @@
 #include "Hero.h"
 #include "NonPlayerCharacter.h"
 #include "Map.h"
-#include "ViewManager.h"
 #include "Controller.h"
 
 class TerminalScreen
@@ -21,7 +20,6 @@ private:
 	Map* gameMap;
 	Controller* userInput;
 	void testMapInitialization();
-	ViewManager* gameView;
 
 	void changeViewAndController(int choice);
 	void updateView();

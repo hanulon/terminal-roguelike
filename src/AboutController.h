@@ -8,5 +8,6 @@ public:
 	~AboutController();
 
 	int main();
+	void refresh();
 };
 

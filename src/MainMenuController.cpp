@@ -38,3 +38,18 @@ int MainMenuController::main()
 	}
 	return 0;
 }
+
+void MainMenuController::refresh()
+{
+	clearScreen();
+	cout << "\tTerminal Roguelike\n\n";
+	cout << "Click the number to chose an option\n";
+	cout << "1. Continue\n"
+		"2. New game\n"
+		"3. Graveyard\n"
+		"4. About\n"
+		"5. Exit\n";
+	//additionalInfo = "\n" + additionalInfo;
+	//cout << additionalInfo + ">";
+	cout << "\n>";
+}

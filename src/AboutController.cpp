@@ -17,3 +17,12 @@ int AboutController::main()
 	_getch(); //WINSPEC
 	return 0;
 }
+
+void AboutController::refresh()
+{
+	clearScreen();
+	cout << "\tTerminal Roguelike\n\tAbout\n\n";
+	cout << "Author: Hanulon\n"
+		"License: MIT\n"
+		"Version: " + GAME_VERSION + "\n\n";
+}

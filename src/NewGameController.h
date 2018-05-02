@@ -8,6 +8,7 @@ public:
 	~NewGameController();
 
 	int main();
+	void refresh();
 
 private:
 	void processTwoArgsNewGameCommand(string firstCommandToken, string secondCommandToken);

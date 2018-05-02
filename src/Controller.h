@@ -11,8 +11,10 @@ public:
 	~Controller();
 
 	virtual int main() = 0;
+	virtual void refresh() = 0;
 
 protected:
 	string trim(string str);
+	void clearScreen();
 };
 

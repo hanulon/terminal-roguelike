@@ -21,3 +21,13 @@ string Controller::trim(string str)
 		endPosition--;
 	return str.substr(startPosition, endPosition - startPosition + 1);
 }
+
+void Controller::clearScreen()
+{
+	#ifdef WINDOWS
+		system("cls");
+	#endif
+	#ifdef LINUX
+		system("clear");
+	#endif
+}

@@ -40,6 +40,18 @@ int NewGameController::main()
 	}
 }
 
+void NewGameController::refresh()
+{
+	clearScreen();
+	cout << playerSheet << endl;
+	cout << "Attribute points left: " << attributePointsLeft << endl <<
+		"Skill points left: " << skillPointsLeft << endl <<
+		"Instruction: assign skill and attribute points to your statistics, by typing: 'skill_name desired_value' and hitting 'enter'. Example: Might 3" << endl <<
+		"Type 'name character_name' to give your character a new name, example: 'name Zdzislaw'" << endl <<
+		"Type 'finished' and hit enter, when you are ready to start the game." << endl <<
+		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
+}
+
 void NewGameController::processTwoArgsNewGameCommand(string firstCommandToken, string secondCommandToken)
 {
 	try

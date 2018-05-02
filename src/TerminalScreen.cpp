@@ -14,8 +14,6 @@ TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->userInput = new MainMenuController();
-	this->gameView = new ViewManager();
-	gameView->openMainMenu();
 
 	this->playerCharacter = playerCharacter;
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
@@ -33,7 +31,7 @@ void TerminalScreen::menusLoop()
 	while (this->userInput != nullptr)
 	{
 		updateView();
-		gameView->refresh();
+		userInput->refresh();
 		changeViewAndController(userInput->main());
 		if (_STEP_MADE == EndTurn)
 		{
@@ -77,23 +75,18 @@ void TerminalScreen::changeViewAndController(int choice)
 	{
 	case 0:
 		this->userInput = new MainMenuController;
-		gameView->openMainMenu();
 		break;
 	case 1:
 		this->userInput = new GameplayController;
-		gameView->openGameplay();
 		break;
 	case 2:
 		this->userInput = new NewGameController;
-		gameView->openNewGame();
 		break;
 	case 3:
 		this->userInput = new AboutController;
-		gameView->openGraveyard();
 		break;
 	case 4:
 		this->userInput = new AboutController;
-		gameView->openAbout();
 		break;
 	case -1:
 		this->userInput = nullptr;
@@ -105,19 +98,20 @@ void TerminalScreen::changeViewAndController(int choice)
 
 void TerminalScreen::updateView()
 {
-	gameView->updateMap(gameMap->printMap());
-	gameView->updatePlayerShortInfo(playerCharacter->getGeneralInfo());
-	gameView->updateNewGamePointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
-	gameView->updatePlayerSheet(playerCharacter->getCharacterSheet());
+	gameMapState = gameMap->printMap();
+	playerSheet = playerCharacter->getCharacterSheet();
+	playerShortInfo = playerCharacter->getGeneralInfo();
+	attributePointsLeft = playerCharacter->getAttributePointsLeft();
+	skillPointsLeft = playerCharacter->getSkillPointsLeft();
 }
 
 void TerminalScreen::npcsTakeActions()
 {
 	updateView();
-	gameView->refresh();
+	userInput->refresh();
 	npcMakesMove(enemyCharacter);
 	updateView();
-	gameView->refresh();
+	userInput->refresh();
 	npcMakesMove(friendlyCharacter);
 }
 

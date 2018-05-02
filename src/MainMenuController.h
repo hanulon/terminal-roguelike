@@ -8,5 +8,6 @@ public:
 	~MainMenuController();
 
 	int main();
+	void refresh();
 };
 

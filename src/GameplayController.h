@@ -8,6 +8,7 @@ public:
 	~GameplayController();
 
 	int main();
+	void refresh();
 
 	enum KeyCodes
 	{
