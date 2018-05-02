@@ -19,12 +19,12 @@ Controller* GameplayController::main()
 	case Key_Escape:
 		return new MainMenuController;
 	case Key_Space:
-		_STEP_MADE = EndTurn;
+		userControllerMessage.actionType = TurnEnded;
 		return this;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
-		_STEP = playerMakesStep(GameplayController::ArrowKey(_getch()));
-		_STEP_MADE = EndTurn;
+		userControllerMessage.step = playerMakesStep(GameplayController::ArrowKey(_getch()));
+		userControllerMessage.actionType = TurnEnded;
 		return this;
 	default:
 		cout << key << endl;

@@ -29,8 +29,8 @@ Controller* NewGameController::main()
 		vector <string> tokenizedCommand = splitString(command);
 		if (tokenizedCommand[0] == "name")
 		{
-			_ADDED_NAME = true;
-			_NAME = command.substr(5);
+			userControllerMessage.actionType = NameChanged;
+			userControllerMessage.name = command.substr(5);
 		}
 		else if (tokenizedCommand.size() == 2)
 		{
@@ -56,9 +56,9 @@ void NewGameController::processTwoArgsNewGameCommand(string firstCommandToken, s
 	try
 	{
 		int value = stoi(secondCommandToken);
-		_ATTR_SKILL_CHANGED = true;
-		_ATTR_SKILL = firstCommandToken;
-		_VALUE = value;
+		userControllerMessage.actionType = AttrSkillChanged;
+		userControllerMessage.attributeSkillName = firstCommandToken;
+		userControllerMessage.value = value;
 	}
 	catch (const std::exception&) {}
 }

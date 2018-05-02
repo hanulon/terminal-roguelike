@@ -29,26 +29,7 @@ void TerminalScreen::menusLoop()
 			playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
 		userInterface->refresh();
 		changeViewAndController(userInterface->main());
-		if (_STEP_MADE == EndTurn)
-		{
-			_STEP_MADE = ContinueTurn;
-			if (!(_STEP == Point()))
-			{
-				playerMakesMove(_STEP);
-				_STEP = Point();
-			}
-			npcsTakeActions();
-		}
-		else if (_ADDED_NAME == true)
-		{
-			_ADDED_NAME = false;
-			playerCharacter->setName(_NAME);
-		}
-		else if (_ATTR_SKILL_CHANGED == true)
-		{
-			_ATTR_SKILL_CHANGED = false;
-			assignAttributeSkillActionInNewGameMenu(_ATTR_SKILL, _VALUE);
-		}
+		controllerAction();
 	}
 }
 
@@ -71,6 +52,30 @@ void TerminalScreen::changeViewAndController(Controller* newInterface)
 		delete this->userInterface;
 		this->userInterface = newInterface;
 	}
+}
+
+void TerminalScreen::controllerAction()
+{
+	switch (userControllerMessage.actionType)
+	{
+	case TurnEnded:
+		if (!(userControllerMessage.step == Point()))
+		{
+			playerMakesMove(userControllerMessage.step);
+			userControllerMessage.step = Point();
+		}
+		npcsTakeActions();
+		break;
+	case NameChanged:
+		playerCharacter->setName(userControllerMessage.name);
+		break;
+	case AttrSkillChanged:
+		assignAttributeSkillActionInNewGameMenu(userControllerMessage.attributeSkillName, userControllerMessage.value);
+		break;
+	default:
+		break;
+	}
+	userControllerMessage.actionType = NoAction;
 }
 
 void TerminalScreen::npcsTakeActions()
