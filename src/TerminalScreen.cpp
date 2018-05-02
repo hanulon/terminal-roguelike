@@ -2,10 +2,6 @@
 #include "TerminalScreen.h"
 #include <iostream>
 #include <conio.h>
-#include "MainMenuController.h"
-#include "AboutController.h"
-#include "GameplayController.h"
-#include "NewGameController.h"
 
 using namespace std;
 
@@ -13,7 +9,7 @@ TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
 
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
-	this->userInput = new MainMenuController();
+	this->userInterface = new MainMenuController();
 
 	this->playerCharacter = playerCharacter;
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
@@ -28,11 +24,11 @@ TerminalScreen::~TerminalScreen(){}
 
 void TerminalScreen::menusLoop()
 {
-	while (this->userInput != nullptr)
+	while (this->userInterface != nullptr)
 	{
 		updateView();
-		userInput->refresh();
-		changeViewAndController(userInput->main());
+		userInterface->refresh();
+		changeViewAndController(userInterface->main());
 		if (_STEP_MADE == EndTurn)
 		{
 			_STEP_MADE = ContinueTurn;
@@ -70,26 +66,26 @@ void TerminalScreen::testMapInitialization()
 
 void TerminalScreen::changeViewAndController(int choice)
 {
-	delete this->userInput;
+	delete this->userInterface;
 	switch (choice)
 	{
 	case 0:
-		this->userInput = new MainMenuController;
+		this->userInterface = new MainMenuController;
 		break;
 	case 1:
-		this->userInput = new GameplayController;
+		this->userInterface = new GameplayController;
 		break;
 	case 2:
-		this->userInput = new NewGameController;
+		this->userInterface = new NewGameController;
 		break;
 	case 3:
-		this->userInput = new AboutController;
+		this->userInterface = new AboutController;
 		break;
 	case 4:
-		this->userInput = new AboutController;
+		this->userInterface = new AboutController;
 		break;
 	case -1:
-		this->userInput = nullptr;
+		this->userInterface = nullptr;
 		break;
 	default:
 		break;
@@ -108,10 +104,10 @@ void TerminalScreen::updateView()
 void TerminalScreen::npcsTakeActions()
 {
 	updateView();
-	userInput->refresh();
+	userInterface->refresh();
 	npcMakesMove(enemyCharacter);
 	updateView();
-	userInput->refresh();
+	userInterface->refresh();
 	npcMakesMove(friendlyCharacter);
 }
 

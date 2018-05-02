@@ -8,7 +8,6 @@ public:
 	~GameplayController();
 
 	int main();
-	void refresh();
 
 	enum KeyCodes
 	{
@@ -27,6 +26,7 @@ public:
 	};
 
 private:
+	void printScreen();
 	int processGameCommands();
 	Point playerMakesStep(ArrowKey arrowKey);
 };

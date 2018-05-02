@@ -18,9 +18,8 @@ int AboutController::main()
 	return 0;
 }
 
-void AboutController::refresh()
+void AboutController::printScreen()
 {
-	clearScreen();
 	cout << "\tTerminal Roguelike\n\tAbout\n\n";
 	cout << "Author: Hanulon\n"
 		"License: MIT\n"

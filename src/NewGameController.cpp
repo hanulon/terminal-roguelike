@@ -40,9 +40,8 @@ int NewGameController::main()
 	}
 }
 
-void NewGameController::refresh()
+void NewGameController::printScreen()
 {
-	clearScreen();
 	cout << playerSheet << endl;
 	cout << "Attribute points left: " << attributePointsLeft << endl <<
 		"Skill points left: " << skillPointsLeft << endl <<

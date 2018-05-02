@@ -39,9 +39,8 @@ int MainMenuController::main()
 	return 0;
 }
 
-void MainMenuController::refresh()
+void MainMenuController::printScreen()
 {
-	clearScreen();
 	cout << "\tTerminal Roguelike\n\n";
 	cout << "Click the number to chose an option\n";
 	cout << "1. Continue\n"

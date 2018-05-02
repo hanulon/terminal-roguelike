@@ -3,7 +3,6 @@
 #include "Hero.h"
 #include "NonPlayerCharacter.h"
 #include "Map.h"
-#include "Controller.h"
 
 class TerminalScreen
 {
@@ -18,7 +17,7 @@ private:
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	Map* gameMap;
-	Controller* userInput;
+	Controller* userInterface;
 	void testMapInitialization();
 
 	void changeViewAndController(int choice);

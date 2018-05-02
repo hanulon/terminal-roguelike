@@ -8,9 +8,9 @@ public:
 	~NewGameController();
 
 	int main();
-	void refresh();
 
 private:
+	void printScreen();
 	void processTwoArgsNewGameCommand(string firstCommandToken, string secondCommandToken);
 	vector <string> splitString(string splitted);
 };

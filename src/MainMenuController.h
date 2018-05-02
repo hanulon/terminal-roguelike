@@ -8,6 +8,8 @@ public:
 	~MainMenuController();
 
 	int main();
-	void refresh();
+
+private:
+	void printScreen();
 };
 

@@ -11,6 +11,12 @@ Controller::~Controller()
 {
 }
 
+void Controller::refresh()
+{
+	clearScreen();
+	printScreen();
+}
+
 string Controller::trim(string str)
 {
 	int startPosition = 0;

@@ -16,9 +16,8 @@ int GameplayController::main()
 	return processGameCommands();
 }
 
-void GameplayController::refresh()
+void GameplayController::printScreen()
 {
-	clearScreen();
 	cout << gameMapState;
 	cout << "HERO STATISTICS\n" << playerShortInfo << endl;
 }

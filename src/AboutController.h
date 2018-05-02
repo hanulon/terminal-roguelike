@@ -8,6 +8,8 @@ public:
 	~AboutController();
 
 	int main();
-	void refresh();
+
+private:
+	void printScreen();
 };
 
