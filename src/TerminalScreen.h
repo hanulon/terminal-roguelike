@@ -21,7 +21,6 @@ private:
 	void testMapInitialization();
 
 	void changeViewAndController(Controller* newInterface);
-	void updateView();
 	void npcsTakeActions();
 	void playerMakesMove(Point step);
 	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);

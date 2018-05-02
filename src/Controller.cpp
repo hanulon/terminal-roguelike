@@ -3,8 +3,15 @@
 #include "Controller.h"
 
 
+string Controller::gameMapState;
+string Controller::playerSheet;
+string Controller::playerShortInfo;
+int Controller::attributePointsLeft;
+int Controller::skillPointsLeft;
+
 Controller::Controller()
 {
+	skillPointsLeft = 0;
 }
 
 
@@ -16,6 +23,15 @@ void Controller::refresh()
 {
 	clearScreen();
 	printScreen();
+}
+
+void Controller::updateAll(string gameMap, string sheet, string shortInfo, int attributePoints, int skillPoints)
+{
+	gameMapState = gameMap;
+	playerSheet = sheet;
+	playerShortInfo = shortInfo;
+	attributePointsLeft = attributePoints;
+	skillPointsLeft = skillPoints;
 }
 
 void Controller::pressAnyKey()

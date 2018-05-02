@@ -25,7 +25,8 @@ void TerminalScreen::menusLoop()
 {
 	while (this->userInterface != nullptr)
 	{
-		updateView();
+		userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
+			playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
 		userInterface->refresh();
 		changeViewAndController(userInterface->main());
 		if (_STEP_MADE == EndTurn)
@@ -72,21 +73,14 @@ void TerminalScreen::changeViewAndController(Controller* newInterface)
 	}
 }
 
-void TerminalScreen::updateView()
-{
-	gameMapState = gameMap->printMap();
-	playerSheet = playerCharacter->getCharacterSheet();
-	playerShortInfo = playerCharacter->getGeneralInfo();
-	attributePointsLeft = playerCharacter->getAttributePointsLeft();
-	skillPointsLeft = playerCharacter->getSkillPointsLeft();
-}
-
 void TerminalScreen::npcsTakeActions()
 {
-	updateView();
+	userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
+		playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
 	userInterface->refresh();
 	npcMakesMove(enemyCharacter);
-	updateView();
+	userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
+		playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
 	userInterface->refresh();
 	npcMakesMove(friendlyCharacter);
 }
