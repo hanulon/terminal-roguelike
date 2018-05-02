@@ -11,11 +11,11 @@ AboutController::~AboutController()
 {
 }
 
-int AboutController::main()
+Controller* AboutController::main()
 {
 	cout << "Press any key to return to the menu...";
 	_getch(); //WINSPEC
-	return 0;
+	return new MainMenuController;
 }
 
 void AboutController::printScreen()

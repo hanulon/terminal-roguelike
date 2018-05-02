@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "TerminalScreen.h"
 #include <iostream>
-#include <conio.h>
 
 using namespace std;
 
@@ -64,31 +63,12 @@ void TerminalScreen::testMapInitialization()
 	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
 }
 
-void TerminalScreen::changeViewAndController(int choice)
+void TerminalScreen::changeViewAndController(Controller* newInterface)
 {
-	delete this->userInterface;
-	switch (choice)
+	if (newInterface == nullptr || typeid(*userInterface) != typeid(*newInterface))
 	{
-	case 0:
-		this->userInterface = new MainMenuController;
-		break;
-	case 1:
-		this->userInterface = new GameplayController;
-		break;
-	case 2:
-		this->userInterface = new NewGameController;
-		break;
-	case 3:
-		this->userInterface = new AboutController;
-		break;
-	case 4:
-		this->userInterface = new AboutController;
-		break;
-	case -1:
-		this->userInterface = nullptr;
-		break;
-	default:
-		break;
+		delete this->userInterface;
+		this->userInterface = newInterface;
 	}
 }
 

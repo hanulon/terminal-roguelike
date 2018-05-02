@@ -7,7 +7,7 @@ public:
 	AboutController();
 	~AboutController();
 
-	int main();
+	Controller* main();
 
 private:
 	void printScreen();

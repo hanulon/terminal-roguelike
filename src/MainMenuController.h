@@ -7,7 +7,7 @@ public:
 	MainMenuController();
 	~MainMenuController();
 
-	int main();
+	Controller* main();
 
 private:
 	void printScreen();

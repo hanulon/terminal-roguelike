@@ -11,32 +11,32 @@ MainMenuController::~MainMenuController()
 {
 }
 
-int MainMenuController::main()
+Controller* MainMenuController::main()
 {
 	char menuChoice = 0;
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	if (menuChoice == '1')
 	{
-		return 1;
+		return new GameplayController;
 	}
 	else if (menuChoice == '2')
 	{
-		return 2;
+		return new NewGameController;
 	}
 	else if (menuChoice == '3')
 	{
-		return 3;
+		return new AboutController;
 	}
 	else if (menuChoice == '4')
 	{
-		return 4;
+		return new AboutController;
 	}
 	else if (menuChoice == '5')
 	{
-		return -1;
+		return nullptr;
 	}
-	return 0;
+	return this;
 }
 
 void MainMenuController::printScreen()

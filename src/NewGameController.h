@@ -7,7 +7,7 @@ public:
 	NewGameController();
 	~NewGameController();
 
-	int main();
+	Controller* main();
 
 private:
 	void printScreen();

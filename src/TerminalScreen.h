@@ -20,7 +20,7 @@ private:
 	Controller* userInterface;
 	void testMapInitialization();
 
-	void changeViewAndController(int choice);
+	void changeViewAndController(Controller* newInterface);
 	void updateView();
 	void npcsTakeActions();
 	void playerMakesMove(Point step);

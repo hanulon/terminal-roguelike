@@ -10,7 +10,7 @@ public:
 	Controller();
 	~Controller();
 
-	virtual int main() = 0;
+	virtual Controller* main() = 0;
 	virtual void refresh();
 
 protected:

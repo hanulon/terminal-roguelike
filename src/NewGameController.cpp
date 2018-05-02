@@ -11,7 +11,7 @@ NewGameController::~NewGameController()
 {
 }
 
-int NewGameController::main()
+Controller* NewGameController::main()
 {
 	string command;
 	getline(cin, command);
@@ -20,10 +20,10 @@ int NewGameController::main()
 	{
 		cout << "Procedure of saving and starting the game" << endl;
 		system("pause");
-		return 1;
+		return new GameplayController;
 	}
 	else if (command == "abort")
-		return 0;
+		return new MainMenuController;
 	else
 	{
 		vector <string> tokenizedCommand = splitString(command);
@@ -36,7 +36,7 @@ int NewGameController::main()
 		{
 			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
 		}
-		return 2;
+		return this;
 	}
 }
 
