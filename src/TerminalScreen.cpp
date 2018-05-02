@@ -56,26 +56,27 @@ void TerminalScreen::changeViewAndController(Controller* newInterface)
 
 void TerminalScreen::controllerAction()
 {
-	switch (userControllerMessage.actionType)
+	switch (Controller::userControllerMessage.actionType)
 	{
 	case TurnEnded:
-		if (!(userControllerMessage.step == Point()))
+		if (!(Controller::userControllerMessage.step == Point()))
 		{
-			playerMakesMove(userControllerMessage.step);
-			userControllerMessage.step = Point();
+			playerMakesMove(Controller::userControllerMessage.step);
+			Controller::userControllerMessage.step = Point();
 		}
 		npcsTakeActions();
 		break;
 	case NameChanged:
-		playerCharacter->setName(userControllerMessage.name);
+		playerCharacter->setName(Controller::userControllerMessage.name);
 		break;
 	case AttrSkillChanged:
-		assignAttributeSkillActionInNewGameMenu(userControllerMessage.attributeSkillName, userControllerMessage.value);
+		assignAttributeSkillActionInNewGameMenu(Controller::userControllerMessage.attributeSkillName,
+			Controller::userControllerMessage.value);
 		break;
 	default:
 		break;
 	}
-	userControllerMessage.actionType = NoAction;
+	Controller::userControllerMessage.actionType = NoAction;
 }
 
 void TerminalScreen::npcsTakeActions()

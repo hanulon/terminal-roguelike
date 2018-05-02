@@ -3,6 +3,7 @@
 #include "Controller.h"
 
 
+UserControllerMessage Controller::userControllerMessage;
 string Controller::gameMapState;
 string Controller::playerSheet;
 string Controller::playerShortInfo;

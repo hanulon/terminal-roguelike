@@ -4,6 +4,23 @@
 
 using namespace std;
 
+enum UserAction
+{
+	NoAction,
+	TurnEnded,
+	NameChanged,
+	AttrSkillChanged
+};
+
+struct UserControllerMessage
+{
+	UserAction actionType = NoAction;
+	Point step;
+	std::string name;
+	std::string attributeSkillName;
+	int value;
+};
+
 class Controller
 {
 public:
@@ -13,6 +30,7 @@ public:
 	virtual Controller* main() = 0;
 	virtual void refresh();
 	void updateAll(string gameMap, string sheet, string shortInfo, int attributePoints, int skillPoints);
+	static UserControllerMessage userControllerMessage;
 
 protected:
 	virtual void printScreen() = 0;
