@@ -11,7 +11,7 @@ AboutController::~AboutController()
 {
 }
 
-Controller* AboutController::main()
+Controller* AboutController::processUserInput()
 {
 	pressAnyKey();
 	return new MainMenuController;

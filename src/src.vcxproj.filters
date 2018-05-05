@@ -75,6 +75,9 @@
     <ClInclude Include="GraveyardController.h">
       <Filter>Header Files\UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerToModelConnector.h">
+      <Filter>Header Files\UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -129,6 +132,9 @@
       <Filter>Source Files\UserInterface</Filter>
     </ClCompile>
     <ClCompile Include="GraveyardController.cpp">
+      <Filter>Source Files\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerToModelConnector.cpp">
       <Filter>Source Files\UserInterface</Filter>
     </ClCompile>
   </ItemGroup>

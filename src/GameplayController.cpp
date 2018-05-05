@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameplayController.h"
 
+string GameplayController::gameMapState;
+string GameplayController::playerShortInfo;
 
 GameplayController::GameplayController()
 {
@@ -11,33 +13,32 @@ GameplayController::~GameplayController()
 {
 }
 
-Controller* GameplayController::main()
+Controller* GameplayController::processUserInput()
 {
-	int key = _getch();
-	switch (key)
+	int keyCode = _getch();
+	switch (keyCode)
 	{
 	case Key_Escape:
-		return new MainMenuController;
+		returnedController = new MainMenuController;
+		break;
 	case Key_Space:
-		userControllerMessage.actionType = TurnEnded;
-		return this;
+		linkWithModel.endTurn();
+		break;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
-		userControllerMessage.step = playerMakesStep(GameplayController::ArrowKey(_getch()));
-		userControllerMessage.actionType = TurnEnded;
-		return this;
+		linkWithModel.makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
+		break;
 	default:
-		cout << key << endl;
-		system("pause");
+		realizeUndocumentedComment(keyCode);
 		break;
 	}
-	return this;
+	return returnedController;
 }
 
-void GameplayController::printScreen()
+void GameplayController::updateMapAndOtherInfo(string gameMap, string shortPlayerInfo)
 {
-	cout << gameMapState;
-	cout << "HERO STATISTICS\n" << playerShortInfo << endl;
+	gameMapState = gameMap;
+	playerShortInfo = shortPlayerInfo;
 }
 
 Point GameplayController::playerMakesStep(ArrowKey arrowKey)
@@ -61,4 +62,16 @@ Point GameplayController::playerMakesStep(ArrowKey arrowKey)
 		break;
 	}
 	return step;
+}
+
+void GameplayController::realizeUndocumentedComment(int keyPressed)
+{
+	this->messageForUser = "Pressed undocumented key code: " + to_string(keyPressed);
+}
+
+void GameplayController::printScreen()
+{
+	cout << gameMapState;
+	cout << "HERO STATISTICS\n" << playerShortInfo << endl;
+	printMessageForUser();
 }

@@ -5,6 +5,14 @@ public:
 	Attributes();
 	~Attributes();
 
+	enum AttributeName
+	{
+		None,
+		Might,
+		Dexterity,
+		Smarts
+	};
+
 	int getMight();
 	int getDexterity();
 	int getSmarts();

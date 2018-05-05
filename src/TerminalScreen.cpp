@@ -9,14 +9,17 @@ TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->userInterface = new MainMenuController();
+	this->linkFromController = userInterface->getLink();
 
 	this->playerCharacter = playerCharacter;
+	this->gameMap = gameMap;
+	testMapInitialization();
+
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
 	this->enemyCharacter->testInitialization();
 	this->friendlyCharacter = new NonPlayerCharacter("Friend", false);
-	this->gameMap = gameMap;
-
-	testMapInitialization();
+	this->npcVector.push_back(this->enemyCharacter);
+	this->npcVector.push_back(this->friendlyCharacter);
 }
 
 TerminalScreen::~TerminalScreen(){}
@@ -25,10 +28,9 @@ void TerminalScreen::menusLoop()
 {
 	while (this->userInterface != nullptr)
 	{
-		userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
-			playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
+		updateUserController();
 		userInterface->refresh();
-		changeViewAndController(userInterface->main());
+		changeViewAndController(userInterface->processUserInput());
 		controllerAction();
 	}
 }
@@ -41,8 +43,15 @@ void TerminalScreen::testMapInitialization()
 	friendlyCharacter->setMapPosition(Point(4, 15));
 
 	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
-	gameMap->addCreatureToMap(enemyCharacter, enemyCharacter->getMapPosition());
-	gameMap->addCreatureToMap(friendlyCharacter, friendlyCharacter->getMapPosition());
+	for(int i=0; i<npcVector.size(); i++)
+		gameMap->addCreatureToMap(npcVector[i], npcVector[i]->getMapPosition());
+}
+
+void TerminalScreen::updateUserController()
+{
+	GameplayController::updateMapAndOtherInfo(gameMap->printMap(), playerCharacter->getGeneralInfo());
+	NewGameController::updatePlayerSheet(playerCharacter->getCharacterSheet());
+	NewGameController::updateCreationPointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
 }
 
 void TerminalScreen::changeViewAndController(Controller* newInterface)
@@ -56,39 +65,40 @@ void TerminalScreen::changeViewAndController(Controller* newInterface)
 
 void TerminalScreen::controllerAction()
 {
-	switch (Controller::userControllerMessage.actionType)
+	switch (linkFromController->signalAction())
 	{
-	case TurnEnded:
-		if (!(Controller::userControllerMessage.step == Point()))
-		{
-			playerMakesMove(Controller::userControllerMessage.step);
-			Controller::userControllerMessage.step = Point();
-		}
-		npcsTakeActions();
+	case ControllerToModelConnector::TurnEnded:
+		endTurn();
 		break;
-	case NameChanged:
-		playerCharacter->setName(Controller::userControllerMessage.name);
+	case ControllerToModelConnector::NameChanged:
+		playerCharacter->setName(linkFromController->getNewHeroName());
 		break;
-	case AttrSkillChanged:
-		assignAttributeSkillActionInNewGameMenu(Controller::userControllerMessage.attributeSkillName,
-			Controller::userControllerMessage.value);
+	case ControllerToModelConnector::AttrSkillChanged:
+		assignAttributeSkillActionInNewGameMenu(linkFromController->getAttributeSkillName(),
+			linkFromController->getAttributeSkillValue());
 		break;
 	default:
 		break;
 	}
-	Controller::userControllerMessage.actionType = NoAction;
+	linkFromController->clearActionSignal();
+}
+
+void TerminalScreen::endTurn()
+{
+	Point playerStep = linkFromController->getPlayerStep();
+	if (!(playerStep == Point()))
+		playerMakesMove(playerStep);
+	npcsTakeActions();
 }
 
 void TerminalScreen::npcsTakeActions()
 {
-	userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
-		playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
-	userInterface->refresh();
-	npcMakesMove(enemyCharacter);
-	userInterface->updateAll(gameMap->printMap(), playerCharacter->getCharacterSheet(), playerCharacter->getGeneralInfo(),
-		playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
-	userInterface->refresh();
-	npcMakesMove(friendlyCharacter);
+	for (int i = 0; i < npcVector.size(); i++)
+	{
+		GameplayController::updateMapAndOtherInfo(gameMap->printMap(), npcVector[i]->getGeneralInfo());
+		userInterface->refresh();
+		npcMakesMove(npcVector[i]);
+	}
 }
 
 void TerminalScreen::playerMakesMove(Point step)
@@ -96,8 +106,8 @@ void TerminalScreen::playerMakesMove(Point step)
 	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
 	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
 	{
-		playerCrashesNPC(playerCharacter, step, enemyCharacter);
-		playerCrashesNPC(playerCharacter, step, friendlyCharacter);
+		for (int i = 0; i < npcVector.size(); i++)
+			playerCrashesNPC(playerCharacter, step, npcVector[i]);
 	}
 	else
 	{
@@ -109,7 +119,6 @@ void TerminalScreen::playerMakesMove(Point step)
 
 bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, NonPlayerCharacter * npc)
 {
-
 	Point enemyPosition = npc->getMapPosition();
 	Point newPlayerPosition = playerCharacter->getMapPosition() + playerStep;
 	if (newPlayerPosition == enemyPosition)

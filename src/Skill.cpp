@@ -2,7 +2,7 @@
 #include "Skill.h"
 
 
-Skill::Skill(std::string name, AttributeName connectedAttribute, unsigned int value)
+Skill::Skill(std::string name, Attributes::AttributeName connectedAttribute, unsigned int value)
 {
 	this->name = name;
 	this->value = value;
@@ -27,7 +27,7 @@ std::string Skill::getShortName()
 	return this->shortName;
 }
 
-AttributeName Skill::getConnectedAttribute()
+Attributes::AttributeName Skill::getConnectedAttribute()
 {
 	return this->connectedAttribute;
 }
@@ -58,7 +58,7 @@ void Skill::setShortName(std::string shortName)
 	this->shortName = shortName;
 }
 
-void Skill::setConnectedAttribute(AttributeName attributeName)
+void Skill::setConnectedAttribute(Attributes::AttributeName attributeName)
 {
 	this->connectedAttribute = attributeName;
 }

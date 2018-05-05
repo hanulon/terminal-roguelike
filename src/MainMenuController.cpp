@@ -11,44 +11,55 @@ MainMenuController::~MainMenuController()
 {
 }
 
-Controller* MainMenuController::main()
+Controller* MainMenuController::processUserInput()
 {
 	char menuChoice = 0;
 	cin >> menuChoice;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	if (menuChoice == '1')
+	selectMenu(menuChoice);
+	return returnedController;
+}
+
+void MainMenuController::selectMenu(char userChoice)
+{
+	switch (userChoice)
 	{
-		return new GameplayController;
+	case '1':
+		returnedController = new GameplayController;
+		break;
+	case '2':
+		returnedController = new NewGameController;
+		break;
+	case '3':
+		returnedController = new GraveyardController;
+		break;
+	case '4':
+		returnedController = new AboutController;
+		break;
+	case '5':
+		returnedController = nullptr;
+		break;
+	default:
+		this->messageForUser =
+			"You have typed wrong command! Choose one of the numbers above and press enter.";
+		break;
 	}
-	else if (menuChoice == '2')
-	{
-		return new NewGameController;
-	}
-	else if (menuChoice == '3')
-	{
-		return new GraveyardController;
-	}
-	else if (menuChoice == '4')
-	{
-		return new AboutController;
-	}
-	else if (menuChoice == '5')
-	{
-		return nullptr;
-	}
-	return this;
 }
 
 void MainMenuController::printScreen()
 {
 	cout << "\tTerminal Roguelike\n\n";
 	cout << "Click the number to chose an option\n";
+	printMenuOptions();
+	printMessageForUser();
+	cout << ">";
+}
+
+void MainMenuController::printMenuOptions()
+{
 	cout << "1. Continue\n"
 		"2. New game\n"
 		"3. Graveyard\n"
 		"4. About\n"
 		"5. Exit\n";
-	//additionalInfo = "\n" + additionalInfo;
-	//cout << additionalInfo + ">";
-	cout << "\n>";
 }

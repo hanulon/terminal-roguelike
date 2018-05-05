@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "NewGameController.h"
 
+string NewGameController::playerSheet;
+int NewGameController::attributePointsLeft;
+int NewGameController::skillPointsLeft;
 
 NewGameController::NewGameController()
 {
@@ -11,56 +14,78 @@ NewGameController::~NewGameController()
 {
 }
 
-Controller* NewGameController::main()
+Controller* NewGameController::processUserInput()
 {
 	string command;
 	getline(cin, command);
-	command = trim(command);
+	interpretCommand(trim(command));
+	return returnedController;
+}
+
+void NewGameController::updatePlayerSheet(string sheet)
+{
+	playerSheet = sheet;
+}
+
+void NewGameController::updateCreationPointsLeft(int attributePoints, int skillPoints)
+{
+	attributePointsLeft = attributePoints;
+	skillPointsLeft = skillPoints;
+}
+
+void NewGameController::interpretCommand(string command)
+{
 	if (command == "finished")
-	{
-		cout << "Procedure of saving and starting the game" << endl;
-		system("pause");
-		return new GameplayController;
-	}
+		return finishCmd();
 	else if (command == "abort")
-		return new MainMenuController;
+		returnedController = new MainMenuController;
 	else
+		interpretCommandWithArguments(command);
+}
+
+void NewGameController::finishCmd()
+{
+	cout << "Procedure of saving and starting the game" << endl;
+	system("pause");
+	returnedController = new GameplayController;
+}
+
+void NewGameController::interpretCommandWithArguments(string command)
+{
+	vector <string> tokenizedCommand = splitString(command);
+	if (tokenizedCommand[0] == "name")
+		linkWithModel.changeNewCharacterName(trim(command.substr(5)));
+	else if (tokenizedCommand.size() == 2)
+		interpretTwoArgumentedCommand(tokenizedCommand[0], tokenizedCommand[1]);
+	returnedController = this;
+}
+
+void NewGameController::interpretTwoArgumentedCommand(string firstCommandToken, string secondCommandToken)
+{
+	try
 	{
-		vector <string> tokenizedCommand = splitString(command);
-		if (tokenizedCommand[0] == "name")
-		{
-			userControllerMessage.actionType = NameChanged;
-			userControllerMessage.name = command.substr(5);
-		}
-		else if (tokenizedCommand.size() == 2)
-		{
-			processTwoArgsNewGameCommand(tokenizedCommand[0], tokenizedCommand[1]);
-		}
-		return this;
+		int value = stoi(secondCommandToken);
+		linkWithModel.changeNewHeroAttributeSkill(firstCommandToken, value);
 	}
+	catch (const std::exception&) {}
 }
 
 void NewGameController::printScreen()
 {
 	cout << playerSheet << endl;
 	cout << "Attribute points left: " << attributePointsLeft << endl <<
-		"Skill points left: " << skillPointsLeft << endl <<
-		"Instruction: assign skill and attribute points to your statistics, by typing: 'skill_name desired_value' and hitting 'enter'. Example: Might 3" << endl <<
-		"Type 'name character_name' to give your character a new name, example: 'name Zdzislaw'" << endl <<
-		"Type 'finished' and hit enter, when you are ready to start the game." << endl <<
-		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl << ">";
+		"Skill points left: " << skillPointsLeft << endl;
+	printInstruction();
+	printMessageForUser();
+	cout << ">";
 }
 
-void NewGameController::processTwoArgsNewGameCommand(string firstCommandToken, string secondCommandToken)
+void NewGameController::printInstruction()
 {
-	try
-	{
-		int value = stoi(secondCommandToken);
-		userControllerMessage.actionType = AttrSkillChanged;
-		userControllerMessage.attributeSkillName = firstCommandToken;
-		userControllerMessage.value = value;
-	}
-	catch (const std::exception&) {}
+	cout << "Instruction: assign skill and attribute points to your statistics, by typing: 'skill_name desired_value' and hitting 'enter'. Example: Might 3" << endl <<
+		"Type 'name character_name' to give your character a new name, example: 'name Zdzislaw'" << endl <<
+		"Type 'finished' and hit enter, when you are ready to start the game." << endl <<
+		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl;
 }
 
 vector<string> NewGameController::splitString(string splitted)

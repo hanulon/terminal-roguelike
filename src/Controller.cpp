@@ -3,16 +3,11 @@
 #include "Controller.h"
 
 
-UserControllerMessage Controller::userControllerMessage;
-string Controller::gameMapState;
-string Controller::playerSheet;
-string Controller::playerShortInfo;
-int Controller::attributePointsLeft;
-int Controller::skillPointsLeft;
+ControllerToModelConnector Controller::linkWithModel;
 
 Controller::Controller()
 {
-	skillPointsLeft = 0;
+	returnedController = this;
 }
 
 
@@ -26,13 +21,9 @@ void Controller::refresh()
 	printScreen();
 }
 
-void Controller::updateAll(string gameMap, string sheet, string shortInfo, int attributePoints, int skillPoints)
+ControllerToModelConnector * Controller::getLink()
 {
-	gameMapState = gameMap;
-	playerSheet = sheet;
-	playerShortInfo = shortInfo;
-	attributePointsLeft = attributePoints;
-	skillPointsLeft = skillPoints;
+	return &linkWithModel;
 }
 
 void Controller::pressAnyKey()
@@ -60,4 +51,13 @@ void Controller::clearScreen()
 	#ifdef LINUX
 		system("clear");
 	#endif
+}
+
+void Controller::printMessageForUser()
+{
+	if (messageForUser.length() > 0)
+	{
+		cout << endl << this->messageForUser << endl;
+		this->messageForUser = "";
+	}
 }

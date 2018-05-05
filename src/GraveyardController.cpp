@@ -11,7 +11,7 @@ GraveyardController::~GraveyardController()
 {
 }
 
-Controller * GraveyardController::main()
+Controller * GraveyardController::processUserInput()
 {
 	pressAnyKey();
 	return new MainMenuController;

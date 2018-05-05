@@ -8,17 +8,17 @@ Creature::Creature(string name)
 	this->name = name;
 	this->characterHealth.currentHealthPoints = this->characterHealth.maximumHealthPoints = 1;
 	this->armorClass = 0;
-	this->combatSkills.push_back(Skill("Close Combat", Might));
-	this->combatSkills.push_back(Skill("Evade", Dexterity));
-	this->combatSkills.push_back(Skill("Firearms", Dexterity));
-	this->combatSkills.push_back(Skill("Parry", Might));
-	this->otherSkills.push_back(Skill("Athletics", Might));
-	this->otherSkills.push_back(Skill("Hacking", Smarts));
-	this->otherSkills.push_back(Skill("Hide", Dexterity));
-	this->otherSkills.push_back(Skill("Knowledge", Smarts));
-	this->otherSkills.push_back(Skill("Perception", Smarts));
-	this->otherSkills.push_back(Skill("Persuasion", Smarts));
-	this->otherSkills.push_back(Skill("Thievery", Dexterity));
+	this->combatSkills.push_back(Skill("Close Combat", Attributes::Might));
+	this->combatSkills.push_back(Skill("Evade", Attributes::Dexterity));
+	this->combatSkills.push_back(Skill("Firearms", Attributes::Dexterity));
+	this->combatSkills.push_back(Skill("Parry", Attributes::Might));
+	this->otherSkills.push_back(Skill("Athletics", Attributes::Might));
+	this->otherSkills.push_back(Skill("Hacking", Attributes::Smarts));
+	this->otherSkills.push_back(Skill("Hide", Attributes::Dexterity));
+	this->otherSkills.push_back(Skill("Knowledge", Attributes::Smarts));
+	this->otherSkills.push_back(Skill("Perception", Attributes::Smarts));
+	this->otherSkills.push_back(Skill("Persuasion", Attributes::Smarts));
+	this->otherSkills.push_back(Skill("Thievery", Attributes::Dexterity));
 }
 
 Creature::~Creature(){}

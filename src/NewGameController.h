@@ -7,11 +7,22 @@ public:
 	NewGameController();
 	~NewGameController();
 
-	Controller* main();
+	Controller* processUserInput();
+
+	static void updatePlayerSheet(string sheet);
+	static void updateCreationPointsLeft(int attributePoints, int skillPoints);
 
 private:
+	void interpretCommand(string command);
+	void finishCmd();
+	void interpretCommandWithArguments(string command);
+	void interpretTwoArgumentedCommand(string firstCommandToken, string secondCommandToken);
 	void printScreen();
-	void processTwoArgsNewGameCommand(string firstCommandToken, string secondCommandToken);
+	void printInstruction();
 	vector <string> splitString(string splitted);
+
+	static string playerSheet;
+	static int attributePointsLeft;
+	static int skillPointsLeft;
 };
 

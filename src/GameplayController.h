@@ -7,8 +7,11 @@ public:
 	GameplayController();
 	~GameplayController();
 
-	Controller* main();
+	Controller* processUserInput();
 
+	static void updateMapAndOtherInfo(string gameMap, string shortPlayerInfo);
+
+private:
 	enum KeyCodes
 	{
 		Key_Escape = 27,
@@ -25,8 +28,11 @@ public:
 		Arrow_Up = 72
 	};
 
-private:
-	void printScreen();
+	static string gameMapState;
+	static string playerShortInfo;
+
 	Point playerMakesStep(ArrowKey arrowKey);
+	void realizeUndocumentedComment(int keyPressed);
+	void printScreen();
 };
 

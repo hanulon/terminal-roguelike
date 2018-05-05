@@ -7,7 +7,7 @@ public:
 	AboutController();
 	~AboutController();
 
-	Controller* main();
+	Controller* processUserInput();
 
 private:
 	void printScreen();

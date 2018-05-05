@@ -7,7 +7,7 @@ public:
 	GraveyardController();
 	~GraveyardController();
 
-	Controller* main();
+	Controller* processUserInput();
 
 private:
 	void printScreen();

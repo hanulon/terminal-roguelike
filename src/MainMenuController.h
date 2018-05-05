@@ -7,9 +7,11 @@ public:
 	MainMenuController();
 	~MainMenuController();
 
-	Controller* main();
+	Controller* processUserInput();
 
 private:
+	void selectMenu(char userChoice);
 	void printScreen();
+	void printMenuOptions();
 };
 
