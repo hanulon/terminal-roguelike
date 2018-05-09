@@ -13,13 +13,14 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
-	testMapInitialization();
 
 	this->enemyCharacter = new NonPlayerCharacter("Enemy",true);
 	this->enemyCharacter->testInitialization();
 	this->friendlyCharacter = new NonPlayerCharacter("Friend", false);
 	this->npcVector.push_back(this->enemyCharacter);
 	this->npcVector.push_back(this->friendlyCharacter);
+
+	testMapInitialization();
 }
 
 TerminalScreen::~TerminalScreen(){}
