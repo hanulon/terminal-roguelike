@@ -30,20 +30,20 @@ void Map::testingMapInitialization()
 	}
 }
 
-void Map::addCreatureToMap(Creature * creature, Point position)
+void Map::addObstacleToMap(MapObstacle * obstacle, Point position)
 {
-	map[position.y][position.x].addCreature(creature);
+	map[position.y][position.x].addOccupant(obstacle);
 }
 
-void Map::removeCreatureFromMapTile(Point position)
+void Map::removeObstacleFromMapTile(Point position)
 {
-	this->map[position.y][position.x].removeCreature();
+	this->map[position.y][position.x].removeOccupant();
 }
 
-void Map::moveCreatureToDesiredPosition(Creature * creature, Point position)
+void Map::moveCreatureToDesiredPosition(MapObstacle * creature, Point position)
 {
-	removeCreatureFromMapTile(creature->getMapPosition());
-	addCreatureToMap(creature, position);
+	removeObstacleFromMapTile(creature->getMapPosition());
+	addObstacleToMap(creature, position);
 }
 
 bool Map::isTheTileOccupied(Point position)
@@ -56,10 +56,10 @@ bool Map::isTheTileOccupied(Point position)
 	return false;
 }
 
-Creature * Map::getCreatureFrom(Point position)
+MapObstacle * Map::getObstacleFrom(Point position)
 {
 	if (isTheTileOccupied(position) == true)
-		return getTileByCoordinates(position)->getCreature();
+		return getTileByCoordinates(position)->getOccupant();
 	return nullptr;
 }
 

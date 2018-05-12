@@ -1,20 +1,20 @@
 #pragma once
-#include "Creature.h"
+#include "MapObstacle.h"
 
 class Tile
 {
 public:
 	char getGraphic();
 	void clearTile();
-	void addCreature(Creature* creatureOnMe);
-	void removeCreature();
-	Creature* getCreature();
+	void addOccupant(MapObstacle* obstacle);
+	void removeOccupant();
+	MapObstacle* getOccupant();
 
 	Tile();
 	~Tile();
 
 private:
 	char graphic;
-	Creature* creatureOnTile;
+	MapObstacle* tileOccupant;
 };
 

@@ -1,25 +1,22 @@
 #pragma once
 
+#include "MapObstacle.h"
 #include "Attributes.h"
 #include "Skill.h"
 #include "Health.h"
 
-class Creature
+class Creature : public MapObstacle
 {
 public:
 	Creature(std::string name);
-	virtual ~Creature();
+	~Creature();
 
-	char getNameFirstLetter();
 	std::string getCharacterSheet();
 	std::string getGeneralInfo();
 	void setMaximumHealthPoints(int healthPoints);
 	void setCurrentHealthPoints(int healthPoints);
 	void setArmorClass(int armorClass);
 	void setAttributes(int might, int dexterity, int smarts);
-	void setName(std::string name);
-	void setMapPosition(Point position);
-	Point getMapPosition();
 
 	void setCombatSkillByName(std::string skillName, int value);
 	void setOtherSkillByName(std::string skillName, int value);
@@ -28,10 +25,8 @@ public:
 	void testInitialization();
 protected:
 	Attributes attributes;
-	Point mapPosition;
 private:
 	Health characterHealth;
-	std::string name;
 	int armorClass;
 	std::vector <Skill> combatSkills;
 	std::vector <Skill> otherSkills;

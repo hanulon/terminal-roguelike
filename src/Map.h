@@ -9,11 +9,11 @@ public:
 
 	std::string printMap();
 	void testingMapInitialization();
-	void addCreatureToMap(Creature* creature, Point position);
-	void removeCreatureFromMapTile(Point position);
-	void moveCreatureToDesiredPosition(Creature* creature, Point position);
+	void addObstacleToMap(MapObstacle* obstacle, Point position);
+	void removeObstacleFromMapTile(Point position);
+	void moveCreatureToDesiredPosition(MapObstacle* creature, Point position);
 	bool isTheTileOccupied(Point position);
-	Creature* getCreatureFrom(Point position);
+	MapObstacle* getObstacleFrom(Point position);
 	bool areCoordinatesWithinBonds(Point position);
 
 private:

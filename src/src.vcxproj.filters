@@ -84,6 +84,9 @@
     <ClInclude Include="NonPlayerCharacter.h">
       <Filter>Header Files\ObjectsOnMap</Filter>
     </ClInclude>
+    <ClInclude Include="MapObstacle.h">
+      <Filter>Header Files\ObjectsOnMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files\ObjectsOnMap</Filter>
     </ClCompile>
     <ClCompile Include="NonPlayerCharacter.cpp">
+      <Filter>Source Files\ObjectsOnMap</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObstacle.cpp">
       <Filter>Source Files\ObjectsOnMap</Filter>
     </ClCompile>
   </ItemGroup>

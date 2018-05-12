@@ -156,6 +156,7 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="MainMenuController.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapObstacle.h" />
     <ClInclude Include="NewGameController.h" />
     <ClInclude Include="NonPlayerCharacter.h" />
     <ClInclude Include="Point.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuController.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapObstacle.cpp" />
     <ClCompile Include="NewGameController.cpp" />
     <ClCompile Include="NonPlayerCharacter.cpp" />
     <ClCompile Include="Point.cpp" />

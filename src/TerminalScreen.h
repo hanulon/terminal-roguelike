@@ -18,6 +18,7 @@ private:
 	Hero* playerCharacter;
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
+	MapObstacle* immovableObstacle;
 	Map* gameMap;
 	Controller* userInterface;
 	ControllerToModelConnector* linkFromController;
@@ -31,9 +32,11 @@ private:
 	void npcsTakeActions();
 	void playerMakesMove(Point step);
 	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
+	void playerCrashesObstacle(Hero* playerCharacter, MapObstacle* obstacle);
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void npcCrashesNpc(NonPlayerCharacter* npc, NonPlayerCharacter* otherNpc);
+	void npcCrashesObstacle(NonPlayerCharacter* npc, MapObstacle* obstacle);
 	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
 };
 

@@ -3,9 +3,8 @@
 
 using namespace std;
 
-Creature::Creature(string name)
+Creature::Creature(string name) : MapObstacle(name)
 {
-	this->name = name;
 	this->characterHealth.currentHealthPoints = this->characterHealth.maximumHealthPoints = 1;
 	this->armorClass = 0;
 	this->combatSkills.push_back(Skill("Close Combat", Attributes::Might));
@@ -23,10 +22,6 @@ Creature::Creature(string name)
 
 Creature::~Creature(){}
 
-char Creature::getNameFirstLetter()
-{
-	return this->name[0];
-}
 
 string Creature::getCharacterSheet()
 {
@@ -69,21 +64,6 @@ void Creature::setArmorClass(int armorClass)
 void Creature::setAttributes(int might, int dexterity, int smarts)
 {
 	this->attributes.setAttributes(might, dexterity, smarts);
-}
-
-void Creature::setName(std::string name)
-{
-	this->name = name;
-}
-
-void Creature::setMapPosition(Point position)
-{
-	this->mapPosition = position;
-}
-
-Point Creature::getMapPosition()
-{
-	return this->mapPosition;
 }
 
 void Creature::setCombatSkillByName(std::string skillName, int value)

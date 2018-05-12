@@ -5,7 +5,7 @@
 Tile::Tile()
 {
 	this->graphic = '#';
-	this->creatureOnTile = nullptr;
+	this->tileOccupant = nullptr;
 }
 
 Tile::~Tile(){}
@@ -20,19 +20,19 @@ void Tile::clearTile()
 	this->graphic = 0;
 }
 
-void Tile::addCreature(Creature* creatureOnMe)
+void Tile::addOccupant(MapObstacle* obstacle)
 {
-	this->creatureOnTile = creatureOnMe;
-	this->graphic = creatureOnMe->getNameFirstLetter();
+	this->tileOccupant = obstacle;
+	this->graphic = obstacle->getNameFirstLetter();
 }
 
-void Tile::removeCreature()
+void Tile::removeOccupant()
 {
-	this->creatureOnTile = nullptr;
+	this->tileOccupant = nullptr;
 	clearTile();
 }
 
-Creature * Tile::getCreature()
+MapObstacle * Tile::getOccupant()
 {
-	return this->creatureOnTile;
+	return this->tileOccupant;
 }

@@ -20,6 +20,8 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->npcVector.push_back(this->enemyCharacter);
 	this->npcVector.push_back(this->friendlyCharacter);
 
+	this->immovableObstacle = new MapObstacle("Column");
+
 	testMapInitialization();
 }
 
@@ -42,10 +44,12 @@ void TerminalScreen::testMapInitialization()
 	playerCharacter->setMapPosition(Point(10, 4));
 	enemyCharacter->setMapPosition(Point(15, 7));
 	friendlyCharacter->setMapPosition(Point(4, 15));
+	immovableObstacle->setMapPosition(Point(10, 10));
 
-	gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
+	gameMap->addObstacleToMap(playerCharacter, playerCharacter->getMapPosition());
 	for(int i=0; i<npcVector.size(); i++)
-		gameMap->addCreatureToMap(npcVector[i], npcVector[i]->getMapPosition());
+		gameMap->addObstacleToMap(npcVector[i], npcVector[i]->getMapPosition());
+	gameMap->addObstacleToMap(immovableObstacle, immovableObstacle->getMapPosition());
 }
 
 void TerminalScreen::updateUserController()
@@ -107,11 +111,14 @@ void TerminalScreen::playerMakesMove(Point step)
 	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
 	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
 	{
-		Creature* crashedNpc = gameMap->getCreatureFrom(newPlayerPosition);
-		if (crashedNpc != nullptr)
+		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
+		if (crashedObstacle != nullptr)
 		{
-			NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(crashedNpc);
-			playerCrashesNpc(playerCharacter, npc);
+			NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(crashedObstacle);
+			if (npc != nullptr)
+				playerCrashesNpc(playerCharacter, npc);
+			else
+				playerCrashesObstacle(playerCharacter, crashedObstacle);
 		}
 	}
 	else
@@ -130,22 +137,30 @@ void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter
 	system("pause");
 }
 
+void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle * obstacle)
+{
+	cout << "Player crashed immovable obstacle: " << obstacle->getName() << "\n";
+	system("pause");
+}
+
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)
 {
 	Point npcNewPosition = npc->tryToMove();
 	if (this->gameMap->isTheTileOccupied(npcNewPosition))
 	{
-		Creature* crashedCreature = gameMap->getCreatureFrom(npcNewPosition);
-		NonPlayerCharacter* anotherNpc = dynamic_cast<NonPlayerCharacter*>(crashedCreature);
-		if (anotherNpc != nullptr)
+		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(npcNewPosition);
+		if (crashedObstacle != nullptr)
 		{
-			npcCrashesNpc(npc, anotherNpc);
-		}
-		else
-		{
-			Hero* hero = dynamic_cast<Hero*>(crashedCreature);
-			if (hero != nullptr)
-				npcCrashesPlayer(hero, npc);
+			NonPlayerCharacter* anotherNpc = dynamic_cast<NonPlayerCharacter*>(crashedObstacle);
+			if (anotherNpc != nullptr)
+				npcCrashesNpc(npc, anotherNpc);
+			else
+			{
+				Hero* hero = dynamic_cast<Hero*>(crashedObstacle);
+				if (hero != nullptr)
+					npcCrashesPlayer(hero, npc);
+				else npcCrashesObstacle(npc, crashedObstacle);
+			}
 		}
 	}
 	else
@@ -167,6 +182,12 @@ void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter
 void TerminalScreen::npcCrashesNpc(NonPlayerCharacter * npc, NonPlayerCharacter * otherNpc)
 {
 	cout << "One npc crashed another npc!" << endl;
+	system("pause");
+}
+
+void TerminalScreen::npcCrashesObstacle(NonPlayerCharacter * npc, MapObstacle * obstacle)
+{
+	cout << "Npc crashed immovable obstacle: " << obstacle->getName() << "\n";
 	system("pause");
 }
 
