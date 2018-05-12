@@ -12,24 +12,36 @@ NonPlayerCharacter::~NonPlayerCharacter()
 {
 }
 
+Point NonPlayerCharacter::tryToMove()
+{
+	myNewPosition = mapPosition;
+	moveInCircle();
+	return myNewPosition;
+}
+
+void NonPlayerCharacter::makeTriedMove()
+{
+	mapPosition = myNewPosition;
+}
+
 void NonPlayerCharacter::moveInCircle()
 {
 	switch (circlePosition)
 	{
 	case 0:
-		mapPosition.x++;
+		myNewPosition.x++;
 		circlePosition++;
 		break;
 	case 1:
-		mapPosition.y++;
+		myNewPosition.y++;
 		circlePosition++;
 		break;
 	case 2:
-		mapPosition.x--;
+		myNewPosition.x--;
 		circlePosition++;
 		break;
 	case 3:
-		mapPosition.y--;
+		myNewPosition.y--;
 		circlePosition = 0;
 		break;
 	default:

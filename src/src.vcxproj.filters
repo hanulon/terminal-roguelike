@@ -19,6 +19,12 @@
     <Filter Include="Source Files\UserInterface">
       <UniqueIdentifier>{838ce1df-b303-43d6-92c6-3d5a182a0d66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ObjectsOnMap">
+      <UniqueIdentifier>{a39576df-c69e-42a7-be40-302671f27961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ObjectsOnMap">
+      <UniqueIdentifier>{7afd971d-5494-44a4-bd7b-d3b2af9f16b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -30,9 +36,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Creature.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Attributes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,16 +45,10 @@
     <ClInclude Include="Health.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Hero.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TerminalScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NonPlayerCharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
@@ -78,6 +75,15 @@
     <ClInclude Include="ControllerToModelConnector.h">
       <Filter>Header Files\UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Header Files\ObjectsOnMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Hero.h">
+      <Filter>Header Files\ObjectsOnMap</Filter>
+    </ClInclude>
+    <ClInclude Include="NonPlayerCharacter.h">
+      <Filter>Header Files\ObjectsOnMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -89,9 +95,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Creature.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Attributes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,16 +104,10 @@
     <ClCompile Include="Health.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TerminalScreen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NonPlayerCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Point.cpp">
@@ -136,6 +133,15 @@
     </ClCompile>
     <ClCompile Include="ControllerToModelConnector.cpp">
       <Filter>Source Files\UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>Source Files\ObjectsOnMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Hero.cpp">
+      <Filter>Source Files\ObjectsOnMap</Filter>
+    </ClCompile>
+    <ClCompile Include="NonPlayerCharacter.cpp">
+      <Filter>Source Files\ObjectsOnMap</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

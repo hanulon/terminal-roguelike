@@ -11,7 +11,9 @@ public:
 	void testingMapInitialization();
 	void addCreatureToMap(Creature* creature, Point position);
 	void removeCreatureFromMapTile(Point position);
+	void moveCreatureToDesiredPosition(Creature* creature, Point position);
 	bool isTheTileOccupied(Point position);
+	Creature* getCreatureFrom(Point position);
 	bool areCoordinatesWithinBonds(Point position);
 
 private:

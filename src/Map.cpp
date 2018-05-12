@@ -40,6 +40,12 @@ void Map::removeCreatureFromMapTile(Point position)
 	this->map[position.y][position.x].removeCreature();
 }
 
+void Map::moveCreatureToDesiredPosition(Creature * creature, Point position)
+{
+	removeCreatureFromMapTile(creature->getMapPosition());
+	addCreatureToMap(creature, position);
+}
+
 bool Map::isTheTileOccupied(Point position)
 {
 	Tile* tile = getTileByCoordinates(position);
@@ -48,6 +54,13 @@ bool Map::isTheTileOccupied(Point position)
 	if (tile->getGraphic() != 0)
 		return true;
 	return false;
+}
+
+Creature * Map::getCreatureFrom(Point position)
+{
+	if (isTheTileOccupied(position) == true)
+		return getTileByCoordinates(position)->getCreature();
+	return nullptr;
 }
 
 bool Map::areCoordinatesWithinBonds(Point position)

@@ -41,6 +41,11 @@ void GameplayController::updateMapAndOtherInfo(string gameMap, string shortPlaye
 	playerShortInfo = shortPlayerInfo;
 }
 
+void GameplayController::updateMap(string gameMap)
+{
+	gameMapState = gameMap;
+}
+
 Point GameplayController::playerMakesStep(ArrowKey arrowKey)
 {
 	Point step;

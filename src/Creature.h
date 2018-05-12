@@ -8,7 +8,7 @@ class Creature
 {
 public:
 	Creature(std::string name);
-	~Creature();
+	virtual ~Creature();
 
 	char getNameFirstLetter();
 	std::string getCharacterSheet();

@@ -8,6 +8,7 @@ public:
 	void clearTile();
 	void addCreature(Creature* creatureOnMe);
 	void removeCreature();
+	Creature* getCreature();
 
 	Tile();
 	~Tile();

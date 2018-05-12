@@ -5,6 +5,7 @@
 Tile::Tile()
 {
 	this->graphic = '#';
+	this->creatureOnTile = nullptr;
 }
 
 Tile::~Tile(){}
@@ -27,6 +28,11 @@ void Tile::addCreature(Creature* creatureOnMe)
 
 void Tile::removeCreature()
 {
-	this->creatureOnTile = NULL;
+	this->creatureOnTile = nullptr;
 	clearTile();
+}
+
+Creature * Tile::getCreature()
+{
+	return this->creatureOnTile;
 }

@@ -96,7 +96,7 @@ void TerminalScreen::npcsTakeActions()
 {
 	for (int i = 0; i < npcVector.size(); i++)
 	{
-		GameplayController::updateMapAndOtherInfo(gameMap->printMap(), npcVector[i]->getGeneralInfo());
+		GameplayController::updateMap(gameMap->printMap());
 		userInterface->refresh();
 		npcMakesMove(npcVector[i]);
 	}
@@ -107,61 +107,67 @@ void TerminalScreen::playerMakesMove(Point step)
 	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
 	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
 	{
-		for (int i = 0; i < npcVector.size(); i++)
-			playerCrashesNPC(playerCharacter, step, npcVector[i]);
+		Creature* crashedNpc = gameMap->getCreatureFrom(newPlayerPosition);
+		if (crashedNpc != nullptr)
+		{
+			NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(crashedNpc);
+			playerCrashesNpc(playerCharacter, npc);
+		}
 	}
 	else
 	{
-		gameMap->removeCreatureFromMapTile(playerCharacter->getMapPosition());
+		gameMap->moveCreatureToDesiredPosition(playerCharacter, newPlayerPosition);
 		playerCharacter->setMapPosition(newPlayerPosition);
-		gameMap->addCreatureToMap(playerCharacter, playerCharacter->getMapPosition());
 	}
 }
 
-bool TerminalScreen::playerCrashesNPC(Hero * playerCharacter, Point playerStep, NonPlayerCharacter * npc)
+void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter * npc)
 {
-	Point enemyPosition = npc->getMapPosition();
-	Point newPlayerPosition = playerCharacter->getMapPosition() + playerStep;
-	if (newPlayerPosition == enemyPosition)
-	{
-		if(npc->isEnemy)
-			cout << "Player attacked enemy!" << endl;
-		else
-			cout << "Player contacted friendly NPC!" << endl;
-		system("pause");
-		return true;
-	}
+	if (npc->isEnemy)
+		cout << "Player attacked enemy!" << endl;
 	else
-		return false;
+		cout << "Player contacted friendly NPC!" << endl;
+	system("pause");
 }
 
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)
 {
-	Point npcStartingPosition = npc->getMapPosition();
-	npc->moveInCircle();
-	Point npcNewPosition = npc->getMapPosition();
+	Point npcNewPosition = npc->tryToMove();
 	if (this->gameMap->isTheTileOccupied(npcNewPosition))
 	{
-		npcCrashesPlayer(playerCharacter, npc);
-		npc->setMapPosition(npcStartingPosition);
+		Creature* crashedCreature = gameMap->getCreatureFrom(npcNewPosition);
+		NonPlayerCharacter* anotherNpc = dynamic_cast<NonPlayerCharacter*>(crashedCreature);
+		if (anotherNpc != nullptr)
+		{
+			npcCrashesNpc(npc, anotherNpc);
+		}
+		else
+		{
+			Hero* hero = dynamic_cast<Hero*>(crashedCreature);
+			if (hero != nullptr)
+				npcCrashesPlayer(hero, npc);
+		}
 	}
 	else
 	{
-		gameMap->removeCreatureFromMapTile(npcStartingPosition);
-		gameMap->addCreatureToMap(npc, npcNewPosition);
+		gameMap->moveCreatureToDesiredPosition(npc, npcNewPosition);
+		npc->makeTriedMove();
 	}
 }
 
 void TerminalScreen::npcCrashesPlayer(Hero * playerCharacter, NonPlayerCharacter * npc)
 {
-	if (playerCharacter->getMapPosition() == npc->getMapPosition())
-	{
-		if (npc->isEnemy)
-			cout << "Enemy attacked player!" << endl;
-		else
-			cout << "Friendly NPC contacted player!" << endl;
-		system("pause");
-	}
+	if (npc->isEnemy)
+		cout << "Enemy attacked player!" << endl;
+	else
+		cout << "Friendly NPC contacted player!" << endl;
+	system("pause");
+}
+
+void TerminalScreen::npcCrashesNpc(NonPlayerCharacter * npc, NonPlayerCharacter * otherNpc)
+{
+	cout << "One npc crashed another npc!" << endl;
+	system("pause");
 }
 
 void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)

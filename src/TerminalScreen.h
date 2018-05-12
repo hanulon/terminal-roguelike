@@ -30,9 +30,10 @@ private:
 	void endTurn();
 	void npcsTakeActions();
 	void playerMakesMove(Point step);
-	bool playerCrashesNPC(Hero* playerCharacter, Point playerStep, NonPlayerCharacter* npc);
+	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
+	void npcCrashesNpc(NonPlayerCharacter* npc, NonPlayerCharacter* otherNpc);
 	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
 };
 

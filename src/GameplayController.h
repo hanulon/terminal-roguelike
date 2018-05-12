@@ -10,6 +10,7 @@ public:
 	Controller* processUserInput();
 
 	static void updateMapAndOtherInfo(string gameMap, string shortPlayerInfo);
+	static void updateMap(string gameMap);
 
 private:
 	enum KeyCodes
