@@ -51,7 +51,7 @@ bool Map::isTheTileOccupied(Point position)
 	Tile* tile = getTileByCoordinates(position);
 	if (tile == nullptr)
 		return true;
-	if (tile->getGraphic() != 0)
+	if (tile->getGraphic() == '#' || tile->getOccupant() != nullptr)
 		return true;
 	return false;
 }
@@ -68,6 +68,16 @@ bool Map::areCoordinatesWithinBonds(Point position)
 	if (position.x >= 0 && position.x < mapWidth && position.y >= 0 && position.y < mapHeight)
 		return true;
 	return false;
+}
+
+std::string Map::getItemsNamesFrom(Point position)
+{
+	return getTileByCoordinates(position)->getItemsNames();
+}
+
+void Map::addItemTo(Point position, Item newItem)
+{
+	getTileByCoordinates(position)->addItem(newItem);
 }
 
 Tile * Map::getTileByCoordinates(Point coords)

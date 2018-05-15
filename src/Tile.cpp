@@ -29,10 +29,30 @@ void Tile::addOccupant(MapObstacle* obstacle)
 void Tile::removeOccupant()
 {
 	this->tileOccupant = nullptr;
-	clearTile();
+	if (tileItems.size() > 0)
+		this->graphic = tileItems[0].getName()[0];
+	else
+		clearTile();
 }
 
 MapObstacle * Tile::getOccupant()
 {
 	return this->tileOccupant;
+}
+
+std::string Tile::getItemsNames()
+{
+	std::string itemsNames = "";
+	for (int i = 0; i < tileItems.size(); i++)
+	{
+		itemsNames += tileItems[i].getName() + "\n";
+	}
+	return itemsNames;
+}
+
+void Tile::addItem(Item newItem)
+{
+	this->tileItems.push_back(newItem);
+	if (graphic == 0)
+		this->graphic = newItem.getName()[0];
 }

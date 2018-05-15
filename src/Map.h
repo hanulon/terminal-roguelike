@@ -15,6 +15,8 @@ public:
 	bool isTheTileOccupied(Point position);
 	MapObstacle* getObstacleFrom(Point position);
 	bool areCoordinatesWithinBonds(Point position);
+	std::string getItemsNamesFrom(Point position);
+	void addItemTo(Point position, Item newItem);
 
 private:
 	static const unsigned int mapHeight = 20;

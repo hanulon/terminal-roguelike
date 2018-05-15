@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "ControllerToModelConnector.h"
 #include "Controller.h"
+#include "Item.h"
 
 class TerminalScreen
 {
@@ -19,6 +20,7 @@ private:
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	MapObstacle* immovableObstacle;
+	Item* droppedItem;
 	Map* gameMap;
 	Controller* userInterface;
 	ControllerToModelConnector* linkFromController;

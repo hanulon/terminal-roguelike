@@ -26,6 +26,11 @@ ControllerToModelConnector * Controller::getLink()
 	return &linkWithModel;
 }
 
+void Controller::updateMessageForUser(std::string message)
+{
+	this->messageForUser = message;
+}
+
 void Controller::pressAnyKey()
 {
 	cout << "Press any key to return to the menu...";

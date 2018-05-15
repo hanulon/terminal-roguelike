@@ -21,6 +21,7 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->npcVector.push_back(this->friendlyCharacter);
 
 	this->immovableObstacle = new MapObstacle("Column");
+	this->droppedItem = new Item("Loot");
 
 	testMapInitialization();
 }
@@ -45,6 +46,7 @@ void TerminalScreen::testMapInitialization()
 	enemyCharacter->setMapPosition(Point(15, 7));
 	friendlyCharacter->setMapPosition(Point(4, 15));
 	immovableObstacle->setMapPosition(Point(10, 10));
+	this->gameMap->addItemTo(Point(10, 12), *droppedItem);
 
 	gameMap->addObstacleToMap(playerCharacter, playerCharacter->getMapPosition());
 	for(int i=0; i<npcVector.size(); i++)
@@ -92,8 +94,11 @@ void TerminalScreen::endTurn()
 {
 	Point playerStep = linkFromController->getPlayerStep();
 	if (!(playerStep == Point()))
+	{
 		playerMakesMove(playerStep);
+	}
 	npcsTakeActions();
+	userInterface->updateMessageForUser(gameMap->getItemsNamesFrom(playerCharacter->getMapPosition()));
 }
 
 void TerminalScreen::npcsTakeActions()

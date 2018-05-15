@@ -14,6 +14,7 @@ public:
 	virtual Controller* processUserInput() = 0;
 	virtual void refresh();
 	ControllerToModelConnector* getLink();
+	void updateMessageForUser(std::string message);
 
 protected:
 	virtual void printScreen() = 0;

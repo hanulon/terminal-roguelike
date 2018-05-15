@@ -87,6 +87,9 @@
     <ClInclude Include="MapObstacle.h">
       <Filter>Header Files\ObjectsOnMap</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="MapObstacle.cpp">
       <Filter>Source Files\ObjectsOnMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
