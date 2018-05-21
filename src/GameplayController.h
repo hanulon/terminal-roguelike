@@ -18,7 +18,14 @@ private:
 		Key_Escape = 27,
 		Key_Space = 32,
 		Key_F_and_NumpadArrows = 0,
-		Key_Arrows_and_Other = 224
+		Key_Arrows_and_Other = 224,
+		Key_Help_0 = 47,
+		Key_Help_1 = 63,
+		Key_Help_2 = 104,
+		Key_Inventory = 105,
+		Key_Character_Sheet = 112,
+		Key_Shoot = 115,
+		Key_Take_Item = 116
 	};
 
 	enum ArrowKey
@@ -32,6 +39,7 @@ private:
 	static string gameMapState;
 	static string playerShortInfo;
 
+	void displayHelp();
 	Point playerMakesStep(ArrowKey arrowKey);
 	void realizeUndocumentedComment(int keyPressed);
 	void printScreen();

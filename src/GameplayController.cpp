@@ -24,6 +24,23 @@ Controller* GameplayController::processUserInput()
 	case Key_Space:
 		linkWithModel.endTurn();
 		break;
+	case Key_Help_0:
+	case Key_Help_1:
+	case Key_Help_2:
+		displayHelp();
+		break;
+	case Key_Inventory:
+		//inventory screen
+		break;
+	case Key_Character_Sheet:
+		//character sheet screen
+		break;
+	case Key_Shoot:
+		//shooting options
+		break;
+	case Key_Take_Item:
+		//take item
+		break;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
 		linkWithModel.makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
@@ -44,6 +61,18 @@ void GameplayController::updateMapAndOtherInfo(string gameMap, string shortPlaye
 void GameplayController::updateMap(string gameMap)
 {
 	gameMapState = gameMap;
+}
+
+void GameplayController::displayHelp()
+{
+	this->messageForUser = "Player instruction:\n"
+		"Use arrows to move.\n"
+		"Press 'i' to go to inventory screen.\n"
+		"Press 'p' to go to player's character sheet screen.\n"
+		"Press 's' to shoot.\n"
+		"Press 't' to take item on floor.\n"
+		"Press escape key to return to main menu.\n"
+		"Press space key to end turn without moving your character.";
 }
 
 Point GameplayController::playerMakesStep(ArrowKey arrowKey)
@@ -78,5 +107,7 @@ void GameplayController::printScreen()
 {
 	cout << gameMapState;
 	cout << "HERO STATISTICS\n" << playerShortInfo << endl;
+	if (this->messageForUser.length() == 0)
+		this->messageForUser = "Press h or ? to show help.";
 	printMessageForUser();
 }
