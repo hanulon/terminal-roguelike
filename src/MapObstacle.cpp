@@ -36,3 +36,8 @@ Point MapObstacle::getMapPosition()
 {
 	return this->mapPosition;
 }
+
+void MapObstacle::addNewItem(Item newItem)
+{
+	this->possessedItems.push_back(newItem);
+}

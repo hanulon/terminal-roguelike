@@ -10,13 +10,15 @@ public:
 		NoAction,
 		TurnEnded,
 		NameChanged,
-		AttrSkillChanged
+		AttrSkillChanged,
+		TakeItemFromFloor
 	};
 
 	void endTurn();
 	void makePlayerStep(Point step);
 	void changeNewHeroAttributeSkill(std::string attributeSkillName, int value);
 	void changeNewCharacterName(std::string);
+	void takeItemFromYourTile();
 
 	UserAction signalAction();
 	void clearActionSignal();

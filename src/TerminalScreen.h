@@ -30,6 +30,7 @@ private:
 	void updateUserController();
 	void changeViewAndController(Controller* newInterface);
 	void controllerAction();
+	void playerTakeItemFromFloor();
 	void endTurn();
 	void npcsTakeActions();
 	void playerMakesMove(Point step);

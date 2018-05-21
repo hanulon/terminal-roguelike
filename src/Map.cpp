@@ -80,6 +80,11 @@ void Map::addItemTo(Point position, Item newItem)
 	getTileByCoordinates(position)->addItem(newItem);
 }
 
+Item Map::getAndRemoveTopItemFrom(Point position)
+{
+	return getTileByCoordinates(position)->getAndRemoveTopItem();
+}
+
 Tile * Map::getTileByCoordinates(Point coords)
 {
 	if (areCoordinatesWithinBonds(coords))

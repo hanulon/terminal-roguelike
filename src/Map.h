@@ -17,6 +17,7 @@ public:
 	bool areCoordinatesWithinBonds(Point position);
 	std::string getItemsNamesFrom(Point position);
 	void addItemTo(Point position, Item newItem);
+	Item getAndRemoveTopItemFrom(Point position);
 
 private:
 	static const unsigned int mapHeight = 20;

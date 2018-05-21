@@ -74,6 +74,8 @@ void TerminalScreen::controllerAction()
 {
 	switch (linkFromController->signalAction())
 	{
+	case ControllerToModelConnector::TakeItemFromFloor:
+		playerTakeItemFromFloor();
 	case ControllerToModelConnector::TurnEnded:
 		endTurn();
 		break;
@@ -88,6 +90,18 @@ void TerminalScreen::controllerAction()
 		break;
 	}
 	linkFromController->clearActionSignal();
+}
+
+void TerminalScreen::playerTakeItemFromFloor()
+{
+	try
+	{
+		Item takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
+		playerCharacter->addNewItem(takenItem);
+	}
+	catch (const std::exception&)
+	{
+	}
 }
 
 void TerminalScreen::endTurn()

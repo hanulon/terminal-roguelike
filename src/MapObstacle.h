@@ -1,4 +1,6 @@
 #pragma once
+#include "Item.h"
+
 class MapObstacle
 {
 public:
@@ -10,9 +12,11 @@ public:
 	char getNameFirstLetter();
 	void setMapPosition(Point position);
 	Point getMapPosition();
+	void addNewItem(Item newItem);
 
 protected:
 	std::string name;
 	Point mapPosition;
+	vector <Item> possessedItems;
 };
 

@@ -36,6 +36,11 @@ void ControllerToModelConnector::changeNewCharacterName(std::string)
 	this->name = name;
 }
 
+void ControllerToModelConnector::takeItemFromYourTile()
+{
+	this->actionType = TakeItemFromFloor;
+}
+
 ControllerToModelConnector::UserAction ControllerToModelConnector::signalAction()
 {
 	return this->actionType;

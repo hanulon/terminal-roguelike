@@ -39,7 +39,7 @@ Controller* GameplayController::processUserInput()
 		//shooting options
 		break;
 	case Key_Take_Item:
-		//take item
+		linkWithModel.takeItemFromYourTile();
 		break;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:

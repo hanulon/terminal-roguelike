@@ -56,3 +56,14 @@ void Tile::addItem(Item newItem)
 	if (graphic == 0)
 		this->graphic = newItem.getName()[0];
 }
+
+Item Tile::getAndRemoveTopItem()
+{
+	if (tileItems.size() > 0)
+	{
+		Item topItem = this->tileItems.back();
+		this->tileItems.pop_back();
+		return topItem;
+	}
+	throw std::runtime_error("no item to take");
+}

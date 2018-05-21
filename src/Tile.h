@@ -12,6 +12,7 @@ public:
 	MapObstacle* getOccupant();
 	std::string getItemsNames();
 	void addItem(Item newItem);
+	Item getAndRemoveTopItem();
 
 	Tile();
 	~Tile();
