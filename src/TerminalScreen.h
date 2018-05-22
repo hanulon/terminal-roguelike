@@ -20,6 +20,7 @@ private:
 	NonPlayerCharacter* enemyCharacter;
 	NonPlayerCharacter* friendlyCharacter;
 	MapObstacle* immovableObstacle;
+	MapObstacle* computerTerminalObstacle;
 	Item* droppedItem;
 	Map* gameMap;
 	Controller* userInterface;
@@ -34,6 +35,7 @@ private:
 	void endTurn();
 	void npcsTakeActions();
 	void playerMakesMove(Point step);
+	void playerCrashesSomething(MapObstacle* obstacle);
 	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void playerCrashesObstacle(Hero* playerCharacter, MapObstacle* obstacle);
 	void npcMakesMove(NonPlayerCharacter* npc);

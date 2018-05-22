@@ -21,6 +21,10 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->npcVector.push_back(this->friendlyCharacter);
 
 	this->immovableObstacle = new MapObstacle("Column");
+	this->computerTerminalObstacle = new MapObstacle("Terminal-Computer");
+	this->computerTerminalObstacle->addNewItem(Item("Disk1"));
+	this->computerTerminalObstacle->addNewItem(Item("Disk2"));
+	this->computerTerminalObstacle->addNewItem(Item("Disk3"));
 	this->droppedItem = new Item("Loot");
 
 	testMapInitialization();
@@ -46,12 +50,14 @@ void TerminalScreen::testMapInitialization()
 	enemyCharacter->setMapPosition(Point(15, 7));
 	friendlyCharacter->setMapPosition(Point(4, 15));
 	immovableObstacle->setMapPosition(Point(10, 10));
+	computerTerminalObstacle->setMapPosition(Point(20, 10));
 	this->gameMap->addItemTo(Point(10, 12), *droppedItem);
 
 	gameMap->addObstacleToMap(playerCharacter, playerCharacter->getMapPosition());
 	for(int i=0; i<npcVector.size(); i++)
 		gameMap->addObstacleToMap(npcVector[i], npcVector[i]->getMapPosition());
 	gameMap->addObstacleToMap(immovableObstacle, immovableObstacle->getMapPosition());
+	gameMap->addObstacleToMap(computerTerminalObstacle, computerTerminalObstacle->getMapPosition());
 }
 
 void TerminalScreen::updateUserController()
@@ -133,11 +139,7 @@ void TerminalScreen::playerMakesMove(Point step)
 		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
 		if (crashedObstacle != nullptr)
 		{
-			NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(crashedObstacle);
-			if (npc != nullptr)
-				playerCrashesNpc(playerCharacter, npc);
-			else
-				playerCrashesObstacle(playerCharacter, crashedObstacle);
+			playerCrashesSomething(crashedObstacle);
 		}
 	}
 	else
@@ -145,6 +147,15 @@ void TerminalScreen::playerMakesMove(Point step)
 		gameMap->moveCreatureToDesiredPosition(playerCharacter, newPlayerPosition);
 		playerCharacter->setMapPosition(newPlayerPosition);
 	}
+}
+
+void TerminalScreen::playerCrashesSomething(MapObstacle * obstacle)
+{
+	NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(obstacle);
+	if (npc != nullptr)
+		playerCrashesNpc(playerCharacter, npc);
+	else
+		playerCrashesObstacle(playerCharacter, obstacle);
 }
 
 void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter * npc)
