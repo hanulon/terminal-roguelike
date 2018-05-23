@@ -41,3 +41,20 @@ void MapObstacle::addNewItem(Item newItem)
 {
 	this->possessedItems.push_back(newItem);
 }
+
+std::string MapObstacle::getListOfPossessedItems()
+{
+	std::string listOfItems = "";
+	for (int i = 0; i < possessedItems.size(); i++)
+	{
+		listOfItems += possessedItems[i].getName() + "\n";
+	}
+	return listOfItems;
+}
+
+vector<Item> MapObstacle::getAllItemsAndRemove()
+{
+	vector <Item> items = possessedItems;
+	possessedItems.clear();
+	return items;
+}

@@ -13,6 +13,8 @@ public:
 	void setMapPosition(Point position);
 	Point getMapPosition();
 	void addNewItem(Item newItem);
+	std::string getListOfPossessedItems();
+	vector <Item> getAllItemsAndRemove();
 
 protected:
 	std::string name;

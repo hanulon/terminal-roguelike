@@ -167,10 +167,108 @@ void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter
 	system("pause");
 }
 
+bool isComputerUsable = true;
+
 void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle * obstacle)
 {
-	cout << "Player crashed immovable obstacle: " << obstacle->getName() << "\n";
-	system("pause");
+	//cout << "Player crashed immovable obstacle: " << obstacle->getName() << "\n";
+	if (obstacle->getNameFirstLetter() == 'T')
+	{
+		bool endOfInteraction = false;
+		bool hackedOnce = false;
+		bool isOnceHeadsmashed = false;
+		if (isComputerUsable)
+		{
+			while (!endOfInteraction)
+			{
+				string normalOutput = "You come closer to the object and see that this is some sort of a computer terminal."
+					"Thankfully, it seems that you can power it up."
+					"After a while, a dialog box appears on the screen, asking you to provide your login and password.\n";
+				normalOutput += "1. [Hacking == 3] Hack the system.\n"
+					"2.[if hacked once] Read emails.\n"
+					"3.[If items_vector.size() > 0] Get all data disks from the terminal.\n"
+					"4.[If player items count > 0] Put a disk in it, and reboot.\n"
+					"5. Smash the keyboard - what could possibly go wrong ? \n"
+					"6.[if once chosen 5] Destroy the terminal - if I can't use it, no one will!\n"
+					"7. Leave the terminal.\n";
+				cout << normalOutput;
+				int keyCode = _getch();
+				switch (keyCode)
+				{
+				case '1':
+					if (playerCharacter->getSkillByName("Hacking") >= 3)
+					{
+						hackedOnce = true;
+						cout << "You have full access to the termianal." << endl;
+					}
+					break;
+				case '2':
+					if (hackedOnce)
+					{
+						cout << "To dsdasjdask From Zdzislaw\n"
+							"You idiots! I'll kill you, I'll kill you all! You do not make a fool out of Zdzislaw, the Hero of the Galaxy!"
+							"You're all gonna regret this! I've installed a nuclear bomb in your facility, when I click the button you're all gonna be very sorry.\n\n"
+							"Cheers,\n"
+							"Zdzislaw\n\n"
+							"P.S.: Just joking, happy April's Fools! :) Still waiting for my pay though.\n"
+							"P.S.2 : The part about the bomb was not a joke.\n"
+							"P.S.3 : Or was it ? !\n";
+					}
+					break;
+				case '3':
+					if (obstacle->getListOfPossessedItems().length()>0)
+					{
+						cout << "You've taken some disks from the computer." << endl;
+						vector <Item> itemsFromComputer = obstacle->getAllItemsAndRemove();
+						for (int i = 0; i < itemsFromComputer.size(); i++)
+						{
+							playerCharacter->addNewItem(itemsFromComputer[i]);
+						}
+					}
+					break;
+				case '4':
+					if (playerCharacter->getListOfPossessedItems().length()>0)
+					{
+						cout << "You're giving everything you have to computer" << endl;
+						vector <Item> itemsFromPlayer = playerCharacter->getAllItemsAndRemove();
+						for (int i = 0; i < itemsFromPlayer.size(); i++)
+						{
+							obstacle->addNewItem(itemsFromPlayer[i]);
+						}
+					}
+					break;
+				case '5':
+					cout << "You've hit a keyboard with your forehead, but you don't think that it helped." << endl;
+					isOnceHeadsmashed = true;
+					break;
+				case '6':
+					if (isOnceHeadsmashed)
+					{
+						cout << "Fatal smash" << endl;
+						isComputerUsable = false;
+						endOfInteraction = true;
+					}
+					break;
+				case '7':
+					endOfInteraction = true;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else
+		{
+			cout << "The computer is broken, and thus absolutely unusable";
+			system("pause");
+		}
+	}
+	else
+	{
+		string normalOutput = "You try to headbutt the obstacle, but you get nothing more than a bruise on your forehead.";
+		cout << normalOutput;
+		system("pause");
+	}
 }
 
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)
