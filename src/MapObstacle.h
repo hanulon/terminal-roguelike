@@ -16,6 +16,8 @@ public:
 	std::string getListOfPossessedItems();
 	vector <Item> getAllItemsAndRemove();
 
+	bool interactable = false;
+
 protected:
 	std::string name;
 	Point mapPosition;

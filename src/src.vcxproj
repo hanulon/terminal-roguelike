@@ -154,6 +154,7 @@
     <ClInclude Include="GraveyardController.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Interaction.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenuController.h" />
     <ClInclude Include="Map.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="GraveyardController.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Interaction.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuController.cpp" />
