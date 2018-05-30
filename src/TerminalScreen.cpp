@@ -239,8 +239,14 @@ void TerminalScreen::initializeInteraction()
 	notInteractingDialog.interactionQuitter = true;
 }
 
+bool defaultInteraction = false;
+
 void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle * obstacle)
 {
+	bool endOfInteraction = false;
+	mainDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
+	destroyedMachineDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
+	notInteractingDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
 	mainDialog.setPlayerAndObstacle(playerCharacter, obstacle);
 	destroyedMachineDialog.setPlayerAndObstacle(playerCharacter, obstacle);
 	notInteractingDialog.setPlayerAndObstacle(playerCharacter, obstacle);
@@ -249,7 +255,7 @@ void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle *
 	{
 		if (obstacle->interactable)
 		{
-			if (mainDialog.changeDefaultInteraction)
+			if (defaultInteraction)
 				currentDialog = &destroyedMachineDialog;
 			else
 				currentDialog = &mainDialog;
@@ -257,7 +263,6 @@ void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle *
 		else
 			currentDialog = &notInteractingDialog;
 	} while (currentDialog->reaction());
-	currentDialog->interactionEnd = false;
 }
 
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)

@@ -14,11 +14,8 @@ public:
 		int desiredValue;
 	};
 
-	MapObstacle* obstacle;
-	Hero* player;
 	void setPlayerAndObstacle(Hero* player, MapObstacle* obstacle);
-	static bool interactionEnd;
-	static bool changeDefaultInteraction;
+	void setInteractionEndAndDefaultChange(bool* interEnd, bool* defaultInterChange);
 	bool chosenOnce = false;
 	std::string message;
 	bool reaction();
@@ -31,6 +28,10 @@ public:
 	bool defaultInteractionSwitcher = false;
 
 private:
+	MapObstacle* obstacle;
+	Hero* player;
+	bool* interactionEnd;
+	bool* changeDefaultInteraction;
 	bool checkAllConditions();
 };
 
