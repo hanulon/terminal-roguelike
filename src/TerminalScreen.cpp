@@ -25,7 +25,6 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->computerTerminalObstacle->addNewItem(Item("Disk1"));
 	this->computerTerminalObstacle->addNewItem(Item("Disk2"));
 	this->computerTerminalObstacle->addNewItem(Item("Disk3"));
-	this->computerTerminalObstacle->interactable = true;
 	this->droppedItem = new Item("Loot");
 
 	initializeInteraction();
@@ -158,7 +157,7 @@ void TerminalScreen::playerCrashesSomething(MapObstacle * obstacle)
 	if (npc != nullptr)
 		playerCrashesNpc(playerCharacter, npc);
 	else
-		playerCrashesObstacle(playerCharacter, obstacle);
+		obstacle->interactWith(playerCharacter);
 }
 
 void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter * npc)
@@ -172,6 +171,9 @@ void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter
 
 
 Interaction mainDialog;
+Interaction destroyedMachineDialog;
+Interaction notInteractingDialog;
+
 Interaction hackingDialog;
 Interaction emailReadDialog;
 Interaction getDisksDialog;
@@ -179,8 +181,6 @@ Interaction giveDisksDialog;
 Interaction keyboardSmashDialog;
 Interaction fatalSmashDialog;
 Interaction exitDialog;
-Interaction destroyedMachineDialog;
-Interaction notInteractingDialog;
 
 void TerminalScreen::initializeInteraction()
 {
@@ -237,32 +237,9 @@ void TerminalScreen::initializeInteraction()
 
 	notInteractingDialog.message = "You try to headbutt the obstacle, but you get nothing more than a bruise on your forehead.\n";
 	notInteractingDialog.interactionQuitter = true;
-}
 
-bool defaultInteraction = false;
-
-void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle * obstacle)
-{
-	bool endOfInteraction = false;
-	mainDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
-	destroyedMachineDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
-	notInteractingDialog.setInteractionEndAndDefaultChange(&endOfInteraction, &defaultInteraction);
-	mainDialog.setPlayerAndObstacle(playerCharacter, obstacle);
-	destroyedMachineDialog.setPlayerAndObstacle(playerCharacter, obstacle);
-	notInteractingDialog.setPlayerAndObstacle(playerCharacter, obstacle);
-	Interaction* currentDialog;
-	do
-	{
-		if (obstacle->interactable)
-		{
-			if (defaultInteraction)
-				currentDialog = &destroyedMachineDialog;
-			else
-				currentDialog = &mainDialog;
-		}
-		else
-			currentDialog = &notInteractingDialog;
-	} while (currentDialog->reaction());
+	this->computerTerminalObstacle->setMyInteractions(&mainDialog, &destroyedMachineDialog);
+	this->immovableObstacle->setMyInteractions(&notInteractingDialog);
 }
 
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)

@@ -65,3 +65,27 @@ bool MapObstacle::obstacleHasNoItems()
 		return false;
 	return true;
 }
+
+void MapObstacle::interactWith(InteractiveObstacle * player)
+{
+	bool endOfInteraction = false;
+	Interaction* currentDialog;
+	while (!endOfInteraction)
+	{
+		if (this->useAlternativeInteraction)
+			currentDialog = this->alternativeInteraction;
+		else
+			currentDialog = this->defaultInteraction;
+		currentDialog->setInteractionEndAndDefaultChange(&endOfInteraction, &(this->useAlternativeInteraction));
+		currentDialog->setPlayerAndObstacle(player, this);
+		currentDialog->reaction();
+	}
+}
+
+void MapObstacle::setMyInteractions(Interaction * defaulty, Interaction * alternative)
+{
+	if (alternative == nullptr)
+		alternative = defaulty;
+	this->defaultInteraction = defaulty;
+	this->alternativeInteraction = alternative;
+}

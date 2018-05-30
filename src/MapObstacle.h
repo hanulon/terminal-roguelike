@@ -1,6 +1,7 @@
 #pragma once
 #include "Item.h"
 #include "InteractiveObstacle.h"
+#include "Interaction.h"
 
 class MapObstacle : public InteractiveObstacle
 {
@@ -17,12 +18,15 @@ public:
 	std::string getListOfPossessedItems();
 	vector <Item> getAllItemsAndRemove();
 	bool obstacleHasNoItems();
-
-	bool interactable = false;
+	virtual void interactWith(InteractiveObstacle* player);
+	void setMyInteractions(Interaction* defaulty, Interaction* alternative = nullptr);
 
 protected:
 	std::string name;
 	Point mapPosition;
 	vector <Item> possessedItems;
+	bool useAlternativeInteraction = false;
+	Interaction* defaultInteraction;
+	Interaction* alternativeInteraction;
 };
 

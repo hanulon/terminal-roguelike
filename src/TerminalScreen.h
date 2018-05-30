@@ -38,7 +38,6 @@ private:
 	void playerCrashesSomething(MapObstacle* obstacle);
 	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void initializeInteraction();
-	void playerCrashesObstacle(Hero* playerCharacter, MapObstacle* obstacle);
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void npcCrashesNpc(NonPlayerCharacter* npc, NonPlayerCharacter* otherNpc);
