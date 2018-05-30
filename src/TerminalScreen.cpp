@@ -28,6 +28,7 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->droppedItem = new Item("Loot");
 
 	initializeInteraction();
+	initializeFriendlyInteraction();
 
 	testMapInitialization();
 }
@@ -165,8 +166,82 @@ void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter
 	if (npc->isEnemy)
 		cout << "Player attacked enemy!" << endl;
 	else
-		cout << "Player contacted friendly NPC!" << endl;
+		npc->interactWith(playerCharacter);
 	system("pause");
+}
+
+Interaction mainFriendly;
+Interaction optionOneFriendly;
+Interaction questioningFriendly;
+Interaction walkingQuestionFriendly;
+Interaction nameQuestionFriendly;
+Interaction enemyQuestionFriendly;
+Interaction exitConversationFriendly;
+Interaction unfriendingFriendly;
+Interaction stareFriendly;
+Interaction gogogoFriendly;
+Interaction unfriendlyFriendly;
+Interaction wageWarFriendly;
+
+void TerminalScreen::initializeFriendlyInteraction()
+{
+	mainFriendly.message = "The NPC waves at you with his hand, and you see smile on his half-eaten-by-rats face.\n'Hello, friend! As you see, I'm a very friendly person, in fact, my intentions are well written over my face!' Indeed, you can see a few scratches on his half-rotten skin, and realize they are actually words, though you cannot read them.\n"
+		"1. 'Erm, hello there!'\n"
+		"2. Stare intently.\n"
+		"3. 'I feel I should go. I must go. I'm a go go galooo...'\n"
+		"4. Just leave him.\n"
+		"5. 'I wage war at you!'\n";
+	mainFriendly.subInteractions.push_back(&optionOneFriendly);
+	mainFriendly.subInteractions.push_back(&stareFriendly);
+	mainFriendly.subInteractions.push_back(&gogogoFriendly);
+	mainFriendly.subInteractions.push_back(&exitConversationFriendly);
+	mainFriendly.subInteractions.push_back(&wageWarFriendly);
+	
+	optionOneFriendly.message = "'It's really nice to meet a friend here! That aggressive weirdo over there is a not-friend' he waves his hand at the enemy npc.\n"
+		"1. 'I wanna ask some questions... friend.'\n"
+		"2. 'I'm not your friend...'\n";
+	optionOneFriendly.subInteractions.push_back(&questioningFriendly);
+	optionOneFriendly.subInteractions.push_back(&unfriendingFriendly);
+	
+	questioningFriendly.message = "'Of course, friend! What is it, that you want to know, in your friendliness?'\n"
+		"1. 'Why are you walking in circles?'\n"
+		"2. 'What is your name?'\n"
+		"3. 'What's going on with the other guy?'\n"
+		"4. 'I must go. My planet needs meeeeeeeee'\n";
+	questioningFriendly.subInteractions.push_back(&walkingQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&nameQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&enemyQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&exitConversationFriendly);
+	
+	walkingQuestionFriendly.message = "You see that your question preplexed him for a moment, yet a smile quickly shows again on his deranged face.\n"
+		"'Oh, that's not important, my friend. I just inexplicably feel urged to walk in that pattern. Friendly normal, isn't it?'\n";
+	nameQuestionFriendly.message = "'My name?' he thinks for a moment, and then shakes his head. 'I do not remember now. Just call me your friend, right?'\n";
+	enemyQuestionFriendly.message = "'Oh, you should avoid this un-friend. He's just a stupid man, who walks in circles. What a dumbass, can you believe?'\n";
+	
+	exitConversationFriendly.message = "You see sadness on his face. 'Very well, friend. But please, do come again! I'm sure I won't even remember you, if you leave now, so feel free to ask me again about everything!'\n";
+	exitConversationFriendly.interactionQuitter = true;
+
+	unfriendingFriendly.message = "Wide smile leaves his face in an instant. 'So, you're just like that unfriendly troglodyte over there?! Fine, leave me!'\n";
+	unfriendingFriendly.interactionQuitter = true;
+	unfriendingFriendly.defaultInteractionSwitcher = true;
+
+	stareFriendly.message = "He doesn't look troubled by your stares. 'Yes? What is it?'\n"
+		"1. Keep staring. It's a challenge!\n"
+		"2. Give up the staring contest. 'I have some questions'.\n";
+	stareFriendly.subInteractions.push_back(&stareFriendly);
+	stareFriendly.subInteractions.push_back(&questioningFriendly);
+	
+	gogogoFriendly.message = "'I understand, your mission stands before the friendship', his voice is cracking, and you can see tears in his eyes. 'But, please, go if you friendly must.'\n";
+	gogogoFriendly.interactionQuitter = true;
+	
+	unfriendlyFriendly.message = "'Leave me! I don't want to have anything to do with you! You not-friend!'\n";
+	unfriendlyFriendly.interactionQuitter = true;
+
+	wageWarFriendly.message = "'So that's it?' You see that he's really sad, and from his eyes are flowing tears. 'You do not want to be friend... SO I WILL MAKE YOU MY FRIENDLY CARPET!'\n";
+	wageWarFriendly.interactionQuitter = true;
+	wageWarFriendly.unfriend = true;
+	
+	this->friendlyCharacter->setMyInteractions(&mainFriendly, &unfriendlyFriendly);
 }
 
 

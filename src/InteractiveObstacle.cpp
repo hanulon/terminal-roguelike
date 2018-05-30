@@ -15,3 +15,7 @@ int InteractiveObstacle::getSkillByName(std::string skillName) //this function s
 {
 	return 0;
 }
+
+void InteractiveObstacle::unfriendMyself()
+{
+}

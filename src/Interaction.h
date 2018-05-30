@@ -24,6 +24,7 @@ public:
 	bool playerItemsRequired = false;
 	bool interactionQuitter = false;
 	bool defaultInteractionSwitcher = false;
+	bool unfriend = false;
 
 private:
 	InteractiveObstacle* obstacle;

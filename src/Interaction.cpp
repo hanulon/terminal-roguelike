@@ -53,6 +53,11 @@ bool Interaction::reaction()
 		*changeDefaultInteraction = true;
 	}
 
+	if (unfriend)
+	{
+		obstacle->unfriendMyself();
+	}
+
 	if (*interactionEnd)
 	{
 		return false;

@@ -11,5 +11,6 @@ public:
 	virtual void addNewItem(Item newItem) = 0;
 	virtual bool obstacleHasNoItems() = 0;
 	virtual int getSkillByName(std::string skillName);
+	virtual void unfriendMyself();
 };
 

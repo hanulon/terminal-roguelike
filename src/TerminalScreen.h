@@ -37,6 +37,7 @@ private:
 	void playerMakesMove(Point step);
 	void playerCrashesSomething(MapObstacle* obstacle);
 	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
+	void initializeFriendlyInteraction();
 	void initializeInteraction();
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);

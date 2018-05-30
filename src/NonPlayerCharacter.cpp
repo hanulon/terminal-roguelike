@@ -24,6 +24,11 @@ void NonPlayerCharacter::makeTriedMove()
 	mapPosition = myNewPosition;
 }
 
+void NonPlayerCharacter::unfriendMyself()
+{
+	isEnemy = true;
+}
+
 void NonPlayerCharacter::moveInCircle()
 {
 	switch (circlePosition)

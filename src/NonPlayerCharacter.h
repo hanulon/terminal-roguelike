@@ -9,6 +9,7 @@ public:
 
 	Point tryToMove();
 	void makeTriedMove();
+	void unfriendMyself();
 	bool isEnemy;
 
 private:
