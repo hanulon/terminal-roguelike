@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Interaction.h"
 
-MapObstacle* Interaction::obstacle;
-Hero* Interaction::player;
 bool Interaction::interactionEnd = false;
 bool Interaction::changeDefaultInteraction = false;
 
@@ -13,6 +11,12 @@ Interaction::Interaction()
 
 Interaction::~Interaction()
 {
+}
+
+void Interaction::setPlayerAndObstacle(Hero * player, MapObstacle * obstacle)
+{
+	this->player = player;
+	this->obstacle = obstacle;
 }
 
 bool Interaction::reaction()
@@ -72,6 +76,8 @@ bool Interaction::reaction()
 			int keyCode = _getch() - 48;
 			if (keyCode > 0 && keyCode <= subInteractions.size())
 			{
+				subInteractions[keyCode - 1]->obstacle = this->obstacle;
+				subInteractions[keyCode - 1]->player = this->player;
 				menuLoop = subInteractions[keyCode - 1]->reaction();
 			}
 		}

@@ -241,8 +241,9 @@ void TerminalScreen::initializeInteraction()
 
 void TerminalScreen::playerCrashesObstacle(Hero * playerCharacter, MapObstacle * obstacle)
 {
-	mainDialog.player = playerCharacter;
-	mainDialog.obstacle = obstacle;
+	mainDialog.setPlayerAndObstacle(playerCharacter, obstacle);
+	destroyedMachineDialog.setPlayerAndObstacle(playerCharacter, obstacle);
+	notInteractingDialog.setPlayerAndObstacle(playerCharacter, obstacle);
 	Interaction* currentDialog;
 	do
 	{

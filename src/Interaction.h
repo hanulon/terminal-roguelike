@@ -14,8 +14,9 @@ public:
 		int desiredValue;
 	};
 
-	static MapObstacle* obstacle;
-	static Hero* player;
+	MapObstacle* obstacle;
+	Hero* player;
+	void setPlayerAndObstacle(Hero* player, MapObstacle* obstacle);
 	static bool interactionEnd;
 	static bool changeDefaultInteraction;
 	bool chosenOnce = false;
