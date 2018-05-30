@@ -1,6 +1,5 @@
 #pragma once
-#include "MapObstacle.h"
-#include "Hero.h"
+#include "InteractiveObstacle.h"
 
 class Interaction
 {
@@ -13,8 +12,7 @@ public:
 		std::string name;
 		int desiredValue;
 	};
-
-	void setPlayerAndObstacle(Hero* player, MapObstacle* obstacle);
+	void setPlayerAndObstacle(InteractiveObstacle* player, InteractiveObstacle* intObstacle);
 	void setInteractionEndAndDefaultChange(bool* interEnd, bool* defaultInterChange);
 	bool chosenOnce = false;
 	std::string message;
@@ -28,8 +26,8 @@ public:
 	bool defaultInteractionSwitcher = false;
 
 private:
-	MapObstacle* obstacle;
-	Hero* player;
+	InteractiveObstacle* obstacle;
+	InteractiveObstacle* player;
 	bool* interactionEnd;
 	bool* changeDefaultInteraction;
 	bool checkAllConditions();

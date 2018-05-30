@@ -58,3 +58,10 @@ vector<Item> MapObstacle::getAllItemsAndRemove()
 	possessedItems.clear();
 	return items;
 }
+
+bool MapObstacle::obstacleHasNoItems()
+{
+	if (possessedItems.size() > 0)
+		return false;
+	return true;
+}

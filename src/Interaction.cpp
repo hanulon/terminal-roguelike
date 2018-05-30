@@ -11,10 +11,10 @@ Interaction::~Interaction()
 {
 }
 
-void Interaction::setPlayerAndObstacle(Hero * player, MapObstacle * obstacle)
+void Interaction::setPlayerAndObstacle(InteractiveObstacle * player, InteractiveObstacle* intObstacle)
 {
 	this->player = player;
-	this->obstacle = obstacle;
+	this->obstacle = intObstacle;
 }
 
 void Interaction::setInteractionEndAndDefaultChange(bool * interEnd, bool * defaultInterChange)
@@ -105,11 +105,11 @@ bool Interaction::checkAllConditions()
 			return true;
 		}
 	}
-	if (obstacleItemsRequired && obstacle->getListOfPossessedItems().length() == 0)
+	if (obstacleItemsRequired && obstacle->obstacleHasNoItems())
 	{
 		return true;
 	}
-	if (playerItemsRequired && player->getListOfPossessedItems().length() == 0)
+	if (playerItemsRequired && player->obstacleHasNoItems())
 	{
 		return true;
 	}

@@ -93,6 +93,9 @@
     <ClInclude Include="Interaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InteractiveObstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -159,6 +162,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Interaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractiveObstacle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

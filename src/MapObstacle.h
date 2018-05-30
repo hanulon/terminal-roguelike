@@ -1,7 +1,8 @@
 #pragma once
 #include "Item.h"
+#include "InteractiveObstacle.h"
 
-class MapObstacle
+class MapObstacle : public InteractiveObstacle
 {
 public:
 	MapObstacle(std::string name);
@@ -15,6 +16,7 @@ public:
 	void addNewItem(Item newItem);
 	std::string getListOfPossessedItems();
 	vector <Item> getAllItemsAndRemove();
+	bool obstacleHasNoItems();
 
 	bool interactable = false;
 
