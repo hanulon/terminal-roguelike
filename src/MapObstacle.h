@@ -20,12 +20,12 @@ public:
 	bool obstacleHasNoItems();
 	virtual void interactWith(InteractiveObstacle* player);
 	void setMyInteractions(Interaction* defaulty, Interaction* alternative = nullptr);
+	void switchDefaultInteraction();
 
 protected:
 	std::string name;
 	Point mapPosition;
 	vector <Item> possessedItems;
-	bool useAlternativeInteraction = false;
 	Interaction* defaultInteraction;
 	Interaction* alternativeInteraction;
 };

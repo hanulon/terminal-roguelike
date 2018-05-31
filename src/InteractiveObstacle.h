@@ -12,5 +12,6 @@ public:
 	virtual bool obstacleHasNoItems() = 0;
 	virtual int getSkillByName(std::string skillName);
 	virtual void unfriendMyself();
+	virtual void switchDefaultInteraction() = 0;
 };
 

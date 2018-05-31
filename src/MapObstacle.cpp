@@ -69,16 +69,11 @@ bool MapObstacle::obstacleHasNoItems()
 void MapObstacle::interactWith(InteractiveObstacle * player)
 {
 	bool endOfInteraction = false;
-	Interaction* currentDialog;
 	while (!endOfInteraction)
 	{
-		if (this->useAlternativeInteraction)
-			currentDialog = this->alternativeInteraction;
-		else
-			currentDialog = this->defaultInteraction;
-		currentDialog->setInteractionEndAndDefaultChange(&endOfInteraction, &(this->useAlternativeInteraction));
-		currentDialog->setPlayerAndObstacle(player, this);
-		currentDialog->reaction();
+		this->defaultInteraction->setInteractionEndAndDefaultChange(&endOfInteraction);
+		this->defaultInteraction->setPlayerAndObstacle(player, this);
+		this->defaultInteraction->reaction();
 	}
 }
 
@@ -88,4 +83,11 @@ void MapObstacle::setMyInteractions(Interaction * defaulty, Interaction * altern
 		alternative = defaulty;
 	this->defaultInteraction = defaulty;
 	this->alternativeInteraction = alternative;
+}
+
+void MapObstacle::switchDefaultInteraction()
+{
+	Interaction* buffer = defaultInteraction;
+	defaultInteraction = alternativeInteraction;
+	alternativeInteraction = buffer;
 }

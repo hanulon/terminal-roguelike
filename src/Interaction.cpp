@@ -17,10 +17,9 @@ void Interaction::setPlayerAndObstacle(InteractiveObstacle * player, Interactive
 	this->obstacle = intObstacle;
 }
 
-void Interaction::setInteractionEndAndDefaultChange(bool * interEnd, bool * defaultInterChange)
+void Interaction::setInteractionEndAndDefaultChange(bool * interEnd)
 {
 	this->interactionEnd = interEnd;
-	this->changeDefaultInteraction = defaultInterChange;
 }
 
 bool Interaction::reaction()
@@ -50,7 +49,7 @@ bool Interaction::reaction()
 
 	if (defaultInteractionSwitcher)
 	{
-		*changeDefaultInteraction = true;
+		obstacle->switchDefaultInteraction();
 	}
 
 	if (unfriend)
@@ -86,7 +85,7 @@ bool Interaction::reaction()
 			if (keyCode > 0 && keyCode <= subInteractions.size())
 			{
 				subInteractions[keyCode - 1]->setPlayerAndObstacle(player, obstacle);
-				subInteractions[keyCode - 1]->setInteractionEndAndDefaultChange(interactionEnd, changeDefaultInteraction);
+				subInteractions[keyCode - 1]->setInteractionEndAndDefaultChange(interactionEnd);
 				menuLoop = subInteractions[keyCode - 1]->reaction();
 			}
 		}

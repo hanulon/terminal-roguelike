@@ -13,7 +13,7 @@ public:
 		int desiredValue;
 	};
 	void setPlayerAndObstacle(InteractiveObstacle* player, InteractiveObstacle* intObstacle);
-	void setInteractionEndAndDefaultChange(bool* interEnd, bool* defaultInterChange);
+	void setInteractionEndAndDefaultChange(bool* interEnd);
 	bool chosenOnce = false;
 	std::string message;
 	bool reaction();
@@ -30,7 +30,6 @@ private:
 	InteractiveObstacle* obstacle;
 	InteractiveObstacle* player;
 	bool* interactionEnd;
-	bool* changeDefaultInteraction;
 	bool checkAllConditions();
 };
 
