@@ -158,7 +158,7 @@ void TerminalScreen::playerCrashesSomething(MapObstacle * obstacle)
 	if (npc != nullptr)
 		playerCrashesNpc(playerCharacter, npc);
 	else
-		obstacle->interactWith(playerCharacter);
+		playerCharacter->interactWith(obstacle);
 }
 
 void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter * npc)
@@ -166,7 +166,7 @@ void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter
 	if (npc->isEnemy)
 		cout << "Player attacked enemy!" << endl;
 	else
-		npc->interactWith(playerCharacter);
+		playerCharacter->interactWith(npc);
 	system("pause");
 }
 

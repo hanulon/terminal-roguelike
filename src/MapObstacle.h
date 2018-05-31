@@ -18,9 +18,9 @@ public:
 	std::string getListOfPossessedItems();
 	vector <Item> getAllItemsAndRemove();
 	bool obstacleHasNoItems();
-	virtual void interactWith(InteractiveObstacle* player);
 	void setMyInteractions(Interaction* defaulty, Interaction* alternative = nullptr);
 	void switchDefaultInteraction();
+	Interaction* getMyDefaultInteraction();
 
 protected:
 	std::string name;

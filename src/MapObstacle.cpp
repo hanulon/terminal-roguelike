@@ -66,17 +66,6 @@ bool MapObstacle::obstacleHasNoItems()
 	return true;
 }
 
-void MapObstacle::interactWith(InteractiveObstacle * player)
-{
-	bool endOfInteraction = false;
-	while (!endOfInteraction)
-	{
-		this->defaultInteraction->setInteractionEndAndDefaultChange(&endOfInteraction);
-		this->defaultInteraction->setPlayerAndObstacle(player, this);
-		this->defaultInteraction->reaction();
-	}
-}
-
 void MapObstacle::setMyInteractions(Interaction * defaulty, Interaction * alternative)
 {
 	if (alternative == nullptr)
@@ -87,7 +76,15 @@ void MapObstacle::setMyInteractions(Interaction * defaulty, Interaction * altern
 
 void MapObstacle::switchDefaultInteraction()
 {
-	Interaction* buffer = defaultInteraction;
-	defaultInteraction = alternativeInteraction;
-	alternativeInteraction = buffer;
+	if (alternativeInteraction != nullptr)
+	{
+		Interaction* buffer = defaultInteraction;
+		defaultInteraction = alternativeInteraction;
+		alternativeInteraction = buffer;
+	}
+}
+
+Interaction * MapObstacle::getMyDefaultInteraction()
+{
+	return defaultInteraction;
 }
