@@ -22,7 +22,7 @@ Controller* GameplayController::processUserInput()
 		returnedController = new MainMenuController;
 		break;
 	case Key_Space:
-		mainModel->linkFromController->endTurn();
+		mainModel->endTheTurn();
 		break;
 	case Key_Help_0:
 	case Key_Help_1:
@@ -39,11 +39,11 @@ Controller* GameplayController::processUserInput()
 		//shooting options
 		break;
 	case Key_Take_Item:
-		mainModel->linkFromController->takeItemFromYourTile();
+		mainModel->takeItemFromYourTile();
 		break;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
-		mainModel->linkFromController->makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
+		mainModel->makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
 		break;
 	default:
 		realizeUndocumentedComment(keyCode);

@@ -10,7 +10,7 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->userInterface = new MainMenuController();
 	this->userInterface->mainModel = this;
-	this->linkFromController = new ControllerToModelConnector();
+	this->initMe();
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
@@ -82,7 +82,7 @@ void TerminalScreen::changeViewAndController(Controller* newInterface)
 
 void TerminalScreen::controllerAction()
 {
-	switch (linkFromController->signalAction())
+	switch (signalAction())
 	{
 	case ControllerToModelConnector::TakeItemFromFloor:
 		playerTakeItemFromFloor();
@@ -90,16 +90,15 @@ void TerminalScreen::controllerAction()
 		endTurn();
 		break;
 	case ControllerToModelConnector::NameChanged:
-		playerCharacter->setName(linkFromController->getNewHeroName());
+		playerCharacter->setName(getNewHeroName());
 		break;
 	case ControllerToModelConnector::AttrSkillChanged:
-		assignAttributeSkillActionInNewGameMenu(linkFromController->getAttributeSkillName(),
-			linkFromController->getAttributeSkillValue());
+		assignAttributeSkillActionInNewGameMenu(getAttributeSkillName(), getAttributeSkillValue());
 		break;
 	default:
 		break;
 	}
-	linkFromController->clearActionSignal();
+	clearActionSignal();
 }
 
 void TerminalScreen::playerTakeItemFromFloor()
@@ -116,7 +115,7 @@ void TerminalScreen::playerTakeItemFromFloor()
 
 void TerminalScreen::endTurn()
 {
-	Point playerStep = linkFromController->getPlayerStep();
+	Point playerStep = getPlayerStep();
 	if (!(playerStep == Point()))
 	{
 		playerMakesMove(playerStep);

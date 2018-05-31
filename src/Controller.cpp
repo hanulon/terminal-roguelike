@@ -21,11 +21,6 @@ void Controller::refresh()
 	printScreen();
 }
 
-ControllerToModelConnector * Controller::getLink()
-{
-	return mainModel->linkFromController;
-}
-
 void Controller::updateMessageForUser(std::string message)
 {
 	this->messageForUser = message;

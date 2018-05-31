@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <conio.h>
-#include "ControllerToModelConnector.h"
 #include "MainModelForController.h"
 
 using namespace std;
@@ -14,7 +13,6 @@ public:
 
 	virtual Controller* processUserInput() = 0;
 	virtual void refresh();
-	ControllerToModelConnector* getLink();
 	void updateMessageForUser(std::string message);
 	static MainModelForController* mainModel;
 
