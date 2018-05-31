@@ -158,6 +158,7 @@
     <ClInclude Include="InteractiveObstacle.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenuController.h" />
+    <ClInclude Include="MainModelForController.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapObstacle.h" />
     <ClInclude Include="NewGameController.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuController.cpp" />
+    <ClCompile Include="MainModelForController.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapObstacle.cpp" />
     <ClCompile Include="NewGameController.cpp" />

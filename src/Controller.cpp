@@ -3,7 +3,7 @@
 #include "Controller.h"
 
 
-ControllerToModelConnector Controller::linkWithModel;
+MainModelForController* Controller::mainModel = nullptr;
 
 Controller::Controller()
 {
@@ -23,7 +23,7 @@ void Controller::refresh()
 
 ControllerToModelConnector * Controller::getLink()
 {
-	return &linkWithModel;
+	return mainModel->linkFromController;
 }
 
 void Controller::updateMessageForUser(std::string message)

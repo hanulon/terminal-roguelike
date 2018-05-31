@@ -9,7 +9,8 @@ TerminalScreen::TerminalScreen() : TerminalScreen(new Hero,new Map) {}
 TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->userInterface = new MainMenuController();
-	this->linkFromController = userInterface->getLink();
+	this->userInterface->mainModel = this;
+	this->linkFromController = new ControllerToModelConnector();
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;

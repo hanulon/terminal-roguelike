@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include "ControllerToModelConnector.h"
+#include "MainModelForController.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ public:
 	virtual void refresh();
 	ControllerToModelConnector* getLink();
 	void updateMessageForUser(std::string message);
+	static MainModelForController* mainModel;
 
 protected:
 	virtual void printScreen() = 0;
@@ -23,7 +25,6 @@ protected:
 	void clearScreen();
 	void printMessageForUser();
 
-	static ControllerToModelConnector linkWithModel;
 	Controller* returnedController;
 	string messageForUser;
 };

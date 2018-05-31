@@ -4,10 +4,11 @@
 #include "NonPlayerCharacter.h"
 #include "Map.h"
 #include "ControllerToModelConnector.h"
+#include "MainModelForController.h"
 #include "Controller.h"
 #include "Item.h"
 
-class TerminalScreen
+class TerminalScreen : public MainModelForController
 {
 public:
 	TerminalScreen();
@@ -24,7 +25,6 @@ private:
 	Item* droppedItem;
 	Map* gameMap;
 	Controller* userInterface;
-	ControllerToModelConnector* linkFromController;
 	vector <NonPlayerCharacter*> npcVector;
 	void testMapInitialization();
 

@@ -54,7 +54,7 @@ void NewGameController::interpretCommandWithArguments(string command)
 {
 	vector <string> tokenizedCommand = splitString(command);
 	if (tokenizedCommand[0] == "name")
-		linkWithModel.changeNewCharacterName(trim(command.substr(5)));
+		mainModel->linkFromController->changeNewCharacterName(trim(command.substr(5)));
 	else if (tokenizedCommand.size() == 2)
 		interpretTwoArgumentedCommand(tokenizedCommand[0], tokenizedCommand[1]);
 	returnedController = this;
@@ -65,7 +65,7 @@ void NewGameController::interpretTwoArgumentedCommand(string firstCommandToken, 
 	try
 	{
 		int value = stoi(secondCommandToken);
-		linkWithModel.changeNewHeroAttributeSkill(firstCommandToken, value);
+		mainModel->linkFromController->changeNewHeroAttributeSkill(firstCommandToken, value);
 	}
 	catch (const std::exception&) {}
 }
