@@ -124,16 +124,6 @@ void TerminalScreen::endTurn()
 	userInterface->updateMessageForUser(gameMap->getItemsNamesFrom(playerCharacter->getMapPosition()));
 }
 
-void TerminalScreen::npcsTakeActions()
-{
-	for (int i = 0; i < npcVector.size(); i++)
-	{
-		GameplayController::updateMap(gameMap->printMap());
-		userInterface->refresh();
-		npcMakesMove(npcVector[i]);
-	}
-}
-
 void TerminalScreen::playerMakesMove(Point step)
 {
 	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
@@ -141,9 +131,7 @@ void TerminalScreen::playerMakesMove(Point step)
 	{
 		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
 		if (crashedObstacle != nullptr)
-		{
-			playerCrashesSomething(crashedObstacle);
-		}
+			playerCharacter->interactWith(crashedObstacle);
 	}
 	else
 	{
@@ -152,22 +140,14 @@ void TerminalScreen::playerMakesMove(Point step)
 	}
 }
 
-void TerminalScreen::playerCrashesSomething(MapObstacle * obstacle)
+void TerminalScreen::npcsTakeActions()
 {
-	NonPlayerCharacter* npc = dynamic_cast<NonPlayerCharacter*>(obstacle);
-	if (npc != nullptr)
-		playerCrashesNpc(playerCharacter, npc);
-	else
-		playerCharacter->interactWith(obstacle);
-}
-
-void TerminalScreen::playerCrashesNpc(Hero * playerCharacter, NonPlayerCharacter * npc)
-{
-	if (npc->isEnemy)
-		cout << "Player attacked enemy!" << endl;
-	else
-		playerCharacter->interactWith(npc);
-	system("pause");
+	for (int i = 0; i < npcVector.size(); i++)
+	{
+		GameplayController::updateMap(gameMap->printMap());
+		userInterface->refresh();
+		npcMakesMove(npcVector[i]);
+	}
 }
 
 Interaction mainFriendly;

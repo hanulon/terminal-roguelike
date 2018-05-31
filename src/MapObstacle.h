@@ -21,6 +21,7 @@ public:
 	void setMyInteractions(Interaction* defaulty, Interaction* alternative = nullptr);
 	void switchDefaultInteraction();
 	Interaction* getMyDefaultInteraction();
+	virtual bool canPlayerInteractWith();
 
 protected:
 	std::string name;

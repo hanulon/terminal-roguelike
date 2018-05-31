@@ -88,3 +88,10 @@ Interaction * MapObstacle::getMyDefaultInteraction()
 {
 	return defaultInteraction;
 }
+
+bool MapObstacle::canPlayerInteractWith()
+{
+	if(defaultInteraction != nullptr)
+		return true;
+	return false;
+}

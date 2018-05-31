@@ -40,13 +40,21 @@ int Hero::getSkillPointsLeft()
 
 void Hero::interactWith(MapObstacle * obstacle)
 {
-	bool endOfInteraction = false;
-	Interaction* obstacleInt;
-	while (!endOfInteraction)
+	if (obstacle->canPlayerInteractWith())
 	{
-		obstacleInt = obstacle->getMyDefaultInteraction();
-		obstacleInt->setInteractionEndAndDefaultChange(&endOfInteraction);
-		obstacleInt->setPlayerAndObstacle(this, obstacle);
-		obstacleInt->reaction();
+		bool endOfInteraction = false;
+		Interaction* obstacleInt;
+		while (!endOfInteraction)
+		{
+			obstacleInt = obstacle->getMyDefaultInteraction();
+			obstacleInt->setInteractionEndAndDefaultChange(&endOfInteraction);
+			obstacleInt->setPlayerAndObstacle(this, obstacle);
+			obstacleInt->reaction();
+		}
+	}
+	else
+	{
+		cout << "Player attacked enemy: "<<obstacle->getName()<< "!\n";
+		system("pause");
 	}
 }

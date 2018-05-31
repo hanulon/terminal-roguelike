@@ -10,6 +10,7 @@ public:
 	Point tryToMove();
 	void makeTriedMove();
 	void unfriendMyself();
+	bool canPlayerInteractWith();
 	bool isEnemy;
 
 private:

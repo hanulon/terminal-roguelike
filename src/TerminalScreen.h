@@ -33,10 +33,8 @@ private:
 	void controllerAction();
 	void playerTakeItemFromFloor();
 	void endTurn();
-	void npcsTakeActions();
 	void playerMakesMove(Point step);
-	void playerCrashesSomething(MapObstacle* obstacle);
-	void playerCrashesNpc(Hero* playerCharacter, NonPlayerCharacter* npc);
+	void npcsTakeActions();
 	void initializeFriendlyInteraction();
 	void initializeInteraction();
 	void npcMakesMove(NonPlayerCharacter* npc);

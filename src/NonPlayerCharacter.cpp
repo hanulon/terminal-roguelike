@@ -29,6 +29,13 @@ void NonPlayerCharacter::unfriendMyself()
 	isEnemy = true;
 }
 
+bool NonPlayerCharacter::canPlayerInteractWith()
+{
+	if (defaultInteraction == nullptr || isEnemy)
+		return false;
+	return true;
+}
+
 void NonPlayerCharacter::moveInCircle()
 {
 	switch (circlePosition)
