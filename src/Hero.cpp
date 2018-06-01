@@ -43,7 +43,7 @@ void Hero::interactWith(MapObstacle * obstacle)
 	if (obstacle->canPlayerInteractWith())
 	{
 		bool endOfInteraction = false;
-		Interaction* obstacleInt;
+		Interaction* obstacleInt = obstacle->getMyDefaultInteraction();
 		while (!endOfInteraction)
 		{
 			obstacleInt = obstacle->getMyDefaultInteraction();

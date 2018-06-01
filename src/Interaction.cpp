@@ -30,7 +30,7 @@ bool Interaction::reaction()
 	}
 
 	chosenOnce = true;
-	if (obstacleItemsRequired)
+	if (conditionsSet.obstacleItemsRequired)
 	{
 		vector <Item> itemsFromComputer = obstacle->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromComputer.size(); i++)
@@ -38,7 +38,7 @@ bool Interaction::reaction()
 			player->addNewItem(itemsFromComputer[i]);
 		}
 	}
-	if (playerItemsRequired)
+	if (conditionsSet.playerItemsRequired)
 	{
 		vector <Item> itemsFromPlayer = player->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromPlayer.size(); i++)
@@ -47,12 +47,12 @@ bool Interaction::reaction()
 		}
 	}
 
-	if (defaultInteractionSwitcher)
+	if (conditionsSet.defaultInteractionSwitcher)
 	{
 		obstacle->switchDefaultInteraction();
 	}
 
-	if (unfriend)
+	if (conditionsSet.unfriend)
 	{
 		obstacle->unfriendMyself();
 	}
@@ -62,14 +62,14 @@ bool Interaction::reaction()
 		return false;
 	}
 	
-	if (interactionQuitter)
+	if (conditionsSet.interactionQuitter)
 	{
 		*interactionEnd = true;
 		cout << message;
 		system("pause");
 		return false;
 	}
-	if (subInteractions.size() == 0)
+	if (conditionsSet.subInteractions.size() == 0)
 	{
 		cout << message;
 		system("pause");
@@ -82,11 +82,11 @@ bool Interaction::reaction()
 		{
 			cout << message;
 			int keyCode = _getch() - 48;
-			if (keyCode > 0 && keyCode <= subInteractions.size())
+			if (keyCode > 0 && keyCode <= conditionsSet.subInteractions.size())
 			{
-				subInteractions[keyCode - 1]->setPlayerAndObstacle(player, obstacle);
-				subInteractions[keyCode - 1]->setInteractionEndAndDefaultChange(interactionEnd);
-				menuLoop = subInteractions[keyCode - 1]->reaction();
+				conditionsSet.subInteractions[keyCode - 1]->setPlayerAndObstacle(player, obstacle);
+				conditionsSet.subInteractions[keyCode - 1]->setInteractionEndAndDefaultChange(interactionEnd);
+				menuLoop = conditionsSet.subInteractions[keyCode - 1]->reaction();
 			}
 		}
 		return false;
@@ -95,25 +95,25 @@ bool Interaction::reaction()
 
 bool Interaction::checkAllConditions()
 {
-	for (int i = 0; i < isOnceConditions.size(); i++)
+	for (int i = 0; i < conditionsSet.isOnceConditions.size(); i++)
 	{
-		if (isOnceConditions[i]->chosenOnce == false)
+		if (conditionsSet.isOnceConditions[i]->chosenOnce == false)
 		{
 			return true;
 		}
 	}
-	for (int i = 0; i < playerConditions.size(); i++)
+	for (int i = 0; i < conditionsSet.playerConditions.size(); i++)
 	{
-		if (!(player->getSkillByName(playerConditions[i].name) >= playerConditions[i].desiredValue))
+		if (!(player->getSkillByName(conditionsSet.playerConditions[i].name) >= conditionsSet.playerConditions[i].desiredValue))
 		{
 			return true;
 		}
 	}
-	if (obstacleItemsRequired && obstacle->obstacleHasNoItems())
+	if (conditionsSet.obstacleItemsRequired && obstacle->obstacleHasNoItems())
 	{
 		return true;
 	}
-	if (playerItemsRequired && player->obstacleHasNoItems())
+	if (conditionsSet.playerItemsRequired && player->obstacleHasNoItems())
 	{
 		return true;
 	}
