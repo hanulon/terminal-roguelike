@@ -17,35 +17,41 @@ void Interaction::setPlayerAndObstacle(InteractiveObstacle * player, Interactive
 	this->obstacle = intObstacle;
 }
 
-void Interaction::setInteractionEndAndDefaultChange(bool * interEnd)
+Interaction* Interaction::reaction()
 {
-	this->interactionEnd = interEnd;
+	if (subInteractions.size() == 0)
+	{
+		system("pause");
+		return subDefault;
+	}
+	else
+	{
+		int keyCode;
+		while (true)
+		{
+			keyCode = _getch() - 48;
+			if (keyCode > 0 && keyCode <= subInteractions.size())
+			{
+				subInteractions[keyCode - 1]->setPlayerAndObstacle(player, obstacle);
+				if (subInteractions[keyCode - 1]->checkAllConditions())
+				{
+					return subInteractions[keyCode - 1];
+				}
+			}
+		}
+	}
 }
 
-bool Interaction::reaction()
+std::string Interaction::getMessage()
 {
-	if (checkAllConditions())
-	{
-		return true;
-	}
-
 	chosenOnce = true;
-	if (conditionsSet.obstacleItemsRequired)
-	{
-		vector <Item> itemsFromComputer = obstacle->getAllItemsAndRemove();
-		for (int i = 0; i < itemsFromComputer.size(); i++)
-		{
-			player->addNewItem(itemsFromComputer[i]);
-		}
-	}
-	if (conditionsSet.playerItemsRequired)
-	{
-		vector <Item> itemsFromPlayer = player->getAllItemsAndRemove();
-		for (int i = 0; i < itemsFromPlayer.size(); i++)
-		{
-			obstacle->addNewItem(itemsFromPlayer[i]);
-		}
-	}
+	return message;
+}
+
+void Interaction::realizeSideActions()
+{
+	giveItemsToPlayer();
+	giveItemsToObstacle();
 
 	if (conditionsSet.defaultInteractionSwitcher)
 	{
@@ -56,41 +62,6 @@ bool Interaction::reaction()
 	{
 		obstacle->unfriendMyself();
 	}
-
-	if (*interactionEnd)
-	{
-		return false;
-	}
-	
-	if (conditionsSet.interactionQuitter)
-	{
-		*interactionEnd = true;
-		cout << message;
-		system("pause");
-		return false;
-	}
-	if (conditionsSet.subInteractions.size() == 0)
-	{
-		cout << message;
-		system("pause");
-		return true;
-	}
-	else
-	{
-		bool menuLoop = true;
-		while (menuLoop)
-		{
-			cout << message;
-			int keyCode = _getch() - 48;
-			if (keyCode > 0 && keyCode <= conditionsSet.subInteractions.size())
-			{
-				conditionsSet.subInteractions[keyCode - 1]->setPlayerAndObstacle(player, obstacle);
-				conditionsSet.subInteractions[keyCode - 1]->setInteractionEndAndDefaultChange(interactionEnd);
-				menuLoop = conditionsSet.subInteractions[keyCode - 1]->reaction();
-			}
-		}
-		return false;
-	}
 }
 
 bool Interaction::checkAllConditions()
@@ -99,23 +70,47 @@ bool Interaction::checkAllConditions()
 	{
 		if (conditionsSet.isOnceConditions[i]->chosenOnce == false)
 		{
-			return true;
+			return false;
 		}
 	}
 	for (int i = 0; i < conditionsSet.playerConditions.size(); i++)
 	{
 		if (!(player->getSkillByName(conditionsSet.playerConditions[i].name) >= conditionsSet.playerConditions[i].desiredValue))
 		{
-			return true;
+			return false;
 		}
 	}
 	if (conditionsSet.obstacleItemsRequired && obstacle->obstacleHasNoItems())
 	{
-		return true;
+		return false;
 	}
 	if (conditionsSet.playerItemsRequired && player->obstacleHasNoItems())
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
+}
+
+void Interaction::giveItemsToPlayer()
+{
+	if (conditionsSet.obstacleItemsRequired)
+	{
+		vector <Item> itemsFromComputer = obstacle->getAllItemsAndRemove();
+		for (int i = 0; i < itemsFromComputer.size(); i++)
+		{
+			player->addNewItem(itemsFromComputer[i]);
+		}
+	}
+}
+
+void Interaction::giveItemsToObstacle()
+{
+	if (conditionsSet.playerItemsRequired)
+	{
+		vector <Item> itemsFromPlayer = player->getAllItemsAndRemove();
+		for (int i = 0; i < itemsFromPlayer.size(); i++)
+		{
+			obstacle->addNewItem(itemsFromPlayer[i]);
+		}
+	}
 }

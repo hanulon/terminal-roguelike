@@ -11,8 +11,10 @@ public:
 	int getAttributePointsLeft();
 	int getSkillPointsLeft();
 	void interactWith(MapObstacle* obstacle);
+	Interaction* getOngoingInteraction();
 
 private:
+	Interaction* ongoingInteraction = nullptr;
 	int attributePointsLeft = 6;
 	int skillPointsLeft = 12;
 };

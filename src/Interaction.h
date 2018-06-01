@@ -15,27 +15,29 @@ public:
 
 	struct Conditions
 	{
-		std::vector <Interaction*> subInteractions;
 		std::vector <Interaction*> isOnceConditions;
 		std::vector <DialogSkillAttrCondition> playerConditions;
 		bool obstacleItemsRequired = false;
 		bool playerItemsRequired = false;
-		bool interactionQuitter = false;
 		bool defaultInteractionSwitcher = false;
 		bool unfriend = false;
 	};
 
+	std::vector <Interaction*> subInteractions;
+	Interaction* subDefault = nullptr;
 	void setPlayerAndObstacle(InteractiveObstacle* player, InteractiveObstacle* intObstacle);
-	void setInteractionEndAndDefaultChange(bool* interEnd);
 	bool chosenOnce = false;
 	std::string message;
 	Conditions conditionsSet;
-	bool reaction();
+	Interaction* reaction();
+	std::string getMessage();
+	void realizeSideActions();
 
 private:
 	InteractiveObstacle* obstacle;
 	InteractiveObstacle* player;
-	bool* interactionEnd;
 	bool checkAllConditions();
+	void giveItemsToPlayer();
+	void giveItemsToObstacle();
 };
 

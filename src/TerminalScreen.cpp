@@ -83,56 +83,54 @@ void TerminalScreen::initializeFriendlyInteraction()
 		"3. 'I feel I should go. I must go. I'm a go go galooo...'\n"
 		"4. Just leave him.\n"
 		"5. 'I wage war at you!'\n";
-	mainFriendly.conditionsSet.subInteractions.push_back(&optionOneFriendly);
-	mainFriendly.conditionsSet.subInteractions.push_back(&stareFriendly);
-	mainFriendly.conditionsSet.subInteractions.push_back(&gogogoFriendly);
-	mainFriendly.conditionsSet.subInteractions.push_back(&exitConversationFriendly);
-	mainFriendly.conditionsSet.subInteractions.push_back(&wageWarFriendly);
+	mainFriendly.subInteractions.push_back(&optionOneFriendly);
+	mainFriendly.subInteractions.push_back(&stareFriendly);
+	mainFriendly.subInteractions.push_back(&gogogoFriendly);
+	mainFriendly.subInteractions.push_back(&exitConversationFriendly);
+	mainFriendly.subInteractions.push_back(&wageWarFriendly);
 
 	optionOneFriendly.message = "'It's really nice to meet a friend here! That aggressive weirdo over there is a not-friend' he waves his hand at the enemy npc.\n"
 		"1. 'I wanna ask some questions... friend.'\n"
 		"2. 'I'm not your friend...'\n";
-	optionOneFriendly.conditionsSet.subInteractions.push_back(&questioningFriendly);
-	optionOneFriendly.conditionsSet.subInteractions.push_back(&unfriendingFriendly);
+	optionOneFriendly.subInteractions.push_back(&questioningFriendly);
+	optionOneFriendly.subInteractions.push_back(&unfriendingFriendly);
 
 	questioningFriendly.message = "'Of course, friend! What is it, that you want to know, in your friendliness?'\n"
 		"1. 'Why are you walking in circles?'\n"
 		"2. 'What is your name?'\n"
 		"3. 'What's going on with the other guy?'\n"
 		"4. 'I must go. My planet needs meeeeeeeee'\n";
-	questioningFriendly.conditionsSet.subInteractions.push_back(&walkingQuestionFriendly);
-	questioningFriendly.conditionsSet.subInteractions.push_back(&nameQuestionFriendly);
-	questioningFriendly.conditionsSet.subInteractions.push_back(&enemyQuestionFriendly);
-	questioningFriendly.conditionsSet.subInteractions.push_back(&exitConversationFriendly);
+	questioningFriendly.subInteractions.push_back(&walkingQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&nameQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&enemyQuestionFriendly);
+	questioningFriendly.subInteractions.push_back(&exitConversationFriendly);
 
 	walkingQuestionFriendly.message = "You see that your question preplexed him for a moment, yet a smile quickly shows again on his deranged face.\n"
 		"'Oh, that's not important, my friend. I just inexplicably feel urged to walk in that pattern. Friendly normal, isn't it?'\n";
+	walkingQuestionFriendly.subDefault = &questioningFriendly;
 	nameQuestionFriendly.message = "'My name?' he thinks for a moment, and then shakes his head. 'I do not remember now. Just call me your friend, right?'\n";
+	nameQuestionFriendly.subDefault = &questioningFriendly;
 	enemyQuestionFriendly.message = "'Oh, you should avoid this un-friend. He's just a stupid man, who walks in circles. What a dumbass, can you believe?'\n";
+	enemyQuestionFriendly.subDefault = &questioningFriendly;
 
 	exitConversationFriendly.message = "You see sadness on his face. 'Very well, friend. But please, do come again! I'm sure I won't even remember you, if you leave now, so feel free to ask me again about everything!'\n";
-	exitConversationFriendly.conditionsSet.interactionQuitter = true;
-
+	
 	unfriendingFriendly.message = "Wide smile leaves his face in an instant. 'So, you're just like that unfriendly troglodyte over there?! Fine, leave me!'\n";
-	unfriendingFriendly.conditionsSet.interactionQuitter = true;
 	unfriendingFriendly.conditionsSet.defaultInteractionSwitcher = true;
-
+	
 	stareFriendly.message = "He doesn't look troubled by your stares. 'Yes? What is it?'\n"
 		"1. Keep staring. It's a challenge!\n"
 		"2. Give up the staring contest. 'I have some questions'.\n";
-	stareFriendly.conditionsSet.subInteractions.push_back(&stareFriendly);
-	stareFriendly.conditionsSet.subInteractions.push_back(&questioningFriendly);
+	stareFriendly.subInteractions.push_back(&stareFriendly);
+	stareFriendly.subInteractions.push_back(&questioningFriendly);
 
 	gogogoFriendly.message = "'I understand, your mission stands before the friendship', his voice is cracking, and you can see tears in his eyes. 'But, please, go if you friendly must.'\n";
-	gogogoFriendly.conditionsSet.interactionQuitter = true;
-
+	
 	unfriendlyFriendly.message = "'Leave me! I don't want to have anything to do with you! You not-friend!'\n";
-	unfriendlyFriendly.conditionsSet.interactionQuitter = true;
-
+	
 	wageWarFriendly.message = "'So that's it?' You see that he's really sad, and from his eyes are flowing tears. 'You do not want to be friend... SO I WILL MAKE YOU MY FRIENDLY CARPET!'\n";
-	wageWarFriendly.conditionsSet.interactionQuitter = true;
 	wageWarFriendly.conditionsSet.unfriend = true;
-
+	
 	this->friendlyCharacter->setMyInteractions(&mainFriendly, &unfriendlyFriendly);
 }
 
@@ -160,17 +158,18 @@ void TerminalScreen::initializeInteraction()
 		"5. Smash the keyboard - what could possibly go wrong ? \n"
 		"6.[if once chosen 5] Destroy the terminal - if I can't use it, no one will!\n"
 		"7. Leave the terminal.\n";
-	mainDialog.conditionsSet.subInteractions.push_back(&hackingDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&emailReadDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&getDisksDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&giveDisksDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&keyboardSmashDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&fatalSmashDialog);
-	mainDialog.conditionsSet.subInteractions.push_back(&exitDialog);
+	mainDialog.subInteractions.push_back(&hackingDialog);
+	mainDialog.subInteractions.push_back(&emailReadDialog);
+	mainDialog.subInteractions.push_back(&getDisksDialog);
+	mainDialog.subInteractions.push_back(&giveDisksDialog);
+	mainDialog.subInteractions.push_back(&keyboardSmashDialog);
+	mainDialog.subInteractions.push_back(&fatalSmashDialog);
+	mainDialog.subInteractions.push_back(&exitDialog);
 
 	hackingDialog.message = "You have full access to the termianal.\n";
 	Interaction::DialogSkillAttrCondition hackingCond = { "Hacking",3 };
 	hackingDialog.conditionsSet.playerConditions.push_back(hackingCond);
+	hackingDialog.subDefault = &mainDialog;
 
 	emailReadDialog.message = "To dsdasjdask From Zdzislaw\n"
 		"You idiots! I'll kill you, I'll kill you all! You do not make a fool out of Zdzislaw, the Hero of the Galaxy!"
@@ -181,29 +180,29 @@ void TerminalScreen::initializeInteraction()
 		"P.S.2 : The part about the bomb was not a joke.\n"
 		"P.S.3 : Or was it ? !\n";
 	emailReadDialog.conditionsSet.isOnceConditions.push_back(&hackingDialog);
+	emailReadDialog.subDefault = &mainDialog;
 
 	getDisksDialog.message = "You've taken some disks from the computer.\n";
 	getDisksDialog.conditionsSet.obstacleItemsRequired = true;
+	getDisksDialog.subDefault = &mainDialog;
 
 	giveDisksDialog.message = "You're giving everything you have to computer\n";
 	giveDisksDialog.conditionsSet.playerItemsRequired = true;
+	giveDisksDialog.subDefault = &mainDialog;
 
 	keyboardSmashDialog.message = "You've hit a keyboard with your forehead, but you don't think that it helped.\n";
+	keyboardSmashDialog.subDefault = &mainDialog;
 
 	fatalSmashDialog.message = "Fatal smash.\n";
 	fatalSmashDialog.conditionsSet.isOnceConditions.push_back(&keyboardSmashDialog);
-	fatalSmashDialog.conditionsSet.interactionQuitter = true;
 	fatalSmashDialog.conditionsSet.defaultInteractionSwitcher = true;
-
+	
 	exitDialog.message = "You leave the computer.\n";
-	exitDialog.conditionsSet.interactionQuitter = true;
-
+	
 	destroyedMachineDialog.message = "The computer is broken, and thus absolutely unusable\n";
-	destroyedMachineDialog.conditionsSet.interactionQuitter = true;
-
+	
 	notInteractingDialog.message = "You try to headbutt the obstacle, but you get nothing more than a bruise on your forehead.\n";
-	notInteractingDialog.conditionsSet.interactionQuitter = true;
-
+	
 	this->computerTerminalObstacle->setMyInteractions(&mainDialog, &destroyedMachineDialog);
 	this->immovableObstacle->setMyInteractions(&notInteractingDialog);
 }

@@ -42,14 +42,13 @@ void Hero::interactWith(MapObstacle * obstacle)
 {
 	if (obstacle->canPlayerInteractWith())
 	{
-		bool endOfInteraction = false;
-		Interaction* obstacleInt = obstacle->getMyDefaultInteraction();
-		while (!endOfInteraction)
+		ongoingInteraction = obstacle->getMyDefaultInteraction();
+		while (ongoingInteraction != nullptr)
 		{
-			obstacleInt = obstacle->getMyDefaultInteraction();
-			obstacleInt->setInteractionEndAndDefaultChange(&endOfInteraction);
-			obstacleInt->setPlayerAndObstacle(this, obstacle);
-			obstacleInt->reaction();
+			ongoingInteraction->setPlayerAndObstacle(this, obstacle);
+			cout << ongoingInteraction->getMessage();
+			ongoingInteraction->realizeSideActions();
+			ongoingInteraction = ongoingInteraction->reaction();
 		}
 	}
 	else
@@ -57,4 +56,9 @@ void Hero::interactWith(MapObstacle * obstacle)
 		cout << "Player attacked enemy: "<<obstacle->getName()<< "!\n";
 		system("pause");
 	}
+}
+
+Interaction * Hero::getOngoingInteraction()
+{
+	return ongoingInteraction;
 }
