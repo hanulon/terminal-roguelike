@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "NewGameController.h"
 
-string NewGameController::playerSheet;
-int NewGameController::attributePointsLeft;
-int NewGameController::skillPointsLeft;
-
 NewGameController::NewGameController()
 {
 }
@@ -20,17 +16,6 @@ Controller* NewGameController::processUserInput()
 	getline(cin, command);
 	interpretCommand(trim(command));
 	return returnedController;
-}
-
-void NewGameController::updatePlayerSheet(string sheet)
-{
-	playerSheet = sheet;
-}
-
-void NewGameController::updateCreationPointsLeft(int attributePoints, int skillPoints)
-{
-	attributePointsLeft = attributePoints;
-	skillPointsLeft = skillPoints;
 }
 
 void NewGameController::interpretCommand(string command)
@@ -72,9 +57,9 @@ void NewGameController::interpretTwoArgumentedCommand(string firstCommandToken, 
 
 void NewGameController::printScreen()
 {
-	cout << playerSheet << endl;
-	cout << "Attribute points left: " << attributePointsLeft << endl <<
-		"Skill points left: " << skillPointsLeft << endl;
+	cout << mainModel->getPlayerCharacterSheet() << endl;
+	cout << "Attribute points left: " << mainModel->getPlayerAttributePointsLeft() << endl <<
+		"Skill points left: " << mainModel->getPlayerSkillPointsLeft() << endl;
 	printInstruction();
 	printMessageForUser();
 	cout << ">";

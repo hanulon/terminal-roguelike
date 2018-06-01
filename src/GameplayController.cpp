@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "GameplayController.h"
 
-string GameplayController::gameMapState;
-string GameplayController::playerShortInfo;
-
 GameplayController::GameplayController()
 {
 }
@@ -22,7 +19,7 @@ Controller* GameplayController::processUserInput()
 		returnedController = new MainMenuController;
 		break;
 	case Key_Space:
-		mainModel->endTheTurn();
+		mainModel->endTurn();
 		break;
 	case Key_Help_0:
 	case Key_Help_1:
@@ -39,7 +36,7 @@ Controller* GameplayController::processUserInput()
 		//shooting options
 		break;
 	case Key_Take_Item:
-		mainModel->takeItemFromYourTile();
+		mainModel->playerTakeItemFromFloor();
 		break;
 	case Key_F_and_NumpadArrows:
 	case Key_Arrows_and_Other:
@@ -50,17 +47,6 @@ Controller* GameplayController::processUserInput()
 		break;
 	}
 	return returnedController;
-}
-
-void GameplayController::updateMapAndOtherInfo(string gameMap, string shortPlayerInfo)
-{
-	gameMapState = gameMap;
-	playerShortInfo = shortPlayerInfo;
-}
-
-void GameplayController::updateMap(string gameMap)
-{
-	gameMapState = gameMap;
 }
 
 void GameplayController::displayHelp()
@@ -105,8 +91,8 @@ void GameplayController::realizeUndocumentedComment(int keyPressed)
 
 void GameplayController::printScreen()
 {
-	cout << gameMapState;
-	cout << "HERO STATISTICS\n" << playerShortInfo << endl;
+	cout << mainModel->getDisplayedMap();
+	cout << "HERO STATISTICS\n" << mainModel->getPlayerGeneralInfo() << endl;
 	if (this->messageForUser.length() == 0)
 		this->messageForUser = "Press h or ? to show help.";
 	printMessageForUser();

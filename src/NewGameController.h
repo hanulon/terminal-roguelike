@@ -9,9 +9,6 @@ public:
 
 	Controller* processUserInput();
 
-	static void updatePlayerSheet(string sheet);
-	static void updateCreationPointsLeft(int attributePoints, int skillPoints);
-
 private:
 	void interpretCommand(string command);
 	void finishCmd();
@@ -20,9 +17,5 @@ private:
 	void printScreen();
 	void printInstruction();
 	vector <string> splitString(string splitted);
-
-	static string playerSheet;
-	static int attributePointsLeft;
-	static int skillPointsLeft;
 };
 

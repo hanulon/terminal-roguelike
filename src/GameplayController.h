@@ -9,9 +9,6 @@ public:
 
 	Controller* processUserInput();
 
-	static void updateMapAndOtherInfo(string gameMap, string shortPlayerInfo);
-	static void updateMap(string gameMap);
-
 private:
 	enum KeyCodes
 	{
@@ -35,9 +32,6 @@ private:
 		Arrow_Left = 75,
 		Arrow_Up = 72
 	};
-
-	static string gameMapState;
-	static string playerShortInfo;
 
 	void displayHelp();
 	Point playerMakesStep(ArrowKey arrowKey);

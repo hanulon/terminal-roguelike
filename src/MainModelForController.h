@@ -6,34 +6,17 @@ public:
 	MainModelForController();
 	~MainModelForController();
 
-	enum UserAction
-	{
-		NoAction,
-		TurnEnded,
-		NameChanged,
-		AttrSkillChanged,
-		TakeItemFromFloor
-	};
+	virtual void changeNewCharacterName(std::string name) = 0;
+	virtual void changeNewHeroAttributeSkill(std::string attributeSkillName, int value) = 0;
+	virtual void makePlayerStep(Point step) = 0;
+	virtual void endTurn() = 0;
+	virtual void playerTakeItemFromFloor() = 0;
 
-	void changeNewCharacterName(std::string name);
-	void changeNewHeroAttributeSkill(std::string attributeSkillName, int value);
-	void endTheTurn();
-	void takeItemFromYourTile();
-	void makePlayerStep(Point step);
+	virtual std::string getDisplayedMap() = 0;
+	virtual std::string getPlayerCharacterSheet() = 0;
+	virtual std::string getPlayerGeneralInfo() = 0;
+	virtual int getPlayerAttributePointsLeft() = 0;
+	virtual int getPlayerSkillPointsLeft() = 0;
 
-protected:
-	UserAction signalAction();
-	std::string getNewHeroName();
-	std::string getAttributeSkillName();
-	int getAttributeSkillValue();
-	void clearActionSignal();
-	Point getPlayerStep();
-
-private:
-	UserAction actionType;
-	Point step;
-	std::string name;
-	std::string attributeSkillName;
-	int value;
 };
 

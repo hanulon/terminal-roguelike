@@ -39,10 +39,8 @@ void TerminalScreen::menusLoop()
 {
 	while (this->userInterface != nullptr)
 	{
-		updateUserController();
 		userInterface->refresh();
 		changeViewAndController(userInterface->processUserInput());
-		controllerAction();
 	}
 }
 
@@ -63,91 +61,6 @@ void TerminalScreen::testMapInitialization()
 	gameMap->addObstacleToMap(computerTerminalObstacle, computerTerminalObstacle->getMapPosition());
 }
 
-void TerminalScreen::updateUserController()
-{
-	GameplayController::updateMapAndOtherInfo(gameMap->printMap(), playerCharacter->getGeneralInfo());
-	NewGameController::updatePlayerSheet(playerCharacter->getCharacterSheet());
-	NewGameController::updateCreationPointsLeft(playerCharacter->getAttributePointsLeft(), playerCharacter->getSkillPointsLeft());
-}
-
-void TerminalScreen::changeViewAndController(Controller* newInterface)
-{
-	if (newInterface == nullptr || typeid(*userInterface) != typeid(*newInterface))
-	{
-		delete this->userInterface;
-		this->userInterface = newInterface;
-	}
-}
-
-void TerminalScreen::controllerAction()
-{
-	switch (signalAction())
-	{
-	case TakeItemFromFloor:
-		playerTakeItemFromFloor();
-	case TurnEnded:
-		endTurn();
-		break;
-	case NameChanged:
-		playerCharacter->setName(getNewHeroName());
-		break;
-	case AttrSkillChanged:
-		assignAttributeSkillActionInNewGameMenu(getAttributeSkillName(), getAttributeSkillValue());
-		break;
-	default:
-		break;
-	}
-	clearActionSignal();
-}
-
-void TerminalScreen::playerTakeItemFromFloor()
-{
-	try
-	{
-		Item takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
-		playerCharacter->addNewItem(takenItem);
-	}
-	catch (const std::exception&)
-	{
-	}
-}
-
-void TerminalScreen::endTurn()
-{
-	Point playerStep = getPlayerStep();
-	if (!(playerStep == Point()))
-	{
-		playerMakesMove(playerStep);
-	}
-	npcsTakeActions();
-	userInterface->updateMessageForUser(gameMap->getItemsNamesFrom(playerCharacter->getMapPosition()));
-}
-
-void TerminalScreen::playerMakesMove(Point step)
-{
-	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
-	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
-	{
-		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
-		if (crashedObstacle != nullptr)
-			playerCharacter->interactWith(crashedObstacle);
-	}
-	else
-	{
-		gameMap->moveCreatureToDesiredPosition(playerCharacter, newPlayerPosition);
-		playerCharacter->setMapPosition(newPlayerPosition);
-	}
-}
-
-void TerminalScreen::npcsTakeActions()
-{
-	for (int i = 0; i < npcVector.size(); i++)
-	{
-		GameplayController::updateMap(gameMap->printMap());
-		userInterface->refresh();
-		npcMakesMove(npcVector[i]);
-	}
-}
 
 Interaction mainFriendly;
 Interaction optionOneFriendly;
@@ -175,13 +88,13 @@ void TerminalScreen::initializeFriendlyInteraction()
 	mainFriendly.subInteractions.push_back(&gogogoFriendly);
 	mainFriendly.subInteractions.push_back(&exitConversationFriendly);
 	mainFriendly.subInteractions.push_back(&wageWarFriendly);
-	
+
 	optionOneFriendly.message = "'It's really nice to meet a friend here! That aggressive weirdo over there is a not-friend' he waves his hand at the enemy npc.\n"
 		"1. 'I wanna ask some questions... friend.'\n"
 		"2. 'I'm not your friend...'\n";
 	optionOneFriendly.subInteractions.push_back(&questioningFriendly);
 	optionOneFriendly.subInteractions.push_back(&unfriendingFriendly);
-	
+
 	questioningFriendly.message = "'Of course, friend! What is it, that you want to know, in your friendliness?'\n"
 		"1. 'Why are you walking in circles?'\n"
 		"2. 'What is your name?'\n"
@@ -191,12 +104,12 @@ void TerminalScreen::initializeFriendlyInteraction()
 	questioningFriendly.subInteractions.push_back(&nameQuestionFriendly);
 	questioningFriendly.subInteractions.push_back(&enemyQuestionFriendly);
 	questioningFriendly.subInteractions.push_back(&exitConversationFriendly);
-	
+
 	walkingQuestionFriendly.message = "You see that your question preplexed him for a moment, yet a smile quickly shows again on his deranged face.\n"
 		"'Oh, that's not important, my friend. I just inexplicably feel urged to walk in that pattern. Friendly normal, isn't it?'\n";
 	nameQuestionFriendly.message = "'My name?' he thinks for a moment, and then shakes his head. 'I do not remember now. Just call me your friend, right?'\n";
 	enemyQuestionFriendly.message = "'Oh, you should avoid this un-friend. He's just a stupid man, who walks in circles. What a dumbass, can you believe?'\n";
-	
+
 	exitConversationFriendly.message = "You see sadness on his face. 'Very well, friend. But please, do come again! I'm sure I won't even remember you, if you leave now, so feel free to ask me again about everything!'\n";
 	exitConversationFriendly.interactionQuitter = true;
 
@@ -209,20 +122,19 @@ void TerminalScreen::initializeFriendlyInteraction()
 		"2. Give up the staring contest. 'I have some questions'.\n";
 	stareFriendly.subInteractions.push_back(&stareFriendly);
 	stareFriendly.subInteractions.push_back(&questioningFriendly);
-	
+
 	gogogoFriendly.message = "'I understand, your mission stands before the friendship', his voice is cracking, and you can see tears in his eyes. 'But, please, go if you friendly must.'\n";
 	gogogoFriendly.interactionQuitter = true;
-	
+
 	unfriendlyFriendly.message = "'Leave me! I don't want to have anything to do with you! You not-friend!'\n";
 	unfriendlyFriendly.interactionQuitter = true;
 
 	wageWarFriendly.message = "'So that's it?' You see that he's really sad, and from his eyes are flowing tears. 'You do not want to be friend... SO I WILL MAKE YOU MY FRIENDLY CARPET!'\n";
 	wageWarFriendly.interactionQuitter = true;
 	wageWarFriendly.unfriend = true;
-	
+
 	this->friendlyCharacter->setMyInteractions(&mainFriendly, &unfriendlyFriendly);
 }
-
 
 Interaction mainDialog;
 Interaction destroyedMachineDialog;
@@ -296,6 +208,58 @@ void TerminalScreen::initializeInteraction()
 	this->immovableObstacle->setMyInteractions(&notInteractingDialog);
 }
 
+void TerminalScreen::changeViewAndController(Controller* newInterface)
+{
+	if (newInterface == nullptr || typeid(*userInterface) != typeid(*newInterface))
+	{
+		delete this->userInterface;
+		this->userInterface = newInterface;
+	}
+}
+
+void TerminalScreen::playerTakeItemFromFloor()
+{
+	try
+	{
+		Item takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
+		playerCharacter->addNewItem(takenItem);
+	}
+	catch (const std::exception&)
+	{
+	}
+}
+
+void TerminalScreen::endTurn()
+{
+	npcsTakeActions();
+	userInterface->updateMessageForUser(gameMap->getItemsNamesFrom(playerCharacter->getMapPosition()));
+}
+
+void TerminalScreen::playerMakesMove(Point step)
+{
+	Point newPlayerPosition = playerCharacter->getMapPosition() + step;
+	if (this->gameMap->isTheTileOccupied(newPlayerPosition))
+	{
+		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
+		if (crashedObstacle != nullptr)
+			playerCharacter->interactWith(crashedObstacle);
+	}
+	else
+	{
+		gameMap->moveCreatureToDesiredPosition(playerCharacter, newPlayerPosition);
+		playerCharacter->setMapPosition(newPlayerPosition);
+	}
+}
+
+void TerminalScreen::npcsTakeActions()
+{
+	for (int i = 0; i < npcVector.size(); i++)
+	{
+		userInterface->refresh();
+		npcMakesMove(npcVector[i]);
+	}
+}
+
 void TerminalScreen::npcMakesMove(NonPlayerCharacter * npc)
 {
 	Point npcNewPosition = npc->tryToMove();
@@ -344,8 +308,44 @@ void TerminalScreen::npcCrashesObstacle(NonPlayerCharacter * npc, MapObstacle * 
 	system("pause");
 }
 
-void TerminalScreen::assignAttributeSkillActionInNewGameMenu(string attributeSkillName, int value)
+void TerminalScreen::changeNewCharacterName(std::string name)
+{
+	playerCharacter->setName(name);
+}
+
+void TerminalScreen::changeNewHeroAttributeSkill(std::string attributeSkillName, int value)
 {
 	if (value >= 0)
 		playerCharacter->setAttributeOrSkillHeroCreator(attributeSkillName, value);
+}
+
+void TerminalScreen::makePlayerStep(Point step)
+{
+	playerMakesMove(step);
+	endTurn();
+}
+
+std::string TerminalScreen::getDisplayedMap()
+{
+	return gameMap->printMap();
+}
+
+std::string TerminalScreen::getPlayerCharacterSheet()
+{
+	return playerCharacter->getCharacterSheet();
+}
+
+std::string TerminalScreen::getPlayerGeneralInfo()
+{
+	return playerCharacter->getGeneralInfo();
+}
+
+int TerminalScreen::getPlayerAttributePointsLeft()
+{
+	return playerCharacter->getAttributePointsLeft();
+}
+
+int TerminalScreen::getPlayerSkillPointsLeft()
+{
+	return playerCharacter->getSkillPointsLeft();
 }

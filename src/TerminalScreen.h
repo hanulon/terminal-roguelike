@@ -26,20 +26,27 @@ private:
 	Controller* userInterface;
 	vector <NonPlayerCharacter*> npcVector;
 	void testMapInitialization();
+	void initializeFriendlyInteraction();
+	void initializeInteraction();
 
-	void updateUserController();
 	void changeViewAndController(Controller* newInterface);
-	void controllerAction();
 	void playerTakeItemFromFloor();
 	void endTurn();
 	void playerMakesMove(Point step);
 	void npcsTakeActions();
-	void initializeFriendlyInteraction();
-	void initializeInteraction();
 	void npcMakesMove(NonPlayerCharacter* npc);
 	void npcCrashesPlayer(Hero* playerCharacter, NonPlayerCharacter* npc);
 	void npcCrashesNpc(NonPlayerCharacter* npc, NonPlayerCharacter* otherNpc);
 	void npcCrashesObstacle(NonPlayerCharacter* npc, MapObstacle* obstacle);
-	void assignAttributeSkillActionInNewGameMenu(std::string attributeSkillName, int value);
+
+	void changeNewCharacterName(std::string name);
+	void changeNewHeroAttributeSkill(std::string attributeSkillName, int value);
+	void makePlayerStep(Point step);
+
+	std::string getDisplayedMap();
+	std::string getPlayerCharacterSheet();
+	std::string getPlayerGeneralInfo();
+	int getPlayerAttributePointsLeft();
+	int getPlayerSkillPointsLeft();
 };
 
