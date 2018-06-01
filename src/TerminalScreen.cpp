@@ -10,7 +10,6 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 {
 	this->userInterface = new MainMenuController();
 	this->userInterface->mainModel = this;
-	this->initMe();
 
 	this->playerCharacter = playerCharacter;
 	this->gameMap = gameMap;
@@ -84,15 +83,15 @@ void TerminalScreen::controllerAction()
 {
 	switch (signalAction())
 	{
-	case ControllerToModelConnector::TakeItemFromFloor:
+	case TakeItemFromFloor:
 		playerTakeItemFromFloor();
-	case ControllerToModelConnector::TurnEnded:
+	case TurnEnded:
 		endTurn();
 		break;
-	case ControllerToModelConnector::NameChanged:
+	case NameChanged:
 		playerCharacter->setName(getNewHeroName());
 		break;
-	case ControllerToModelConnector::AttrSkillChanged:
+	case AttrSkillChanged:
 		assignAttributeSkillActionInNewGameMenu(getAttributeSkillName(), getAttributeSkillValue());
 		break;
 	default:

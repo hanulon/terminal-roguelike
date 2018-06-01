@@ -11,62 +11,65 @@ MainModelForController::~MainModelForController()
 {
 }
 
-void MainModelForController::initMe()
-{
-	linkFromController = new ControllerToModelConnector();
-}
-
 void MainModelForController::changeNewCharacterName(std::string name)
 {
-	linkFromController->changeNewCharacterName(name);
+	this->actionType = NameChanged;
+	this->name = name;
 }
 
 void MainModelForController::changeNewHeroAttributeSkill(std::string attributeSkillName, int value)
 {
-	linkFromController->changeNewHeroAttributeSkill(attributeSkillName, value);
+	this->actionType = AttrSkillChanged;
+	this->attributeSkillName = attributeSkillName;
+	this->value = value;
 }
 
 void MainModelForController::endTheTurn()
 {
-	linkFromController->endTurn();
+	this->actionType = TurnEnded;
 }
 
 void MainModelForController::takeItemFromYourTile()
 {
-	linkFromController->takeItemFromYourTile();
+	this->actionType = TakeItemFromFloor;
 }
 
 void MainModelForController::makePlayerStep(Point step)
 {
-	linkFromController->makePlayerStep(step);
+	this->step = step;
+	endTheTurn();
 }
 
-ControllerToModelConnector::UserAction MainModelForController::signalAction()
+MainModelForController::UserAction MainModelForController::signalAction()
 {
-	return linkFromController->signalAction();
+	return this->actionType;
 }
 
 std::string MainModelForController::getNewHeroName()
 {
-	return linkFromController->getNewHeroName();
+	return this->name;
 }
 
 std::string MainModelForController::getAttributeSkillName()
 {
-	return linkFromController->getAttributeSkillName();
+	return this->attributeSkillName;
 }
 
 int MainModelForController::getAttributeSkillValue()
 {
-	return linkFromController->getAttributeSkillValue();
+	return this->value;
 }
 
 void MainModelForController::clearActionSignal()
 {
-	linkFromController->clearActionSignal();
+	this->actionType = NoAction;
+	this->step = Point();
+	this->name = "";
+	this->attributeSkillName = "";
+	this->value = 0;
 }
 
 Point MainModelForController::getPlayerStep()
 {
-	return linkFromController->getPlayerStep();
+	return this->step;
 }

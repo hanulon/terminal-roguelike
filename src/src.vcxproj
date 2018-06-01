@@ -169,7 +169,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TerminalScreen.h" />
     <ClInclude Include="Tile.h" />
-    <ClInclude Include="ControllerToModelConnector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutController.cpp" />
@@ -200,7 +199,6 @@
     </ClCompile>
     <ClCompile Include="TerminalScreen.cpp" />
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="ControllerToModelConnector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

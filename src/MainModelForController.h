@@ -1,5 +1,4 @@
 #pragma once
-#include "ControllerToModelConnector.h"
 
 class MainModelForController
 {
@@ -7,7 +6,15 @@ public:
 	MainModelForController();
 	~MainModelForController();
 
-	void initMe();
+	enum UserAction
+	{
+		NoAction,
+		TurnEnded,
+		NameChanged,
+		AttrSkillChanged,
+		TakeItemFromFloor
+	};
+
 	void changeNewCharacterName(std::string name);
 	void changeNewHeroAttributeSkill(std::string attributeSkillName, int value);
 	void endTheTurn();
@@ -15,7 +22,7 @@ public:
 	void makePlayerStep(Point step);
 
 protected:
-	ControllerToModelConnector::UserAction signalAction();
+	UserAction signalAction();
 	std::string getNewHeroName();
 	std::string getAttributeSkillName();
 	int getAttributeSkillValue();
@@ -23,6 +30,10 @@ protected:
 	Point getPlayerStep();
 
 private:
-	ControllerToModelConnector* linkFromController;
+	UserAction actionType;
+	Point step;
+	std::string name;
+	std::string attributeSkillName;
+	int value;
 };
 

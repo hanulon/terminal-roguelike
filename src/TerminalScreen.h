@@ -3,7 +3,6 @@
 #include "Hero.h"
 #include "NonPlayerCharacter.h"
 #include "Map.h"
-#include "ControllerToModelConnector.h"
 #include "MainModelForController.h"
 #include "Controller.h"
 #include "Item.h"
