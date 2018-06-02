@@ -26,6 +26,10 @@ void Controller::updateMessageForUser(std::string message)
 	this->messageForUser = message;
 }
 
+void Controller::dialogModeOn(bool on)
+{
+}
+
 void Controller::pressAnyKey()
 {
 	cout << "Press any key to return to the menu...";

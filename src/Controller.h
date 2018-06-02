@@ -15,10 +15,7 @@ public:
 	virtual void refresh();
 	void updateMessageForUser(std::string message);
 	static MainModelForController* mainModel;
-
-
-	bool dialogMode = false;
-	int subintSize = 0;
+	virtual void dialogModeOn(bool on);
 
 protected:
 	virtual void printScreen() = 0;

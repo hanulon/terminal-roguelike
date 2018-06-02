@@ -10,11 +10,12 @@ public:
 	void setAttributeOrSkillHeroCreator(std::string attributeSkillName, int value);
 	int getAttributePointsLeft();
 	int getSkillPointsLeft();
-	void interactWith(MapObstacle* obstacle);
+
 	void startInteractionWith(MapObstacle* obstacle);
 	void passSubInteractionDecision(int dubNumber);
 	std::string getInteractionMessage();
-	Interaction* getOngoingInteraction();
+	bool hasOngoingInteractionEnded();
+	int getSubinteractionsNumber();
 
 private:
 	Interaction* ongoingInteraction = nullptr;

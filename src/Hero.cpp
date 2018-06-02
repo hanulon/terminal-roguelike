@@ -38,26 +38,6 @@ int Hero::getSkillPointsLeft()
 	return this->skillPointsLeft;
 }
 
-void Hero::interactWith(MapObstacle * obstacle)
-{
-	if (obstacle->canPlayerInteractWith())
-	{
-		ongoingInteraction = obstacle->getMyDefaultInteraction();
-		while (ongoingInteraction != nullptr)
-		{
-			ongoingInteraction->setPlayerAndObstacle(this, obstacle);
-			cout << ongoingInteraction->getMessage();
-			ongoingInteraction->realizeSideActions();
-			ongoingInteraction = ongoingInteraction->reaction();
-		}
-	}
-	else
-	{
-		cout << "Player attacked enemy: "<<obstacle->getName()<< "!\n";
-		system("pause");
-	}
-}
-
 void Hero::startInteractionWith(MapObstacle * obstacle)
 {
 	if (obstacle->canPlayerInteractWith())
@@ -90,7 +70,14 @@ std::string Hero::getInteractionMessage()
 	return ongoingInteraction->getMessage();
 }
 
-Interaction * Hero::getOngoingInteraction()
+bool Hero::hasOngoingInteractionEnded()
 {
-	return ongoingInteraction;
+	if (ongoingInteraction == nullptr)
+		return true;
+	return false;
+}
+
+int Hero::getSubinteractionsNumber()
+{
+	return ongoingInteraction->subInteractions.size();
 }

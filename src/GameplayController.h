@@ -8,6 +8,7 @@ public:
 	~GameplayController();
 
 	Controller* processUserInput();
+	void dialogModeOn(bool on);
 
 private:
 	enum KeyCodes
@@ -37,5 +38,6 @@ private:
 	Point playerMakesStep(ArrowKey arrowKey);
 	void realizeUndocumentedComment(int keyPressed);
 	void printScreen();
+	bool dialogMode = false;
 };
 

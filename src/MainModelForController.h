@@ -19,6 +19,7 @@ public:
 	virtual int getPlayerSkillPointsLeft() = 0;
 	virtual void interactionDecision(int subIter) = 0;
 	virtual std::string getInteractionMessage() = 0;
+	virtual bool hasInteractionAnySubinteractions() = 0;
 
 };
 

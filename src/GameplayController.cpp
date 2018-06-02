@@ -58,6 +58,11 @@ Controller* GameplayController::processUserInput()
 	return returnedController;
 }
 
+void GameplayController::dialogModeOn(bool on)
+{
+	dialogMode = on;
+}
+
 void GameplayController::displayHelp()
 {
 	this->messageForUser = "Player instruction:\n"
@@ -105,10 +110,8 @@ void GameplayController::printScreen()
 	if (dialogMode)
 	{
 		this->messageForUser = mainModel->getInteractionMessage();
-		if (subintSize == 0)
-		{
+		if (!(mainModel->hasInteractionAnySubinteractions()))
 			this->messageForUser += "Press any key...";
-		}
 	}
 	else
 	{

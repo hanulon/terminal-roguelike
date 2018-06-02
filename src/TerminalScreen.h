@@ -51,5 +51,6 @@ private:
 
 	void interactionDecision(int subIter);
 	std::string getInteractionMessage();
+	bool hasInteractionAnySubinteractions();
 };
 

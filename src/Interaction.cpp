@@ -70,17 +70,15 @@ Interaction * Interaction::reactToDecision(int subNumber)
 	{
 		return subDefault;
 	}
-	else
+	else if(subNumber>0 && subNumber<=subInteractions.size())
 	{
 		subInteractions[subNumber - 1]->setPlayerAndObstacle(player, obstacle);
 		if (subInteractions[subNumber - 1]->checkAllConditions())
 		{
 			return subInteractions[subNumber - 1];
 		}
-		else
-			return this;
 	}
-	
+	return this;
 }
 
 bool Interaction::checkAllConditions()

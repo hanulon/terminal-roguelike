@@ -242,15 +242,11 @@ void TerminalScreen::playerMakesMove(Point step)
 		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
 		if (crashedObstacle != nullptr)
 		{
-			//playerCharacter->interactWith(crashedObstacle);
 			playerCharacter->startInteractionWith(crashedObstacle);
-			if(playerCharacter->getOngoingInteraction() == nullptr)
+			if(playerCharacter->hasOngoingInteractionEnded())
 				endTurn();
 			else
-			{
-				userInterface->dialogMode = true;
-				userInterface->subintSize = playerCharacter->getOngoingInteraction()->subInteractions.size();
-			}
+				userInterface->dialogModeOn(true);
 		}
 	}
 	else
@@ -362,16 +358,21 @@ int TerminalScreen::getPlayerSkillPointsLeft()
 void TerminalScreen::interactionDecision(int subIter)
 {
 	playerCharacter->passSubInteractionDecision(subIter);
-	if (playerCharacter->getOngoingInteraction() == nullptr)
+	if (playerCharacter->hasOngoingInteractionEnded())
 	{
-		userInterface->dialogMode = false;
+		userInterface->dialogModeOn(false);
 		endTurn();
 	}
-	else
-		userInterface->subintSize = playerCharacter->getOngoingInteraction()->subInteractions.size();
 }
 
 std::string TerminalScreen::getInteractionMessage()
 {
 	return playerCharacter->getInteractionMessage();
+}
+
+bool TerminalScreen::hasInteractionAnySubinteractions()
+{
+	if (playerCharacter->getSubinteractionsNumber() > 0)
+		return true;
+	return false;
 }
