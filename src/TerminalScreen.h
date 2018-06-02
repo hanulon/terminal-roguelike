@@ -48,5 +48,8 @@ private:
 	std::string getPlayerGeneralInfo();
 	int getPlayerAttributePointsLeft();
 	int getPlayerSkillPointsLeft();
+
+	void interactionDecision(int subIter);
+	std::string getInteractionMessage();
 };
 

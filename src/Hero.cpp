@@ -58,6 +58,38 @@ void Hero::interactWith(MapObstacle * obstacle)
 	}
 }
 
+void Hero::startInteractionWith(MapObstacle * obstacle)
+{
+	if (obstacle->canPlayerInteractWith())
+	{
+		ongoingInteraction = obstacle->getMyDefaultInteraction();
+		ongoingInteraction->setPlayerAndObstacle(this, obstacle);
+	}
+	else
+	{
+		cout << "Player attacked enemy: " << obstacle->getName() << "!\n";
+		system("pause");
+	}
+}
+
+void Hero::passSubInteractionDecision(int dubNumber)
+{
+	ongoingInteraction = ongoingInteraction->reactToDecision(dubNumber);
+}
+
+std::string Hero::getInteractionMessage()
+{
+	try
+	{
+		ongoingInteraction->realizeSideActions();
+	}
+	catch (const std::exception&)
+	{
+
+	}
+	return ongoingInteraction->getMessage();
+}
+
 Interaction * Hero::getOngoingInteraction()
 {
 	return ongoingInteraction;

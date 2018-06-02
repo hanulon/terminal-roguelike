@@ -16,6 +16,10 @@ public:
 	void updateMessageForUser(std::string message);
 	static MainModelForController* mainModel;
 
+
+	bool dialogMode = false;
+	int subintSize = 0;
+
 protected:
 	virtual void printScreen() = 0;
 	void pressAnyKey();

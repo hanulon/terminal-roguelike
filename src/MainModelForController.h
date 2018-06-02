@@ -17,6 +17,8 @@ public:
 	virtual std::string getPlayerGeneralInfo() = 0;
 	virtual int getPlayerAttributePointsLeft() = 0;
 	virtual int getPlayerSkillPointsLeft() = 0;
+	virtual void interactionDecision(int subIter) = 0;
+	virtual std::string getInteractionMessage() = 0;
 
 };
 

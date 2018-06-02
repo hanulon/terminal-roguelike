@@ -11,6 +11,9 @@ public:
 	int getAttributePointsLeft();
 	int getSkillPointsLeft();
 	void interactWith(MapObstacle* obstacle);
+	void startInteractionWith(MapObstacle* obstacle);
+	void passSubInteractionDecision(int dubNumber);
+	std::string getInteractionMessage();
 	Interaction* getOngoingInteraction();
 
 private:

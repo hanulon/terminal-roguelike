@@ -241,12 +241,23 @@ void TerminalScreen::playerMakesMove(Point step)
 	{
 		MapObstacle* crashedObstacle = gameMap->getObstacleFrom(newPlayerPosition);
 		if (crashedObstacle != nullptr)
-			playerCharacter->interactWith(crashedObstacle);
+		{
+			//playerCharacter->interactWith(crashedObstacle);
+			playerCharacter->startInteractionWith(crashedObstacle);
+			if(playerCharacter->getOngoingInteraction() == nullptr)
+				endTurn();
+			else
+			{
+				userInterface->dialogMode = true;
+				userInterface->subintSize = playerCharacter->getOngoingInteraction()->subInteractions.size();
+			}
+		}
 	}
 	else
 	{
 		gameMap->moveCreatureToDesiredPosition(playerCharacter, newPlayerPosition);
 		playerCharacter->setMapPosition(newPlayerPosition);
+		endTurn();
 	}
 }
 
@@ -321,7 +332,6 @@ void TerminalScreen::changeNewHeroAttributeSkill(std::string attributeSkillName,
 void TerminalScreen::makePlayerStep(Point step)
 {
 	playerMakesMove(step);
-	endTurn();
 }
 
 std::string TerminalScreen::getDisplayedMap()
@@ -347,4 +357,21 @@ int TerminalScreen::getPlayerAttributePointsLeft()
 int TerminalScreen::getPlayerSkillPointsLeft()
 {
 	return playerCharacter->getSkillPointsLeft();
+}
+
+void TerminalScreen::interactionDecision(int subIter)
+{
+	playerCharacter->passSubInteractionDecision(subIter);
+	if (playerCharacter->getOngoingInteraction() == nullptr)
+	{
+		userInterface->dialogMode = false;
+		endTurn();
+	}
+	else
+		userInterface->subintSize = playerCharacter->getOngoingInteraction()->subInteractions.size();
+}
+
+std::string TerminalScreen::getInteractionMessage()
+{
+	return playerCharacter->getInteractionMessage();
 }

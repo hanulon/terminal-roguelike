@@ -32,6 +32,7 @@ public:
 	Interaction* reaction();
 	std::string getMessage();
 	void realizeSideActions();
+	Interaction* reactToDecision(int subNumber);
 
 private:
 	InteractiveObstacle* obstacle;

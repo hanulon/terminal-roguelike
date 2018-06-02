@@ -13,39 +13,48 @@ GameplayController::~GameplayController()
 Controller* GameplayController::processUserInput()
 {
 	int keyCode = _getch();
-	switch (keyCode)
+	if (dialogMode)
 	{
-	case Key_Escape:
-		returnedController = new MainMenuController;
-		break;
-	case Key_Space:
-		mainModel->endTurn();
-		break;
-	case Key_Help_0:
-	case Key_Help_1:
-	case Key_Help_2:
-		displayHelp();
-		break;
-	case Key_Inventory:
-		//inventory screen
-		break;
-	case Key_Character_Sheet:
-		//character sheet screen
-		break;
-	case Key_Shoot:
-		//shooting options
-		break;
-	case Key_Take_Item:
-		mainModel->playerTakeItemFromFloor();
-		break;
-	case Key_F_and_NumpadArrows:
-	case Key_Arrows_and_Other:
-		mainModel->makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
-		break;
-	default:
-		realizeUndocumentedComment(keyCode);
-		break;
+		keyCode -= 48;
+		mainModel->interactionDecision(keyCode);
 	}
+	else
+	{
+		switch (keyCode)
+		{
+		case Key_Escape:
+			returnedController = new MainMenuController;
+			break;
+		case Key_Space:
+			mainModel->endTurn();
+			break;
+		case Key_Help_0:
+		case Key_Help_1:
+		case Key_Help_2:
+			displayHelp();
+			break;
+		case Key_Inventory:
+			//inventory screen
+			break;
+		case Key_Character_Sheet:
+			//character sheet screen
+			break;
+		case Key_Shoot:
+			//shooting options
+			break;
+		case Key_Take_Item:
+			mainModel->playerTakeItemFromFloor();
+			break;
+		case Key_F_and_NumpadArrows:
+		case Key_Arrows_and_Other:
+			mainModel->makePlayerStep(playerMakesStep(GameplayController::ArrowKey(_getch())));
+			break;
+		default:
+			realizeUndocumentedComment(keyCode);
+			break;
+		}
+	}
+	
 	return returnedController;
 }
 
@@ -93,7 +102,18 @@ void GameplayController::printScreen()
 {
 	cout << mainModel->getDisplayedMap();
 	cout << "HERO STATISTICS\n" << mainModel->getPlayerGeneralInfo() << endl;
-	if (this->messageForUser.length() == 0)
-		this->messageForUser = "Press h or ? to show help.";
+	if (dialogMode)
+	{
+		this->messageForUser = mainModel->getInteractionMessage();
+		if (subintSize == 0)
+		{
+			this->messageForUser += "Press any key...";
+		}
+	}
+	else
+	{
+		if (this->messageForUser.length() == 0)
+			this->messageForUser = "Press h or ? to show help.";
+	}
 	printMessageForUser();
 }

@@ -64,6 +64,25 @@ void Interaction::realizeSideActions()
 	}
 }
 
+Interaction * Interaction::reactToDecision(int subNumber)
+{
+	if (subInteractions.size() == 0)
+	{
+		return subDefault;
+	}
+	else
+	{
+		subInteractions[subNumber - 1]->setPlayerAndObstacle(player, obstacle);
+		if (subInteractions[subNumber - 1]->checkAllConditions())
+		{
+			return subInteractions[subNumber - 1];
+		}
+		else
+			return this;
+	}
+	
+}
+
 bool Interaction::checkAllConditions()
 {
 	for (int i = 0; i < conditionsSet.isOnceConditions.size(); i++)
