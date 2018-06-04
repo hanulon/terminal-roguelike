@@ -23,8 +23,10 @@ public:
 	int getSkillByName(std::string skillName);
 
 	void testInitialization();
+
 protected:
 	Attributes attributes;
+
 private:
 	Health characterHealth;
 	int armorClass;

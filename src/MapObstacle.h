@@ -2,6 +2,7 @@
 #include "Item.h"
 #include "InteractiveObstacle.h"
 #include "Interaction.h"
+#include "Inventory.h"
 
 class MapObstacle : public InteractiveObstacle
 {
@@ -14,20 +15,21 @@ public:
 	char getNameFirstLetter();
 	void setMapPosition(Point position);
 	Point getMapPosition();
-	void addNewItem(Item newItem);
-	std::string getListOfPossessedItems();
-	vector <Item> getAllItemsAndRemove();
-	bool obstacleHasNoItems();
+
 	void setMyInteractions(Interaction* defaulty, Interaction* alternative = nullptr);
 	void switchDefaultInteraction();
 	Interaction* getMyDefaultInteraction();
 	virtual bool canPlayerInteractWith();
 
+	Inventory* getInventory();
+
 protected:
 	std::string name;
 	Point mapPosition;
-	vector <Item> possessedItems;
 	Interaction* defaultInteraction;
 	Interaction* alternativeInteraction;
+
+private:
+	Inventory myInventory;
 };
 

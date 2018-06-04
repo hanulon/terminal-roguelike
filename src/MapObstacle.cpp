@@ -37,35 +37,6 @@ Point MapObstacle::getMapPosition()
 	return this->mapPosition;
 }
 
-void MapObstacle::addNewItem(Item newItem)
-{
-	this->possessedItems.push_back(newItem);
-}
-
-std::string MapObstacle::getListOfPossessedItems()
-{
-	std::string listOfItems = "";
-	for (int i = 0; i < possessedItems.size(); i++)
-	{
-		listOfItems += possessedItems[i].getName() + "\n";
-	}
-	return listOfItems;
-}
-
-vector<Item> MapObstacle::getAllItemsAndRemove()
-{
-	vector <Item> items = possessedItems;
-	possessedItems.clear();
-	return items;
-}
-
-bool MapObstacle::obstacleHasNoItems()
-{
-	if (possessedItems.size() > 0)
-		return false;
-	return true;
-}
-
 void MapObstacle::setMyInteractions(Interaction * defaulty, Interaction * alternative)
 {
 	if (alternative == nullptr)
@@ -94,4 +65,9 @@ bool MapObstacle::canPlayerInteractWith()
 	if(defaultInteraction != nullptr)
 		return true;
 	return false;
+}
+
+Inventory * MapObstacle::getInventory()
+{
+	return &myInventory;
 }

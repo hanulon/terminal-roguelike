@@ -97,11 +97,11 @@ bool Interaction::checkAllConditions()
 			return false;
 		}
 	}
-	if (conditionsSet.obstacleItemsRequired && obstacle->obstacleHasNoItems())
+	if (conditionsSet.obstacleItemsRequired && obstacle->getInventory()->obstacleHasNoItems())
 	{
 		return false;
 	}
-	if (conditionsSet.playerItemsRequired && player->obstacleHasNoItems())
+	if (conditionsSet.playerItemsRequired && player->getInventory()->obstacleHasNoItems())
 	{
 		return false;
 	}
@@ -112,10 +112,10 @@ void Interaction::giveItemsToPlayer()
 {
 	if (conditionsSet.obstacleItemsRequired)
 	{
-		vector <Item> itemsFromComputer = obstacle->getAllItemsAndRemove();
+		vector <Item> itemsFromComputer = obstacle->getInventory()->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromComputer.size(); i++)
 		{
-			player->addNewItem(itemsFromComputer[i]);
+			player->getInventory()->addNewItem(itemsFromComputer[i]);
 		}
 	}
 }
@@ -124,10 +124,10 @@ void Interaction::giveItemsToObstacle()
 {
 	if (conditionsSet.playerItemsRequired)
 	{
-		vector <Item> itemsFromPlayer = player->getAllItemsAndRemove();
+		vector <Item> itemsFromPlayer = player->getInventory()->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromPlayer.size(); i++)
 		{
-			obstacle->addNewItem(itemsFromPlayer[i]);
+			obstacle->getInventory()->addNewItem(itemsFromPlayer[i]);
 		}
 	}
 }

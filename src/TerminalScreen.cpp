@@ -22,9 +22,9 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 
 	this->immovableObstacle = new MapObstacle("Column");
 	this->computerTerminalObstacle = new MapObstacle("Terminal-Computer");
-	this->computerTerminalObstacle->addNewItem(Item("Disk1"));
-	this->computerTerminalObstacle->addNewItem(Item("Disk2"));
-	this->computerTerminalObstacle->addNewItem(Item("Disk3"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk1"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk2"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk3"));
 	this->droppedItem = new Item("Loot");
 
 	initializeInteraction();
@@ -221,7 +221,7 @@ void TerminalScreen::playerTakeItemFromFloor()
 	try
 	{
 		Item takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
-		playerCharacter->addNewItem(takenItem);
+		playerCharacter->getInventory()->addNewItem(takenItem);
 	}
 	catch (const std::exception&)
 	{
