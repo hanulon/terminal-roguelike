@@ -5,6 +5,7 @@
 MapObstacle::MapObstacle(std::string name)
 {
 	this->name = name;
+	this->myInventory = new Inventory();
 }
 
 
@@ -69,5 +70,5 @@ bool MapObstacle::canPlayerInteractWith()
 
 Inventory * MapObstacle::getInventory()
 {
-	return &myInventory;
+	return myInventory;
 }

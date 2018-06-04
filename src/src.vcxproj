@@ -150,6 +150,7 @@
     <ClInclude Include="Attributes.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="GameplayController.h" />
     <ClInclude Include="GraveyardController.h" />
     <ClInclude Include="Health.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Interaction.h" />
     <ClInclude Include="InteractiveObstacle.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryController.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="MainMenuController.h" />
     <ClInclude Include="MainModelForController.h" />
@@ -176,6 +178,7 @@
     <ClCompile Include="Attributes.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameplayController.cpp" />
     <ClCompile Include="GraveyardController.cpp" />
     <ClCompile Include="Health.cpp" />
@@ -183,6 +186,7 @@
     <ClCompile Include="Interaction.cpp" />
     <ClCompile Include="InteractiveObstacle.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryController.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuController.cpp" />

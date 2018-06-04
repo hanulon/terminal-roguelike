@@ -34,7 +34,7 @@ Controller* GameplayController::processUserInput()
 			displayHelp();
 			break;
 		case Key_Inventory:
-			//inventory screen
+			returnedController = new InventoryController;
 			break;
 		case Key_Character_Sheet:
 			//character sheet screen

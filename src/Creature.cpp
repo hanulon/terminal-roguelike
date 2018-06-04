@@ -18,6 +18,8 @@ Creature::Creature(string name) : MapObstacle(name)
 	this->otherSkills.push_back(Skill("Perception", Attributes::Smarts));
 	this->otherSkills.push_back(Skill("Persuasion", Attributes::Smarts));
 	this->otherSkills.push_back(Skill("Thievery", Attributes::Dexterity));
+
+	this->myEquipment = new Equipment();
 }
 
 Creature::~Creature(){}
@@ -103,6 +105,11 @@ void Creature::testInitialization()
 	this->setOtherSkillByName("Perception", 4);
 	this->setOtherSkillByName("Persuasion", 0);
 	this->setOtherSkillByName("Thievery", 3);
+}
+
+Inventory * Creature::getInventory()
+{
+	return myEquipment;
 }
 
 void Creature::setSkillByNameFromVector(std::string skillName, int value, std::vector<Skill>* skillVector)

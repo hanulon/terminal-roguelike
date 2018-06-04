@@ -21,7 +21,7 @@ public:
 	Interaction* getMyDefaultInteraction();
 	virtual bool canPlayerInteractWith();
 
-	Inventory* getInventory();
+	virtual Inventory* getInventory();
 
 protected:
 	std::string name;
@@ -30,6 +30,6 @@ protected:
 	Interaction* alternativeInteraction;
 
 private:
-	Inventory myInventory;
+	Inventory* myInventory;
 };
 
