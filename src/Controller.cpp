@@ -65,3 +65,24 @@ void Controller::printMessageForUser()
 		this->messageForUser = "";
 	}
 }
+
+vector<string> Controller::splitString(string splitted)
+{
+	size_t  start = 0, end = 0;
+	string theDelimiter = " ";
+	vector <string> theStringVector;
+
+	while (end != string::npos)
+	{
+		end = splitted.find(theDelimiter, start);
+
+		// If at end, use length=maxLength.  Else use length=end-start.
+		theStringVector.push_back(splitted.substr(start,
+			(end == string::npos) ? string::npos : end - start));
+
+		// If at end, use start=maxSize.  Else use start=end+delimiter.
+		start = ((end > (string::npos - theDelimiter.size()))
+			? string::npos : end + theDelimiter.size());
+	}
+	return theStringVector;
+}

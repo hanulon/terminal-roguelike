@@ -45,8 +45,8 @@ std::string Creature::getGeneralInfo()
 	std::string generalInfo = this->name + "\t";
 	generalInfo += this->characterHealth.getHealthOnCharacterSheet();
 	generalInfo += "\tAC: " + to_string(this->armorClass);
-	generalInfo += "\nPossessed items:\n";
-	generalInfo += getInventory()->getListOfPossessedItems();
+	generalInfo += "\nEquipped items:\n";
+	generalInfo += getEquipment()->getEquippedItemsList();
 	return generalInfo;
 }
 
@@ -108,6 +108,11 @@ void Creature::testInitialization()
 }
 
 Inventory * Creature::getInventory()
+{
+	return myEquipment;
+}
+
+Equipment * Creature::getEquipment()
 {
 	return myEquipment;
 }

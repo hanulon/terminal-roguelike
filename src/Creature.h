@@ -26,6 +26,7 @@ public:
 	void testInitialization();
 
 	Inventory* getInventory();
+	Equipment* getEquipment();
 
 protected:
 	Attributes attributes;

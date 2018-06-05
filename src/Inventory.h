@@ -7,12 +7,15 @@ public:
 	Inventory();
 	~Inventory();
 
-	void addNewItem(Item newItem);
+	void addNewItem(Item* newItem);
 	std::string getListOfPossessedItems();
-	vector <Item> getAllItemsAndRemove();
+	vector <Item*> getAllItemsAndRemove();
 	bool obstacleHasNoItems();
 
-private:
-	vector <Item> possessedItems;
+protected:
+	Item* getItemByName(std::string itemName);
+	int getItemIndexByName(std::string itemName);
+	vector <Item*> possessedItems;
+	void removeItemFromVector(Item* toRemove);
 };
 

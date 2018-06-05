@@ -16,6 +16,5 @@ private:
 	void interpretTwoArgumentedCommand(string firstCommandToken, string secondCommandToken);
 	void printScreen();
 	void printInstruction();
-	vector <string> splitString(string splitted);
 };
 

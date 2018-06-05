@@ -112,7 +112,7 @@ void Interaction::giveItemsToPlayer()
 {
 	if (conditionsSet.obstacleItemsRequired)
 	{
-		vector <Item> itemsFromComputer = obstacle->getInventory()->getAllItemsAndRemove();
+		vector <Item*> itemsFromComputer = obstacle->getInventory()->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromComputer.size(); i++)
 		{
 			player->getInventory()->addNewItem(itemsFromComputer[i]);
@@ -124,7 +124,7 @@ void Interaction::giveItemsToObstacle()
 {
 	if (conditionsSet.playerItemsRequired)
 	{
-		vector <Item> itemsFromPlayer = player->getInventory()->getAllItemsAndRemove();
+		vector <Item*> itemsFromPlayer = player->getInventory()->getAllItemsAndRemove();
 		for (int i = 0; i < itemsFromPlayer.size(); i++)
 		{
 			obstacle->getInventory()->addNewItem(itemsFromPlayer[i]);

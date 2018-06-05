@@ -11,5 +11,6 @@ public:
 
 protected:
 	void printScreen();
+	std::string selectedItemName = "";
 };
 

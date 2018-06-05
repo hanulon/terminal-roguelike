@@ -22,6 +22,8 @@ private:
 	MapObstacle* immovableObstacle;
 	MapObstacle* computerTerminalObstacle;
 	Item* droppedItem;
+	Item* weapon;
+	Item* armor;
 	Map* gameMap;
 	Controller* userInterface;
 	vector <NonPlayerCharacter*> npcVector;
@@ -48,6 +50,12 @@ private:
 	std::string getPlayerGeneralInfo();
 	int getPlayerAttributePointsLeft();
 	int getPlayerSkillPointsLeft();
+	void playerDropItem(std::string itemName);
+	void playerEquipItem(std::string itemName);
+	std::string playerGetItemDecription(std::string itemName);
+	void playerUnequipItem(std::string itemName);
+	std::string getPlayerEquipment();
+	std::string getAllEquippedAsString();
 
 	void interactionDecision(int subIter);
 	std::string getInteractionMessage();

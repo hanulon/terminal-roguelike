@@ -23,6 +23,7 @@ protected:
 	string trim(string str);
 	void clearScreen();
 	void printMessageForUser();
+	vector <string> splitString(string splitted);
 
 	Controller* returnedController;
 	string messageForUser;

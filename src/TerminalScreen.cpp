@@ -22,10 +22,15 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 
 	this->immovableObstacle = new MapObstacle("Column");
 	this->computerTerminalObstacle = new MapObstacle("Terminal-Computer");
-	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk1"));
-	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk2"));
-	this->computerTerminalObstacle->getInventory()->addNewItem(Item("Disk3"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(new Item("Disk1"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(new Item("Disk2"));
+	this->computerTerminalObstacle->getInventory()->addNewItem(new Item("Disk3"));
 	this->droppedItem = new Item("Loot");
+	this->droppedItem->description = "A bunch of goods, though to you it seems like a garbage. No use for an android such as yourself.";
+	this->weapon = new Item("Weapon");
+	this->weapon->myType = weapon->Weapon;
+	this->armor = new Item("Armor");
+	this->armor->myType = armor->Armor;
 
 	initializeInteraction();
 	initializeFriendlyInteraction();
@@ -53,6 +58,8 @@ void TerminalScreen::testMapInitialization()
 	immovableObstacle->setMapPosition(Point(10, 10));
 	computerTerminalObstacle->setMapPosition(Point(20, 10));
 	this->gameMap->addItemTo(Point(10, 12), *droppedItem);
+	this->gameMap->addItemTo(Point(11, 12), *armor);
+	this->gameMap->addItemTo(Point(12, 12), *weapon);
 
 	gameMap->addObstacleToMap(playerCharacter, playerCharacter->getMapPosition());
 	for(int i=0; i<npcVector.size(); i++)
@@ -220,7 +227,8 @@ void TerminalScreen::playerTakeItemFromFloor()
 {
 	try
 	{
-		Item takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
+		Item* takenItem = new Item("New");
+		*takenItem = gameMap->getAndRemoveTopItemFrom(playerCharacter->getMapPosition());
 		playerCharacter->getInventory()->addNewItem(takenItem);
 	}
 	catch (const std::exception&)
@@ -353,6 +361,42 @@ int TerminalScreen::getPlayerAttributePointsLeft()
 int TerminalScreen::getPlayerSkillPointsLeft()
 {
 	return playerCharacter->getSkillPointsLeft();
+}
+
+void TerminalScreen::playerDropItem(std::string itemName)
+{
+	Item* dropped = playerCharacter->getEquipment()->removeItem(itemName);
+	if (dropped != nullptr)
+	{
+		this->gameMap->addItemTo(playerCharacter->getMapPosition(), *dropped);
+		delete dropped;
+	}
+}
+
+void TerminalScreen::playerEquipItem(std::string itemName)
+{
+	playerCharacter->getEquipment()->wearAsArmor(itemName);
+	playerCharacter->getEquipment()->wearAsWeapon(itemName);
+}
+
+std::string TerminalScreen::playerGetItemDecription(std::string itemName)
+{
+	return playerCharacter->getEquipment()->getItemDecription(itemName);
+}
+
+void TerminalScreen::playerUnequipItem(std::string itemName)
+{
+	playerCharacter->getEquipment()->unequipItem(itemName);
+}
+
+std::string TerminalScreen::getPlayerEquipment()
+{
+	return playerCharacter->getInventory()->getListOfPossessedItems();
+}
+
+std::string TerminalScreen::getAllEquippedAsString()
+{
+	return playerCharacter->getEquipment()->getEquippedItemsList();
 }
 
 void TerminalScreen::interactionDecision(int subIter)

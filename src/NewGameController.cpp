@@ -72,24 +72,3 @@ void NewGameController::printInstruction()
 		"Type 'finished' and hit enter, when you are ready to start the game." << endl <<
 		"Type 'abort' and hit enter, if you want to return to main menu." << endl << endl;
 }
-
-vector<string> NewGameController::splitString(string splitted)
-{
-	size_t  start = 0, end = 0;
-	string theDelimiter = " ";
-	vector <string> theStringVector;
-
-	while (end != string::npos)
-	{
-		end = splitted.find(theDelimiter, start);
-
-		// If at end, use length=maxLength.  Else use length=end-start.
-		theStringVector.push_back(splitted.substr(start,
-			(end == string::npos) ? string::npos : end - start));
-
-		// If at end, use start=maxSize.  Else use start=end+delimiter.
-		start = ((end > (string::npos - theDelimiter.size()))
-			? string::npos : end + theDelimiter.size());
-	}
-	return theStringVector;
-}
