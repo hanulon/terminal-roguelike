@@ -7,7 +7,7 @@ Creature::Creature(string name) : MapObstacle(name)
 {
 	this->characterHealth.currentHealthPoints = this->characterHealth.maximumHealthPoints = 1;
 	this->armorClass = 0;
-	this->combatSkills.push_back(Skill("Close Combat", Attributes::Might));
+	this->combatSkills.push_back(Skill("Melee", Attributes::Might));
 	this->combatSkills.push_back(Skill("Evade", Attributes::Dexterity));
 	this->combatSkills.push_back(Skill("Firearms", Attributes::Dexterity));
 	this->combatSkills.push_back(Skill("Parry", Attributes::Might));
@@ -29,7 +29,7 @@ string Creature::getCharacterSheet()
 {
 	string characterSheet = this->name + "\n";
 	characterSheet += this->characterHealth.getHealthOnCharacterSheet();
-	characterSheet += "\tAC: " + to_string(this->armorClass);
+	characterSheet += "\tAC: " + to_string(getArmorClass());
 	characterSheet += this->attributes.getAttributesOnCharacterSheet();
 	characterSheet += "\n\nCOMBAT SKILLS\n";
 	for (int i = 0; i < this->combatSkills.size(); i++)
@@ -44,7 +44,8 @@ std::string Creature::getGeneralInfo()
 {
 	std::string generalInfo = this->name + "\t";
 	generalInfo += this->characterHealth.getHealthOnCharacterSheet();
-	generalInfo += "\tAC: " + to_string(this->armorClass);
+	generalInfo += "\tAC: " + to_string(getArmorClass());
+	generalInfo += "\tMelee bonus: " + to_string(getMeleeAttack() + getSkillByName("Melee"));
 	generalInfo += "\nEquipped items:\n";
 	generalInfo += getEquipment()->getEquippedItemsList();
 	return generalInfo;
@@ -88,13 +89,18 @@ int Creature::getSkillByName(std::string skillName)
 	return skillValue;
 }
 
+int Creature::getMeleeAttack()
+{
+	return myEquipment->getWeaponBonus();
+}
+
 void Creature::testInitialization()
 {
 	this->setMaximumHealthPoints(10);
 	this->setCurrentHealthPoints(9);
 	this->setArmorClass(1);
 	this->setAttributes(6, 8, 10);
-	this->setCombatSkillByName("Close Combat", 1);
+	this->setCombatSkillByName("Melee", 1);
 	this->setCombatSkillByName("Evade", 0);
 	this->setCombatSkillByName("Firearms", 2);
 	this->setCombatSkillByName("Parry", 2);
@@ -134,4 +140,9 @@ int Creature::getSkillByNameFromVector(std::string skillName, std::vector<Skill>
 			return (*skillVector)[i].getValue();
 	}
 	return -1;
+}
+
+int Creature::getArmorClass()
+{
+	return this->armorClass + getEquipment()->getArmorBonus();
 }

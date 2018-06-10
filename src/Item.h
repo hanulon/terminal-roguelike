@@ -5,16 +5,20 @@ public:
 	Item(std::string name);
 	~Item();
 
-	enum Type
+	enum ItemType
 	{
-		Weapon,
+		Melee,
+		Firearm,
 		Armor,
+		Wearable,
+		Consumable,
 		Unwearable
 	};
 
 	std::string getName();
-	Type myType = Unwearable;
+	ItemType myType = Unwearable;
 	std::string description;
+	int bonus = 0;
 
 private:
 	std::string name;

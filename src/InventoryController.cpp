@@ -20,12 +20,14 @@ Controller * InventoryController::processUserInput()
 		returnedController = new GameplayController;
 	else if (tokenizedCommand[0] == "drop")
 		mainModel->playerDropItem(tokenizedCommand[1]);
-	else if (tokenizedCommand[0] == "equip")
+	else if (tokenizedCommand[0] == "equip" || tokenizedCommand[0] == "wear")
 		mainModel->playerEquipItem(tokenizedCommand[1]);
 	else if (tokenizedCommand[0] == "see")
 		selectedItemName = tokenizedCommand[1];
 	else if (tokenizedCommand[0] == "unequip")
 		mainModel->playerUnequipItem(tokenizedCommand[1]);
+	else if (tokenizedCommand[0] == "use")
+		mainModel->playerUseItem(tokenizedCommand[1]);
 
 	return returnedController;
 }
@@ -44,7 +46,7 @@ void InventoryController::printScreen()
 		selectedItemName = "";
 	}
 	cout << "Type:\n"
-		"equip item_name - try to equip selected item\n"
+		"equip item_name OR wear item_name - try to equip selected item\n"
 		"unequip item_name - unequip selected item\n"
 		"see item_name - see description of the item\n"
 		"drop item_name - drop th item\n"

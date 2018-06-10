@@ -22,6 +22,7 @@ public:
 	void setCombatSkillByName(std::string skillName, int value);
 	void setOtherSkillByName(std::string skillName, int value);
 	int getSkillByName(std::string skillName);
+	int getMeleeAttack();
 
 	void testInitialization();
 
@@ -40,5 +41,6 @@ private:
 
 	void setSkillByNameFromVector(std::string skillName, int value, std::vector <Skill> *skillVector);
 	int getSkillByNameFromVector(std::string skillName, std::vector <Skill> *skillVector);
+	int getArmorClass();
 };
 

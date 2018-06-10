@@ -15,6 +15,7 @@ public:
 	virtual void playerEquipItem(std::string itemName) = 0;
 	virtual std::string playerGetItemDecription(std::string itemName) = 0;
 	virtual void playerUnequipItem(std::string itemName) = 0;
+	virtual void playerUseItem(std::string itemName) = 0;
 	virtual std::string getPlayerEquipment() = 0;
 
 	virtual std::string getDisplayedMap() = 0;

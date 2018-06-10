@@ -14,7 +14,7 @@ Equipment::~Equipment()
 void Equipment::wearAsWeapon(std::string itemName)
 {
 	Item* wearable = getItemByName(itemName);
-	if(wearable->myType == wearable->Weapon)
+	if(wearable->myType == wearable->Melee || wearable->myType == wearable->Firearm)
 		weaponEquipped = wearable;
 }
 
@@ -51,11 +51,26 @@ void Equipment::unequipItem(std::string itemName)
 	}
 }
 
+std::string Equipment::useItemAndGetResponse(std::string itemName)
+{
+	Item* item = getItemByName(itemName);
+	string response = "";
+	if (item->myType == item->Consumable)
+	{
+		response = "You used " + item->getName() + ".";
+	}
+	else
+	{
+		response = item->getName() + " can not be used.";
+	}
+	return response;
+}
+
 std::string Equipment::getItemDecription(std::string itemName)
 {
 	Item* item = getItemByName(itemName);
 	string type = "";
-	if ( item->myType == item->Weapon )
+	if (item->myType == item->Melee || item->myType == item->Firearm)
 	{
 		type = "Weapon";
 	}
@@ -82,4 +97,22 @@ std::string Equipment::getEquippedItemsList()
 		equipped += "Armor: " + armorEquipped->getName() + "\n";
 	}
 	return equipped;
+}
+
+int Equipment::getArmorBonus()
+{
+	if (armorEquipped != nullptr)
+	{
+		return armorEquipped->bonus;
+	}
+	return 0;
+}
+
+int Equipment::getWeaponBonus()
+{
+	if (weaponEquipped != nullptr)
+	{
+		return weaponEquipped->bonus;
+	}
+	return 0;
 }

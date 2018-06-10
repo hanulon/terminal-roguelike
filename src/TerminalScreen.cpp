@@ -27,10 +27,12 @@ TerminalScreen::TerminalScreen(Hero * playerCharacter, Map * gameMap)
 	this->computerTerminalObstacle->getInventory()->addNewItem(new Item("Disk3"));
 	this->droppedItem = new Item("Loot");
 	this->droppedItem->description = "A bunch of goods, though to you it seems like a garbage. No use for an android such as yourself.";
-	this->weapon = new Item("Weapon");
-	this->weapon->myType = weapon->Weapon;
-	this->armor = new Item("Armor");
+	this->weapon = new Item("Knife");
+	this->weapon->myType = weapon->Melee;
+	this->weapon->bonus = 1;
+	this->armor = new Item("Shirt");
 	this->armor->myType = armor->Armor;
+	this->armor->bonus = 3;
 
 	initializeInteraction();
 	initializeFriendlyInteraction();
@@ -387,6 +389,11 @@ std::string TerminalScreen::playerGetItemDecription(std::string itemName)
 void TerminalScreen::playerUnequipItem(std::string itemName)
 {
 	playerCharacter->getEquipment()->unequipItem(itemName);
+}
+
+void TerminalScreen::playerUseItem(std::string itemName)
+{
+	userInterface->updateMessageForUser(playerCharacter->getEquipment()->useItemAndGetResponse(itemName));
 }
 
 std::string TerminalScreen::getPlayerEquipment()

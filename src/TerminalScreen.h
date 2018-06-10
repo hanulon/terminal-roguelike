@@ -54,6 +54,7 @@ private:
 	void playerEquipItem(std::string itemName);
 	std::string playerGetItemDecription(std::string itemName);
 	void playerUnequipItem(std::string itemName);
+	void playerUseItem(std::string itemName);
 	std::string getPlayerEquipment();
 	std::string getAllEquippedAsString();
 

@@ -103,7 +103,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InventoryController.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\UserInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,7 +183,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InventoryController.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UserInterface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
